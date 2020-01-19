@@ -54,7 +54,10 @@ ROOT_URLCONF = 'web_manage.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+			# 模板地址
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,10 +77,14 @@ WSGI_APPLICATION = 'web_manage.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.mysql',  # 设置数据库
+		'NAME': 'xkjs',
+		'USER': 'root',
+		'PASSWORD': 'ab2223601',
+		'HOST': 'localhost',
+		'PORT': '3306'
+	}
 }
 
 
@@ -103,18 +110,32 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+from django.utils.translation import gettext_lazy as _
+LANGUAGES = [
+('zh-Hans', _('Simplified Chinese')),
+]
 
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'zh-Hans'
+
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
-USE_TZ = True
+USE_TZ = False
 
+DATETIME_FORMAT = 'Y-m-d H:i:s'
+DATE_FORMAT = 'Y-m-d'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
 STATIC_URL = '/static/'
+STATIC_ROOT = 'static'
+STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, '/static/').replace('\\', '/'),
+]
+
+# Media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static\\media\\').replace('\\', '/')
+MEDIA_URL = '/media/'
