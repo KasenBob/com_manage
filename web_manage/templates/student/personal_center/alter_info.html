@@ -1,0 +1,177 @@
+{% extends 'student/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block per_activate3 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">个人信息</h3>
+        </div>
+
+        <div class="panel-body" style="background-color: #2B2C30;">
+            <div id="xinxi">
+                <div id="jibenxinxi">
+                    <h3>基本信息</h3>
+                    <form class="navbar-form dist" action="/student/alter_info_stu/" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            学号：
+                            <input type="text" class="form-control" autocomplete="on" name="stu_number"
+                                   value="{{ stu_info.stu_number }}" readonly="readonly">
+                        </div>
+                        <div class="form-group">
+                            姓名：
+                            <input type="text" class="form-control" autocomplete="on" name="stu_name"
+                                   value="{{ stu_info.stu_name }}">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            院系：
+                            <select name="department" class="form-control" style="">
+                                {% for depart in depart_info %}
+                                    {% if stu_info.department.depart_name == depart.depart_name %}
+                                        <option value="{{ depart.depart_name }}"
+                                                selected>{{ depart.depart_name }}</option>
+                                    {% else %}
+                                        <option value="{{ depart.depart_name }}">{{ depart.depart_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            专业：
+                            <select name="major" class="form-control">
+                                {% for major in major_info %}
+                                    {% if stu_info.major.major_name == major.major_name %}
+                                        <option value="{{ major.major_name }}" selected>{{ major.major_name }}</option>
+                                    {% else %}
+                                        <option value="{{ major.major_name }}">{{ major.major_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            年级：
+                            <select name="grade" class="form-control">
+                                {% for grade in grade_info %}
+                                    {% if stu_info.grade.grade_name == grade.grade_name %}
+                                        <option value="{{ grade.grade_name }}" selected>{{ grade.grade_name }}</option>
+                                    {% else %}
+                                        <option value="{{ grade.grade_name }}">{{ grade.grade_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            班级：
+                            <select name="stu_class" class="form-control">
+                                {% for class in class_info %}
+                                    {% if stu_info.stu_class.class_name == class.class_name %}
+                                        <option value="{{ class.class_name }}" selected>{{ class.class_name }}</option>
+                                    {% else %}
+                                        <option value="{{ class.class_name }}">{{ class.class_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            性别：
+                            <input type="text" class="form-control" autocomplete="on" name="sex"
+                                   value="{{ stu_info.sex }}">
+                        </div>
+                        <div class="form-group">
+                            身份证号：
+                            <input type="text" class="form-control" autocomplete="on" name="ID_number"
+                                   value="{{ stu_info.ID_number }}">
+                        </div>
+                        <div id="">
+                            <h3>拓展信息</h3>
+                            <div class="form-group">
+                                银行账号：
+                                <input id="yinhangka" type="text" class="form-control" autocomplete="on" name="bank_number"
+                                       value="{{ stu_info.bank_number }}">
+                            </div>
+                            <div class="form-group">
+                                电话号码*：
+                                <input id="dianhuahaoma" type="text" class="form-control" autocomplete="on" name="phone_number"
+                                       value="{{ stu_info.phone_number }}">
+                                    <span id="geshicuowu" style="color: red;display: none;font-size: 10px">格式错误</span>
+                            </div>
+                            <div class="form-group">
+                                邮箱*：
+                                <input  type="email" class="form-control" autocomplete="on" name="email"
+                                       value="{{ stu_info.email }}">
+                            </div>
+                        </div>
+
+                        {% if user_info.have_alter == '1' and user_info.have_login == '1' %}
+                            <div id="zuihouanniu">
+                                <a id="tijiaoxiugai"  class="btn btn-transparent quanbubisai" data-toggle="modal"
+                                   data-target="#myModal">提交修改</a>
+                            </div>
+                        {% else %}
+                            <div id="zuihouanniu">
+                                <a class="btn btn-transparent quanbubisai" data-toggle="modal"
+                                   data-target="#myModal">确认信息</a>
+                            </div>
+                        {% endif %}
+
+
+                        <!-- 模态框 -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+
+                                <div class="modal-content" style="background-color: #2B2C30;border: none;">
+
+                                    <div class="modal-header" style="border-bottom: #666666 solid 1px;">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="myModalLabel">修改理由</h4>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <p>修改理由</p>
+                                        <div id="chaxunduiyou">
+                                            <select name="liyou" style="background-color: #333439;height: 30px">
+                                                <option>修改基本信息</option>
+                                                <option>修改扩展信息</option>
+                                                <option>没有错误</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div id="zuihouanniu">
+                                        <button id="querenxiugai" class="tijiaoanniu" style="margin-bottom: 10px" type="submit">确认修改</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 模态框结束 -->
+
+                    </form>
+                </div>
+            </div>
+            <div class="bgc2" style="height: 128px;"></div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            $("#dianhuahaoma").keyup(function () {
+                var s = $("#dianhuahaoma").val();
+                if(s.length<8 || s.length>12){
+                    $("#geshicuowu").show();
+                }else{
+                    $("#geshicuowu").hide();
+                }
+
+            })
+        })
+    </script>
+
+{% endblock %}

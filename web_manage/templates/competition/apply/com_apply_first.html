@@ -1,0 +1,302 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load cache %}
+
+{% block title %}
+    学科竞赛|竞赛报名
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'sources/css/baomingStyle.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block is_activate5 %}
+    active
+{% endblock %}
+
+{% block content %}
+
+    {% if message %}
+        <script>
+            alert({{ message }})
+        </script>
+    {% endif %}
+
+    <div id="baoming_content">
+        <div class="container">
+
+            <form class="navbar-form dist" action="/competition/com_apply_first/?id={{ com_info.com_id }}"
+                  method="POST">
+                {% csrf_token %}
+
+                <h1>{{ com_info.com_name }}报名</h1>
+                <hr>
+
+                <div id="jibenxinxi">
+
+                    <h3>学生信息</h3>
+                    {% for num in stu_num %}
+                        {% if num == 1 %}
+                            <div class="form-group">
+                                学生({{ forloop.counter }})：<input type="text" class="form-control xuanren"
+                                                                 placeholder="查询" autocomplete="on"
+                                                                 name="stu_num{{ num }}"
+                                                                 readonly="readonly"
+                                                                 value="{{ leader.stu_number }}"
+                                                                 style="background-color: rgb(47,56,61)">
+                            </div>
+                        {% else %}
+                            <div class="form-group">
+                                学生({{ forloop.counter }})：<input type="text" class="form-control xuanren"
+                                                                 data-toggle="modal"
+                                                                 data-target="#myModal"
+                                                                 placeholder="查询" autocomplete="on"
+                                                                 name="stu_num{{ num }}"
+                                                                 style="background-color: rgb(47,56,61)">
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+
+                <div id="tuozhanxinxi">
+                    <h3 style="display: block;">指导教师信息</h3>
+                    {% for tea in tea_num %}
+                        <div class="form-group">
+                            指导教师({{ forloop.counter }}):<input type="text" class="form-control xuanren2"
+                                                               autocomplete="on"
+                                                               name="tea_name{{ tea }}" data-toggle="modal"
+                                                               data-target="#myModal2" readonly="readonly"
+                                                               style="background-color: rgb(47,56,61)">
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div id="xiaozuxinxi">
+                    <h3>小组信息</h3>
+
+                    {% if info_list.com_group %}
+                        <div class="form-group">
+                            组别:
+                            <select name="group" class="form-control" style="width:200px;">
+                                {% for group in group_list %}
+                                    <option value="{{ group.sort_name }}">
+                                        {{ group.sort_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    {% endif %}
+
+                    {% if info_list.group_name == 1 %}
+                        <div class="form-group">
+                            小组名称:<input type="text" class="form-control" autocomplete="on" name="group_name">
+                        </div>
+                    {% endif %}
+
+                    {% if info_list.product_name == 1 %}
+                        <div class="form-group">
+                            作品名称:<input type="text" class="form-control" autocomplete="on" name="product_name">
+                        </div>
+                    {% endif %}
+
+                    {% if info_list.else_info == 1 %}
+                        <div class="form-group">
+                            备注:<input type="text" class="form-control" autocomplete="on" name="else_info">
+                        </div>
+                    {% endif %}
+
+                </div>
+                <div id="zuihouanniu">
+                    <button type="submit" class="tijiaoanniu">下一步</button>
+                </div>
+
+            </form>
+            <!-- 选人 -->
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="background-color: #2B2C30;border: none;">
+
+                        <div class="modal-header" style="border-bottom: #666666 solid 1px;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">查找成员</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="display: inline-block;">请输入姓名: </p>
+                            <p id="back_fill" style="display: none;"></p>
+                            <div id="chaxunduiyou" style="display: inline-block;">
+                                <input id="mate_name" type="text" class="form-control" placeholder="查询"
+                                       style="width:65%;display: inline-block;">
+                                <button id="mate_button" class="tijiaoanniu" style="margin-left: 10px;width: 25%"
+                                        value="查找" onclick="search_name()">查找
+                                </button>
+                            </div>
+                            <div id="chaxunjieguo">
+                                <table id="mate_list" class="table">
+
+                                </table>
+                            </div>
+                        </div>
+                        <script>
+                            function cc(temp) {
+                                var hang = $(temp.parentNode).parent().prevAll().length;
+
+                                var str = "#mate_list tr:eq(" + hang + ") td:nth-child(1)";
+                                var back_name = $("#back_fill").text();
+                                var a = document.getElementsByName(back_name);
+                                a[0].value = $(str).text();
+                                $("#mate_list").empty();
+                                $("#mate_name").val("");
+
+                            }
+
+                            function search_name() {
+                                var name = $("#mate_name").val();
+
+
+                                var url = "/competition/select_mate_first?name=" + name;
+                                $.ajax({
+                                    type: 'get',
+                                    url: url,
+                                    data: {},
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data["mate_list"].length > 0) {
+                                            var mate_list = data["mate_list"];
+                                            var myHtml = "<tr><td>学号</td><td>姓名</td><td>班级</td><td>操作</td></tr>";
+                                            for (var i = 0; i < mate_list.length; i++) {
+                                                var tmp = mate_list[i];
+                                                var pk = tmp.pk;
+                                                var name = tmp.fields.stu_name;
+                                                var num = tmp.fields.stu_num;
+                                                var sClass = tmp.fields.grade + tmp.fields.major + tmp.fields.stu_class;
+                                                myHtml += "<tr><td>" + pk + "</td><td>" + name + "</td><td>" + sClass + "</td><td><button data-toggle=\"modal\"\n" +
+                                                    "                                            data-target=\"#myModal\" onclick=\"cc(this)\" class=\"xuanta tijiaoanniu\" style=\"height:80%;width:80%\">选择</button></td></tr>";
+                                            }
+                                            $("#mate_list").html(myHtml);
+                                        } else {
+                                            $("#mate_list").empty();
+                                            alert("无查找结果");
+                                        }
+                                    },
+                                    error: function (error) {
+                                        alert('error');
+                                    }
+                                })
+                            }
+                        </script>
+                        <script>
+                            $(document).ready(function () {
+                                $(".xuanren").click(function () {
+                                    $("#back_fill").text(this.name);
+                                })
+                            })
+                        </script>
+                        <script>
+                        </script>
+                        <div class="modal-footer" style="border-top: #666666 solid 1px;">
+                            <a class="btn btn-transparent" data-dismiss="modal">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 选老师 -->
+
+            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="background-color: #2B2C30;border: none;">
+
+                        <div class="modal-header" style="border-bottom: #666666 solid 1px;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">查找教师</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p style="display: inline-block;">请输入老师姓名: </p>
+                            <p id="back_fill2" style="display: none;"></p>
+                            <div id="chaxunduiyou" style="display: inline-block;">
+                                <input id="mate_name2" type="text" class="form-control" placeholder="查询"
+                                       style="width:65%;display: inline-block;">
+                                <button id="mate_button" class="tijiaoanniu" style="margin-left: 10px;width: 25%"
+                                        value="查找" onclick="search_name2()">查找
+                                </button>
+                            </div>
+                            <div id="chaxunjieguo">
+                                <table id="mate_list2" class="table">
+
+                                </table>
+                            </div>
+                        </div>
+                        <script>
+                            function ccc(temp) {
+                                var hang = $(temp.parentNode).parent().prevAll().length;
+                                var lie = 2;
+                                var str = "#mate_list2 tr:eq(" + hang + ") td:nth-child(1)";
+
+                                var back_name = $("#back_fill2").text();
+
+                                var a = document.getElementsByName(back_name);
+                                a[0].value = $(str).text();
+                                $("#mate_list2").empty();
+                                $("#mate_name2").val("");
+                                {#$("input[name='stu_num1']").val(123);#}
+                                {#$("input[name='stu_num1']").text("123");#}
+                            }
+
+                            function search_name2() {
+                                var name = $("#mate_name2").val();
+
+                                var url = "/competition/select_mate_second?name=" + name;
+                                $.ajax({
+                                    type: 'get',
+                                    url: url,
+                                    data: {},
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data["mate_list2"].length > 0) {
+                                            var mate_list2 = data["mate_list2"];
+                                            var myHtml = "<tr><td>工号</td><td>姓名</td><td>学院</td><td>邮箱</td><td>操作</td></tr>";
+                                            for (var i = 0; i < mate_list2.length; i++) {
+                                                var tmp = mate_list2[i];
+                                                var pk = tmp.pk;
+                                                var name = tmp.fields.tea_name;
+                                                var dpm = tmp.fields.department;
+                                                var sClass =  tmp.fields.email;
+                                                myHtml += "<tr><td>" + pk + "</td><td>" + name + "</td><td>"+dpm+"</td><td>" + sClass + "</td><td><button data-toggle=\"modal\"\n" +
+                                                    "                                            data-target=\"#myModal2\" onclick=\"ccc(this)\" class=\"xuanta tijiaoanniu\" style=\"height:80%;width:80%\">选择</button></td></tr>";
+                                            }
+                                            $("#mate_list2").html(myHtml);
+                                        } else {
+                                            $("#mate_list2").empty();
+                                            alert("无查找结果");
+                                        }
+                                    },
+                                    error: function (error) {
+                                        alert('error');
+                                    }
+                                })
+                            }
+                        </script>
+                        <script>
+                            $(document).ready(function () {
+                                $(".xuanren2").click(function () {
+                                    $("#back_fill2").text(this.name);
+                                })
+                            })
+                        </script>
+                        <script>
+                        </script>
+                        <div class="modal-footer" style="border-top: #666666 solid 1px;">
+                            <a class="btn btn-transparent" data-dismiss="modal">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

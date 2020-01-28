@@ -1,0 +1,47 @@
+{% extends 'teacher/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block is_active4 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">个人赛</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            <!--
+            <div class="geren">
+                <p>蓝桥杯大赛</p>
+                <span>报名时间：2019-09-18<a href="baomingxiangqing.html" class="btn btn-transparent">详情</a></span>
+            </div>
+            -->
+        </div>
+    </div>
+    <div class="panel panel-default" style="border: none;">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">团队赛</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            <!--
+            <div class="tuandui">
+                <p>程序设计天梯赛</p>
+                <span> 发起者：某同学</span>
+                <br>
+                <span> 报名时间：2019-09-18</span>
+                <br>
+                <span> 状态：待队员确认</span>
+                <a href="#" class="btn btn-transparent">详情</a>
+            </div>
+            -->
+        </div>
+        <div class="bgc2" style="height: 128px;"></div>
+    </div>
+{% endblock %}

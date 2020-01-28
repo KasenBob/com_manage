@@ -1,0 +1,79 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block body %}
+    <style>
+        #xiugaimima {
+            margin-top: 5%;
+            margin-left: 20%;
+        }
+
+        .shurukuang {
+            background-color: transparent;
+            border: 1px solid white;
+            outline: none;
+            padding: 5px;
+            line-height: 10px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .shurukuang:focus {
+            border-color: #6CB670;
+        }
+
+        .xiugaitishi {
+            margin-top: 10px;
+            display: block;
+        }
+
+        .buyiyang {
+            display: none;
+            color: red;
+
+        }
+    </style>
+
+    <script>
+        $(function () {
+            $("#gaimima").click(function () {
+                $(".buyiyang").hide();
+                var pwd = $("#xinmima").val();
+                var cpwd = $("#querenmima").val();
+                if (pwd != cpwd) {
+                    $(".buyiyang").show();
+
+                    return false;
+
+                }
+
+            })
+        })
+    </script>
+
+
+
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">修改密码</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+
+            <div id="xiugaimima">
+                <form action="/member/edit_pwd/" method="post">
+                    {% csrf_token %}
+                    <p class="xiugaitishi">原密码：<input type="password" class="shurukuang" name="pre_pwd"></p>
+                    <p class="xiugaitishi">*请正确输入原密码，原密码验证正确后方可修改密码</p>
+                    <p class="xiugaitishi">新密码：<input id="xinmima" name="new_pwd_1" type="password" class="shurukuang"></p>
+                    <p class="xiugaitishi">确认密码：<input id="querenmima" name="new_pwd_2" type="password" class="shurukuang"></p>
+                    <p class="buyiyang">*两次输入密码不一致</p>
+                    <button id="gaimima" type="submit" class="tijiaoanniu" style="margin-top: 10px;width: 80px;">修改
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'teacher/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block is_active1 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">个人信息</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            <div id="xinxi">
+                <div id="jibenxinxi">
+                    <h3>基本信息</h3>
+                    <form class="navbar-form dist">
+                        <div class="form-group">
+                            姓名：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.tea_name }}">
+                        </div>
+                        <div class="form-group">
+                            工号：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.tea_number }}">
+                        </div>
+                        <div class="form-group">
+                            职称：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.profess.profess_name }}">
+                        </div>
+                        <div class="form-group">
+                            院系：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.department.depart_name }}">
+                        </div>
+                    </form>
+                </div>
+                <div id="">
+                    <h3>拓展信息</h3>
+                    <form class="navbar-form dist">
+                        <div class="form-group">
+                            身份证号：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.ID_number }}">
+                        </div>
+                        <div class="form-group">
+                            邮箱：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.email }}">
+                        </div>
+                        <div class="form-group">
+                             手机号码：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.phone_number }}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="zuihouanniu">
+                <a class="btn btn-transparent quanbubisai" href="/teacher/alter_avatar">修改头像</a>
+                <a class="btn btn-transparent quanbubisai" href="/teacher/alter_info_teach">修改消息</a>
+            </div>
+        </div>
+    </div>
+    <div class="bgc2" style="height: 128px;"></div>
+{% endblock %}

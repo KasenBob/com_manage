@@ -1,0 +1,45 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block body %}
+    <div id="fabu-jingsai" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">修改竞赛信息</h3>
+        </div>
+
+        <div class="panel-body">
+            <form action="/member/change_series/?p={{ series.id }}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <span>竞赛名称：</span><input type="text" class="form-control" name="series_name"
+                                         style="width: 50%;display: inline-block;border: 1px solid #666666;"
+                                         value="{{ series.name }}"/>
+                <br>
+                <span>简介：</span><input type="text" class="form-control" name="series_intro"
+                                       style="width: 50%;display: inline-block;border: 1px solid #666666;"
+                                       value="{{ series.introduction }}"/>
+                <br>
+                <span>竞赛LOGO：</span><input type="file" name="series_logo">{{ series.photo }}
+                <br>
+                <span>
+                    类型：
+                    <select name="series_type">
+                        {% if series.type == '0' %}
+                            <option value="0" selected>个人赛</option>
+                        {% else %}
+                            <option value="1" selected>团体赛</option>
+                        {% endif %}
+                    </select>
+                </span>
+
+                <div class="zuihouanniu">
+                    <input type="submit" class="tijiaoanniu" value="修改"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

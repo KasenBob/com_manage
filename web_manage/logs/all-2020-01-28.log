@@ -1,0 +1,50 @@
+[2020-01-28 20:07:09,011] [autoreload.py:586] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-01-28 20:07:44,709] [autoreload.py:586] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-01-28 20:08:27,956] [autoreload.py:213] [autoreload:trigger_reload] [INFO]- C:\Users\82610\AppData\Local\Programs\Python\Python36\Lib\site-packages\django\db\backends\mysql\base.py changed, reloading.
+[2020-01-28 20:08:31,407] [autoreload.py:586] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-01-28 20:08:40,227] [autoreload.py:586] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-01-28 20:10:16,831] [autoreload.py:586] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-01-28 20:10:32,203] [autoreload.py:213] [autoreload:trigger_reload] [INFO]- D:\Code\git_code\web_manage\web_manage\settings.py changed, reloading.
+[2020-01-28 20:10:34,188] [autoreload.py:586] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-01-28 20:10:38,274] [autoreload.py:586] [autoreload:run_with_reloader] [INFO]- Watching for file changes with StatReloader
+[2020-01-28 20:10:42,446] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET / HTTP/1.1" 200 15758
+[2020-01-28 20:10:43,932] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/js/jquery-1.12.4.min.js HTTP/1.1" 200 97168
+[2020-01-28 20:10:43,952] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/js/bootstrap.min.js HTTP/1.1" 200 37045
+[2020-01-28 20:10:43,955] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/js/script.js HTTP/1.1" 200 2331
+[2020-01-28 20:10:44,077] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/css/bootstrap.min.css HTTP/1.1" 200 146638
+[2020-01-28 20:10:44,212] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/css/indexstyle.css HTTP/1.1" 200 6338
+[2020-01-28 20:10:44,481] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /media/news/2019-12-07%20%E6%96%B0%E7%94%9F%E8%B5%9B1.jpg HTTP/1.1" 200 1532129
+[2020-01-28 20:10:44,503] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/img/logo.png HTTP/1.1" 200 2897
+[2020-01-28 20:10:44,690] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /media/web_photo/6661.jpg HTTP/1.1" 200 83408
+[2020-01-28 20:10:47,500] [log.py:228] [log:log_response] [WARNING]- Not Found: /favicon.ico
+[2020-01-28 20:10:47,503] [basehttp.py:154] [basehttp:log_message] [WARNING]- "GET /favicon.ico HTTP/1.1" 404 77
+[2020-01-28 20:10:51,044] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /competition/series_list/ HTTP/1.1" 200 16869
+[2020-01-28 20:10:51,157] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/css/conteststyle.css HTTP/1.1" 200 681
+[2020-01-28 20:10:51,159] [log.py:228] [log:log_response] [WARNING]- Not Found: /media/
+[2020-01-28 20:10:51,160] [basehttp.py:154] [basehttp:log_message] [WARNING]- "GET /media/ HTTP/1.1" 404 77
+[2020-01-28 20:10:51,171] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/js/jquery.eeyellow.Timeline.js HTTP/1.1" 200 5512
+[2020-01-28 20:10:51,178] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/css/jquery.eeyellow.Timeline.css HTTP/1.1" 200 4567
+[2020-01-28 20:10:51,257] [log.py:228] [log:log_response] [WARNING]- Not Found: /media/
+[2020-01-28 20:10:51,258] [basehttp.py:154] [basehttp:log_message] [WARNING]- "GET /media/ HTTP/1.1" 404 77
+[2020-01-28 20:10:53,761] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /competition/com_list/ HTTP/1.1" 200 5160
+[2020-01-28 20:10:59,474] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /login/ HTTP/1.1" 200 5835
+[2020-01-28 20:10:59,542] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /media/web_photo/hzxy.png HTTP/1.1" 200 10496
+[2020-01-28 20:10:59,548] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /media/web_photo/bak/login.png HTTP/1.1" 200 227617
+[2020-01-28 20:11:10,045] [basehttp.py:154] [basehttp:log_message] [INFO]- "POST /login/ HTTP/1.1" 302 0
+[2020-01-28 20:11:10,053] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /home HTTP/1.1" 301 0
+[2020-01-28 20:11:10,096] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /home/ HTTP/1.1" 200 17397
+[2020-01-28 20:11:10,522] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/fonts/glyphicons-halflings-regular.woff2 HTTP/1.1" 200 18028
+[2020-01-28 20:11:11,995] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /news/news_list/ HTTP/1.1" 200 9924
+[2020-01-28 20:11:12,053] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /static/sources/css/newsstyle.css HTTP/1.1" 200 2683
+[2020-01-28 20:11:17,609] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /news/news_detail?p=1 HTTP/1.1" 301 0
+[2020-01-28 20:11:17,643] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /news/news_detail/?p=1 HTTP/1.1" 200 15348
+[2020-01-28 20:11:17,739] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /media/article_images/2019/12/11/2019-12-07-2.jpg HTTP/1.1" 200 1298734
+[2020-01-28 20:11:17,746] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /media/article_images/2019/12/11/2019-12-07-3.jpg HTTP/1.1" 200 2505634
+[2020-01-28 20:11:21,751] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /news/informs_list/ HTTP/1.1" 200 10187
+[2020-01-28 20:11:23,147] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /competition/series_list/ HTTP/1.1" 200 18508
+[2020-01-28 20:11:23,208] [log.py:228] [log:log_response] [WARNING]- Not Found: /media/
+[2020-01-28 20:11:23,208] [basehttp.py:154] [basehttp:log_message] [WARNING]- "GET /media/ HTTP/1.1" 404 77
+[2020-01-28 20:11:23,276] [log.py:228] [log:log_response] [WARNING]- Not Found: /media/
+[2020-01-28 20:11:23,277] [basehttp.py:154] [basehttp:log_message] [WARNING]- "GET /media/ HTTP/1.1" 404 77
+[2020-01-28 20:11:23,734] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /competition/com_list/ HTTP/1.1" 200 6446
+[2020-01-28 20:11:25,068] [basehttp.py:154] [basehttp:log_message] [INFO]- "GET /home/ HTTP/1.1" 200 17397

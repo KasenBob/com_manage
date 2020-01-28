@@ -1,0 +1,102 @@
+{% extends 'teacher/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block is_active5 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="shaixuanlan">
+            <div class="panel-heading shaixuanlan-nav"
+                 style="font-size: 15px; background-color: #333439;border: none;height: 50px;padding: 15px;">
+                <p>获奖结果</p>
+                <a class="shaixuan-open">显示筛选<span class="glyphicon glyphicon-chevron-down"></span></a>
+                <a class="shaixuan-close">收起筛选<span class="glyphicon glyphicon-chevron-up"></span></a>
+            </div>
+            <div class="shaixuanlan-body">
+                <ul class="select">
+                    <li class="select-list">
+                        <dl id="select1">
+                            <dt>比赛类型：</dt>
+                            <dd class="select-all selected">
+                                <a>全部</a>
+                            </dd>
+                            <dd>
+                                <a>个人赛</a>
+                            </dd>
+                            <dd>
+                                <a>团体赛</a>
+                            </dd>
+                            <dd>
+                                <a>其他</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="select-list">
+                        <dl id="select2">
+                            <dt>获奖等级：</dt>
+                            <dd class="select-all selected">
+                                <a>全部</a>
+                            </dd>
+                            <dd>
+                                <a>国家级</a>
+                            </dd>
+                            <dd>
+                                <a>省级</a>
+                            </dd>
+                            <dd>
+                                <a>其他</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="select-list">
+                        <dl id="select3">
+                            <dt>所属专业：</dt>
+                            <dd class="select-all selected">
+                                <a>全部</a>
+                            </dd>
+                            <dd>
+                                <a>计算机科学与技术</a>
+                            </dd>
+                            <dd>
+                                <a>软件工程</a>
+                            </dd>
+                            <dd>
+                                <a>网络工程</a>
+                            </dd>
+                            <dd>
+                                <a>网络空间安全</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="select-result">
+                        <dl>
+                            <dt>已选条件：</dt>
+                            <dt class="select-no">请添加选择条件</dt>
+                            <dd class="clean">清空筛选条件</dd>
+                        </dl>
+                        <p>共为您找到<span>0</span>条记录</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="bgc2" style="height: 1px;"></div>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            <!--
+            <div class="geren">
+                <p>蓝桥杯大赛</p>
+                <span>获奖者：某同学</span><br>
+                <span>获奖等级：省级二等奖</span><br>
+                <span>获奖时间：2019-09-18</span>
+                <span>报名时间：2019-09-18<a href="#" class="btn btn-transparent">详情</a></span>
+            </div>
+            -->
+        </div>
+
+    </div>
+{% endblock %}

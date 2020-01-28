@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+{% load cache %}
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 插入标题 -->
+    <title>{% block title %}{% endblock %}</title>
+    <script src="{% static 'sources/js/jquery-1.12.4.min.js' %}"></script>
+    <script src="{% static 'sources/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'sources/js/script.js' %}"></script>
+    <link href="{% static 'sources/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'sources/css/indexstyle.css' %}" rel="stylesheet">
+
+    <!-- 插入css -->
+    {% block css %}{% endblock %}
+</head>
+
+{% if message %}
+    <div style="margin-top: 50px;">
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                    aria-hidden="true">&times;</span></button>
+            <strong>{{ message }}</strong>
+        </div>
+    </div>
+{% endif %}
+
+<body style="background-color: #2B2C30;">
+
+<header>
+    <nav class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container-fluid">
+
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1"
+                        aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img src="{% static 'sources/img/logo.png' %}" alt="logo" id="logo"/>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="{% block is_activate1 %}{% endblock %}">
+                        <a href="/home/">首页</a>
+                    </li>
+                    <li class="{% block is_activate2 %}{% endblock %}">
+                        <a href="/news/news_list/">获奖新闻</a>
+                    </li>
+                    <li class="{% block is_activate3 %}{% endblock %}">
+                        <a href="/news/informs_list/">通知公告 </a>
+                    </li>
+                    <li class="{% block is_activate4 %}{% endblock %}">
+                        <a href="/competition/series_list/">竞赛一览</a>
+                    </li>
+                    <li class="{% block is_activate5 %}{% endblock %}">
+                        <a href="/competition/com_list/">比赛报名</a>
+                    </li>
+                </ul>
+                <!--
+                <form class="navbar-form navbar-left dist" id="search-form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="查询" autocomplete="on" name="seach">
+                        <button type="submit" class="btn btn-default" id="search-submit"><i
+                                class="glyphicon glyphicon-search"></i></button>
+                    </div>
+                </form>
+                -->
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 10px;">
+                    {% if request.session.is_login and request.session.user_power == '0' %}
+                        <li class="dropdown" id="xiaoxiliebiao">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-envelope"></span></a>
+                            <ul class="dropdown-menu">
+                                <!--
+                                {% for inform in request.session.inform_list %}
+                                    <li>
+                                        <a>
+                                            <h4>{{ inform.title }}<span
+                                                    class="pull-right xiaoxiriqi">{{ inform.create_time }}</span></h4>
+                                            <h6>{{ inform.content }}</h6>
+                                        </a>
+                                    </li>
+                                    {% empty %}
+                                    <h4>暂无更多消息</h4>
+                                {% endfor %}
+                            -->
+                                <li>
+                                    <a href="/student/personal_center_stu_message/">
+                                        <h6 style="color: #6CB670;">查看信息</h6>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">{{ request.session.user_number }}
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/student/personal_center_stu_apply/">我的报名</a></li>
+                                <li><a href="/student/personal_center_stu_message/">我的消息</a></li>
+                                <li><a href="/student/personal_center_stu_info/">个人信息</a></li>
+                                <li><a href="/student/personal_center_stu_award/">我的奖项</a></li>
+                                <li><a href="/student/personal_center_stu_experience/">参赛历史</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/logout/">登出</a></li>
+                            </ul>
+                        </li>
+
+                    {% elif request.session.is_login and request.session.user_power == '1' %}
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">{{ request.session.user_number }}
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/teacher/personal_center_teach_info">个人信息</a></li>
+                                <li><a href="/teacher/personal_center_teach_message/">我的消息</a></li>
+                                <li><a href="/teacher/personal_center_teach_apply">指导申请</a></li>
+                                <li><a href="/teacher/personal_center_teach_team">参赛小组</a></li>
+                                <li><a href="/teacher/personal_center_teach_experience">参赛经历</a></li>
+                                <li><a href="/teacher/personal_center_teach_award">获奖结果</a></li>
+                                <li><a href="/teacher/personal_center_teach_record">指导记录</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/logout/">登出</a></li>
+                            </ul>
+                        </li>
+
+                    {% elif request.session.is_login and request.session.user_power == '5' %}
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                {{ request.session.user_number }}
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/member/add_com/">发布比赛</a></li>
+                                <li><a href="/member/add_notices/">发布公告</a></li>
+                                <li><a href="/member/add_news/">发布新闻</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/member/my_com_ing/">进行中的比赛</a></li>
+                                <li><a href="/member/my_com_ed/">历届比赛</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/member/notice_comanage/">公告管理</a></li>
+                                <li><a href="/member/news_comanage/">新闻管理</a></li>
+                                <li><a href="/member/my_series/">竞赛系列管理</a></li>
+                                <li><a href="/member/my_coms/">比赛管理</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/member/msg_application">个人信息修改申请</a></li>
+                                <li><a href="/member/apply_application">参赛信息修改申请</a></li>
+                                <li><a href="/member/add_com/">获奖证书上传</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#">历届获奖统计表</a></li>
+                                <li><a href="#">获奖统计图表</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="/logout/">登出</a></li>
+                            </ul>
+                        </li>
+
+                    {% else %}
+                        <!--<li><a href="#" class="glyphicon glyphicon-envelope"></a></li>-->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">用户
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/login/">登录</a></li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</header>
+<!--
+<nav id="cebian" class="navbar-left">
+    <ul class="list-group" id="cebianneirong">
+        <li class="list-group-item"><i class="glyphicon glyphicon-user"></i>
+            <h4>{{ request.session.user_number }}</h4>
+        </li>
+        {% if request.session.is_login and request.session.user_power == '0' %}
+            <li class="divider"></li>
+            <li class="list-group-item">学生端</li>
+        {% elif request.session.is_login and request.session.user_power == '1' %}
+            <li class="divider"></li>
+            <li class="list-group-item">指导教师端</li>
+        {% elif request.session.is_login and request.session.user_power == '5' %}
+            <li class="divider"></li>
+            <li class="list-group-item">学科委员端</li>
+        {% endif %}
+    </ul>
+    <span class="glyphicon glyphicon-menu-right" id="cebiankaiguan"></span>
+</nav>
+-->
+{% block content %}
+
+{% endblock %}
+
+<footer id="dibu">
+    <div>
+        地址：广东惠州市演达大道46号 邮编：516007<br>
+        总机：0752-2529000 E-mail:webmaster@hzu.edu.cn<br>
+    </div>
+</footer>
+
+{% block js %}
+
+{% endblock %}
+
+</body>
+</html>

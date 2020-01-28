@@ -1,0 +1,95 @@
+{% extends 'teacher/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block is_active1 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">个人信息</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            <div id="xinxi">
+                <div id="jibenxinxi">
+                    <h3>基本信息</h3>
+                    <form class="navbar-form dist" action="/teacher/alter_info_teach/" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            工号：
+                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ teach_info.tea_number }}">
+                        </div>
+                        <div class="form-group">
+                            姓名：
+                            <input type="text" class="form-control" autocomplete="on" name="tea_name"
+                                   value="{{ teach_info.tea_name }}">
+                        </div>
+                        <div class="form-group">
+                            职称：
+                            <select name="profess" class="form-control">
+                                {% for profess in profess_info %}
+                                    {% if teach_info.profess.profess_name == profess.profess_name %}
+                                        <option value="{{ profess.profess_name }}"
+                                                selected>{{ profess.profess_name }}</option>
+                                    {% else %}
+                                        <option value="{{ profess.profess_name }}">{{ profess.profess_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            院系：
+                            <select name="department" class="form-control">
+                                {% for depart in depart_info %}
+                                    {% if teach_info.department.depart_name == depart.depart_name %}
+                                        <option value="{{ depart.depart_name }}"
+                                                selected>{{ depart.depart_name }}</option>
+                                    {% else %}
+                                        <option value="{{ depart.depart_name }}">{{ depart.depart_name }}</option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div id="">
+                            <h3>拓展信息</h3>
+                            <div class="form-group">
+                                身份证号：
+                                <input type="text" class="form-control" autocomplete="on" name="ID_number"
+                                       value="{{ teach_info.ID_number }}">
+                            </div>
+                            <div class="form-group">
+                                邮箱：
+                                <input type="text" class="form-control" autocomplete="on" name="email"
+                                       value="{{ teach_info.email }}">
+                            </div>
+                            <div class="form-group">
+                                手机号码：
+                                <input type="text" class="form-control" autocomplete="on" name="phone_number"
+                                       value="{{ teach_info.phone_number }}">
+                            </div>
+                        </div>
+                        {% if user_info.have_alter == '1' and user_info.have_login == '1' %}
+                            <div id="zuihouanniu">
+                                <button class="tijiaoanniu" type="submit">确认修改</button>
+                            </div>
+                        {% else %}
+                            <div id="zuihouanniu">
+                                <button class="tijiaoanniu" type="submit">确认信息</button>
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+            <div class="bgc2" style="height: 128px;"></div>
+        </div>
+    </div>
+{% endblock %}
+
+

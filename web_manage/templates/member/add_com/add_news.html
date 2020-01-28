@@ -1,0 +1,36 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block body %}
+    <div id="fabu-jingsai" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">发布新闻</h3>
+        </div>
+        <div class="panel-body">
+            <form action="/member/add_news/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <span>标题: </span><input type="text" class="form-control" name="title"
+                                        style="width: 50%;display: inline-block;border: 1px solid #666666;"/>
+                <br>
+                {{ form.media }}
+                {{ form.as_p }}
+                <br>
+
+                <span>作者: </span><input type="text" class="form-control" name="author"
+                                        style="width: 50%;display: inline-block;border: 1px solid #666666;"/>
+
+                <br>
+
+                <span>上传封面图：</span><input type="file" name="photo" accept="image/jpg,image/png,image/gif"/>
+
+                <div class="zuihouanniu">
+                    <input type="submit" class="tijiaoanniu" value="发布"/>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

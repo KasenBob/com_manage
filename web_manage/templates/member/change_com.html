@@ -1,0 +1,215 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block body %}
+    <div id="fabu-jingsai" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">修改比赛信息</h3>
+        </div>
+
+        <div class="panel-body">
+            <form action="/member/change_com/?p={{ com_info.com_id }}" method="POST">
+                {% csrf_token %}
+                <span>比赛系列: </span>
+                <select name="com_name">
+                    {% for series in series_list %}
+                        {% if com_info.series_id == series %}
+                            <option value="{{ series.id }}" selected>{{ series.name }}</option>
+                        {% else %}
+                            <option value="{{ series.id }}">{{ series.name }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <a>没找到？</a><br><br>
+                <span>届数：第<input type="text" class="form-control" name="com_number"
+                                 style="width: 6%;display: inline-block;font-size: 20px;margin: 4px;border: 1px solid #666666;"
+                                 value="{{ jieshu }}"/>届</span>
+                <!--<p>*上一届为第10届</p>--><br><br>
+                <span>报名开始时间：<input type="datetime-local" class="form-control" name="begin_regit"
+                                    style="width: 32%;display: inline-block;font-size: 20px;margin: 4px;"
+                                    value="{{ begin_regit }}"/></span><br><br>
+                <span>报名结束时间：<input type="datetime-local" class="form-control" name="end_regit"
+                                    style="width: 32%;display: inline-block;font-size: 20px;margin: 4px;"
+                                    value="{{ end_regit }}"/></span><br><br>
+                <span>比赛开始时间：<input type="datetime-local" class="form-control" name="begin_time"
+                                    style="width: 32%;display: inline-block;font-size: 20px;margin: 4px;"
+                                    value="{{ begin_time }}"/></span><br><br>
+                <span>比赛结束时间：<input type="datetime-local" class="form-control" name="end_time"
+                                    style="width: 32%;display: inline-block;font-size: 20px;margin: 4px;"
+                                    value="{{ end_time }}"/></span><br><br>
+
+                <div id="xinxi">
+                    <div id="jibenxinxi">
+                        <h3>比赛信息:</h3>
+                        <div class="form-group">
+                            {% if sort_list %}
+                                组别：<input type="checkbox" name="if_com_sort" value="1" checked>
+                                <input type="text" class="form-control" name="sort_list"
+                                       style="width: 35%;display: inline-block;font-size: 20px;margin: 4px;border: 1px solid #666666;"
+                                       value="{{ sort_list }}"/>
+                            {% else %}
+                                组别：<input type="checkbox" name="if_com_sort" value="1">
+                                <input type="text" class="form-control" name="sort_list"
+                                       style="width: 35%;display: inline-block;font-size: 20px;margin: 4px;border: 1px solid #666666;"/>
+                            {% endif %}
+                            Tips:格式：xxx/xxx/xxx
+                        </div>
+                        <div class="form-group">
+                            {% if com_info.if_web != 0 %}
+                                官网：<input type="checkbox" name="if_if_web" value="1" checked>
+                                <input type="text" class="form-control" name="com_web"
+                                       style="width: 35%;display: inline-block;font-size: 20px;margin: 4px;border: 1px solid #666666;"
+                                       value="{{ com_info.com_web }}"/>
+                            {% else %}
+                                官网：<input type="checkbox" name="if_if_web" value="1">
+                                <input type="text" class="form-control" name="com_web"
+                                       style="width: 35%;display: inline-block;font-size: 20px;margin: 4px;border: 1px solid #666666;"/>
+                            {% endif %}
+                            Tips:输入前请记得打钩!
+                        </div>
+                        <div class="form-group">
+                            指导教师数量：<input type="number" class="form-control" name="num_teach"
+                                          value="{{ com_info.num_teach }}"
+                                          style="width: 7%;display: inline-block;font-size: 20px;margin: 4px;border: 1px solid #666666;"/>
+                            小组学生数量：<input type="number" class="form-control" name="num_stu"
+                                          value="{{ com_info.num_stu }}"
+                                          style="width: 7%;display: inline-block;font-size: 20px;margin: 4px;border: 1px solid #666666;"/>
+                        </div>
+                        <div class="form-group">
+                            {% if com_info.need_full == 1 %}
+                                是否小组需要满员：<input type="checkbox" name="need_full" value="1" checked>
+                            {% else %}
+                                是否小组需要满员：<input type="checkbox" name="need_full" value="1">
+                            {% endif %}
+
+                            {% if com_info.same_stu == 1 %}
+                                是否学生可以重复参加：<input type="checkbox" name="same_stu" value="1" checked>
+                            {% else %}
+                                是否学生可以重复参加：<input type="checkbox" name="same_stu" value="1">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div id="xinxi">
+                    <div id="jibenxinxi">
+                        <h3>学生信息:</h3>
+                        <div class="form-group">
+                            {% if com_need.stu_num == 1 %}
+                                学号：<input type="checkbox" name="stu_num" value="1" checked>
+                            {% else %}
+                                学号：<input type="checkbox" name="stu_num" value="1" >
+                            {% endif %}
+
+                            {% if com_need.stu_name == 1 %}
+                                姓名：<input type="checkbox" name="stu_name" value="1" checked>
+                            {% else %}
+                                姓名：<input type="checkbox" name="stu_name" value="1">
+                            {% endif %}
+
+                            {% if com_need.ID_number == 1 %}
+                                身份证号：<input type="checkbox" name="stu_name" value="1" checked>
+                            {% else %}
+                                身份证号：<input type="checkbox" name="stu_name" value="1">
+                            {% endif %}
+
+                            {% if com_need.sex == 1 %}
+                                性别：<input type="checkbox" name="stu_name" value="1" checked>
+                            {% else %}
+                                性别：<input type="checkbox" name="stu_name" value="1">
+                            {% endif %}
+
+                        </div>
+                        <div class="form-group">
+                            {% if com_need.depart == 1 %}
+                                院系：<input type="checkbox" name="depart" value="1" checked>
+                            {% else %}
+                                院系：<input type="checkbox" name="depart" value="1">
+                            {% endif %}
+
+
+                            {% if com_need.major == 1 %}
+                                专业：<input type="checkbox" name="major" value="1" checked>
+                            {% else %}
+                                专业：<input type="checkbox" name="major" value="1">
+                            {% endif %}
+
+
+                            {% if com_need.grade == 1 %}
+                                年级：<input type="checkbox" name="grade" value="1" checked>
+                            {% else %}
+                                年级：<input type="checkbox" name="grade" value="1">
+                            {% endif %}
+
+
+                            {% if com_need.stu_class == 1 %}
+                                班级：<input type="checkbox" name="stu_class" value="1" checked>
+                            {% else %}
+                                班级：<input type="checkbox" name="stu_class" value="1">
+                            {% endif %}
+
+                        </div>
+                        <div class="form-group">
+                            {% if com_need.email == 1 %}
+                                邮箱：<input type="checkbox" name="email" value="1" checked>
+                            {% else %}
+                                邮箱：<input type="checkbox" name="email" value="1">
+                            {% endif %}
+
+
+                            {% if com_need.phone_num == 1 %}
+                                手机号码：<input type="checkbox" name="phone_num" value="1" checked>
+                            {% else %}
+                                手机号码：<input type="checkbox" name="phone_num" value="1">
+                            {% endif %}
+
+
+                            {% if com_need.bank_number == 1 %}
+                                银行号码：<input type="checkbox" name="bank_number" value="1" checked>
+                            {% else %}
+                                银行号码：<input type="checkbox" name="bank_number" value="1">
+                            {% endif %}
+
+
+                            {% if com_need.else_info == 1 %}
+                                其他：<input type="checkbox" name="else_info" value="1" checked>
+                            {% else %}
+                                其他：<input type="checkbox" name="else_info" value="1">
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="xinxi">
+                    <div id="jibenxinxi">
+                        <h3>竞赛小组信息:</h3>
+                        <div class="form-group">
+                            {% if com_need.group_name == 1 %}
+                                组名：<input type="checkbox" name="group_name" value="1" checked>
+                            {% else %}
+                                组名：<input type="checkbox" name="group_name" value="1">
+                            {% endif %}
+
+                            {% if com_need.product_name == 1 %}
+                                作品名称：<input type="checkbox" name="product_name" value="1" checked>
+                            {% else %}
+                                作品名称：<input type="checkbox" name="product_name" value="1">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zuihouanniu">
+                    <input type="submit" class="tijiaoanniu" value="修改"/>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

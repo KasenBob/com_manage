@@ -1,0 +1,419 @@
+.bgc1 {
+    background-color: #333439;
+}
+
+.bgc2 {
+    background-color: #2B2C30;
+}
+
+.xuanta {
+
+}
+
+.tcolor {
+    color: #6CB670;
+}
+
+#zhu1, #zhu2, #zhu3 {
+    cursor: pointer;
+}
+
+#cebian {
+    background-color: #333333;
+    width: 10%;
+    position: fixed;
+    z-index: 2;
+    overflow: auto;
+    top: 50px;
+    height: 100%;
+    padding-top: 42px;
+}
+
+#cebian h4,
+i {
+    display: inline-block;
+    text-indent: 5px;
+}
+
+#cebian .divider {
+    color: #666666;
+    background-color: #666666;
+    height: 2px;
+    margin-bottom: 16px;
+}
+
+#cebian .glyphicon-user {
+    font-size: 30px;
+}
+
+#cebianneirong {
+    display: none;
+}
+
+#cebianneirong li {
+    background-color: #333333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#cebianneirong li:hover {
+    /*opacity: 0.7;*/
+    background-color: #444444;
+    /*background-color: #2B2C30;*/
+}
+
+#cebiankaiguan {
+    position: absolute;
+    top: 45%;
+    left: 30px;
+    font-size: 30px;
+    color: white;
+    text-decoration: none
+}
+
+#cebiankaiguan:hover {
+    background-color: #2F3238;
+    color: #63B670;
+    cursor: pointer;
+}
+
+.form-control {
+    background-color: #2f383d;
+    border-radius: 0;
+    border: 1px solid #666666;
+    color: #ddd;
+}
+
+#search-form {
+}
+
+#search-submit {
+    background: none;
+    display: inline-block;
+    border: 0;
+    color: #6CB670;
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+
+}
+
+.search-submit {
+    background: none;
+    display: inline-block;
+    border: 0;
+    color: #6CB670;
+    font-size: 16px;
+    height: 32px;
+    width: 32px;
+
+}
+
+ul a {
+    color: white;
+}
+
+ul li:hover {
+    background-color: #2F3238;
+}
+
+.dropdown-menu {
+    background-color: #2B2C30;
+}
+
+#fengcai {
+    width: 100%;
+    background-color: #2B2C30;
+    color: white;
+    padding-top: 128px;
+}
+
+#fengcai p {
+    letter-spacing: 1px;
+    line-height: 24px;
+    font-family: 宋体;
+}
+
+#fengcai h3 {
+    letter-spacing: 1px;
+    line-height: 36px;
+    font-family: 微软雅黑;
+}
+
+.border {
+    border-top: 1px solid #fff;
+    height: 1px;
+    margin: 15px auto 45px;
+    position: relative;
+    width: 20%;
+}
+
+.border:before {
+    background-color: #fff;
+    border: 1px ridge #fff;
+    content: "";
+    height: 10px;
+    left: 50%;
+    margin-left: -20px;
+    position: absolute;
+    top: -5px;
+    width: 40px;
+}
+
+.title h2 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 38px;
+    color: #fff;
+}
+
+.owl-controls .owl-page {
+    display: inline-block;
+}
+
+.owl-controls .owl-page span {
+    background-color: transparent;
+    border: 2px solid #fff;
+    border-radius: 50px;
+    display: block;
+    height: 13px;
+    margin: 0 4px;
+    width: 13px;
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.owl-controls .owl-page.active span,
+.owl-controls .owl-page:hover span {
+    background-color: #6cb670;
+    border: 2px solid transparent;
+}
+
+.owl-pagination,
+.owl-buttons {
+    text-align: center;
+}
+
+.btn a {
+    color: white;
+}
+
+.btn-green:focus,
+.btn-green:hover {
+    background-color: #2F383D;
+    color: #fff;
+}
+
+.btn-transparent {
+    color: white;
+    border: #6CB670 1px solid;
+
+}
+
+.btn-transparent:visited {
+    color: white;
+    border: #6CB670 1px solid;
+
+}
+
+.btn-transparent:hover {
+    background-color: #6cb670;
+    border: 1px solid transparent;
+    color: white;
+}
+
+#msg {
+    padding-top: 3%;
+    color: white;
+    background-color: #333439;
+    width: 100%;
+}
+
+#msg hrs {
+    color: white;
+    margin-left: 0;
+    margin: 0;
+}
+
+#msg .shoutiaoweizhi {
+    margin-top: 10px;
+    margin-left: -18px;
+}
+
+#msg .shoutiaoneirong {
+    background-color: #2B2C30;
+    border: none;
+    color: white;
+}
+
+#msg .dabiaoti {
+    font-size: 30px;
+}
+
+#msg .yitiao {
+    margin-top: 10px;
+}
+
+
+
+#msg .riqi {
+    float: right;
+}
+
+#jingsai {
+    padding-top: 3%;
+    width: 100%;
+    background-color: #2B2C30;
+    color: white;
+}
+
+/****/
+.bottom-bordered {
+    border-bottom: 2px solid #eee;
+    margin-bottom: 25px;
+}
+
+.text-title {
+    text-align: center;
+}
+
+.myimg {
+    margin: 0 auto;
+}
+
+.grid {
+    margin-bottom: 20px;
+}
+
+.member-title {
+    text-align: left;
+    margin: 15px 15px;
+}
+
+.member-property {
+    border-top: 1px solid #eee;
+    padding: 15px 15px;
+}
+
+.member {
+    text-align: left;
+    margin: 15px 20px;
+}
+
+.btn-custom {
+    color: white;
+    background-color: transparent;
+    padding: 10px 25px;
+    border-radius: 0;
+    border: 1px solid #6CB670;
+}
+
+.member > p {
+    margin-right: -5px;
+    margin-bottom: 20px;
+}
+
+/***/
+
+.quanbubisai {
+    border-radius: 0;
+    width: 120px;
+    height: 35px;
+    color: white;
+    border: 1px solid #6CB670;
+}
+
+.tijiaoanniu {
+    border-radius: 0;
+    width: 120px;
+    height: 35px;
+    color: white;
+    border: 1px solid #6CB670;
+    background-color: transparent;
+    outline: none;
+}
+
+.tijiaoanniu:hover {
+    background-color: #6CB670;
+}
+
+.tijiaoanniu:active {
+    bborder: 1px solid #6CB670;
+}
+
+.tijiaoanniu:visited {
+    border: 1px solid #6CB670;
+}
+
+.tijiaoanniu:link {
+    border: 1px solid #6CB670;
+}
+
+#dibu {
+    padding: 10px;
+    border-top: 1px solid #666666;
+    background-color: #2B2C30;
+    color: white;
+    text-align: center;
+    letter-spacing: 0.75px;
+    line-height: 22px;
+    font-family: 宋体;
+
+}
+
+.h1s {
+    text-align: center;
+}
+
+#remen {
+    margin-top: 50px;
+}
+
+#zuihouanniu {
+    margin: 30px;
+    text-align: center;
+}
+
+.zuihouanniu {
+    margin: 30px;
+    text-align: center;
+}
+
+#xiaoxiliebiao li {
+    color: white;
+    width: 256px;
+    cursor: pointer;
+}
+
+.xiaoxiriqi {
+    font-size: 14px;
+}
+
+#mingdan {
+    color: white;
+    padding-top: 128px;
+}
+
+#mingdan h2 {
+    width: 100%;
+}
+
+#mingdan p {
+    text-align: center;
+    font-size: 25px;
+    padding-bottom: 30px;
+}
+
+.zhuyeshuru {
+    width: 93.4%;
+    margin-bottom: 20px;
+    padding: 10px;
+    float: left;
+    background-color: transparent;
+    border: none;
+    font-size: 15px;
+    border-bottom: 1px solid white;
+    outline: none;
+    color: #FFF;
+}

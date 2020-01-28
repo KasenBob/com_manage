@@ -1,0 +1,152 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">学生信息修改申请</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            {% for msg_stu in msg_stu_list %}
+                <div class="geren1">
+                    <span>申请人：{{ msg_stu.stu_number.stu_name }}</span><br>
+                    <span>提交时间：{{ msg_stu.created_time }}</span>
+                    <span class="fun-btn pull-right">
+                        <a class="btn btn-transparent" data-toggle="modal"
+                           data-target="#stu{{ msg_stu.pk }}">详情</a>
+                        <a href="/member/msg_application_agree?p1=0&p2={{ msg_stu.pk }}"
+                           class="glyphicon glyphicon-ok btn btn-transparent"></a>
+                        <a href="/member/msg_application_disagree?p1=0&p2={{ msg_stu.pk }}"
+                           class="glyphicon glyphicon-remove btn btn-transparent"></a>
+                    </span>
+                </div>
+
+                <style>
+                    .motaikuang .modal-content {
+                        background-color: #2B2C30;
+                    }
+
+                    .motaikuang h5 {
+                        line-height: 20px;
+                        letter-spacing: 0.5px;
+                        font-family: 宋体;
+
+                    }
+                </style>
+
+                <div class="modal fade motaikuang" id="stu{{ msg_stu.pk }}" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel_1">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">修改详情</h4>
+                            </div>
+                            <div class="modal-body">
+                                <span>姓名：{{ msg_stu.stu_number.stu_name }}<span class="glyphicon glyphicon-arrow-right"
+                                                                                aria-hidden="true"></span>{{ msg_stu.stu_name }}</span><br>
+                                <span>学院：{{ msg_stu.stu_number.department.depart_name }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_stu.department.depart_name }}</span><br>
+                                <span>专业：{{ msg_stu.stu_number.major.major_name }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_stu.major.major_name }}</span><br>
+                                <span>年级：{{ msg_stu.stu_number.grade.grade_name }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_stu.grade.grade_name }}</span><br>
+                                <span>班级：{{ msg_stu.stu_number.stu_class.class_name }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_stu.stu_class.class_name }}</span><br>
+                                <span>性别：{{ msg_stu.stu_number.sex }}<span class="glyphicon glyphicon-arrow-right"
+                                                                           aria-hidden="true"></span>{{ msg_stu.sex }}</span><br>
+                                <span>身份证号：{{ msg_stu.stu_number.ID_number }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_stu.ID_number }}</span>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-transparent" data-dismiss="modal">关闭</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% empty %}
+                <h4>暂无申请</h4>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="panel panel-default" id="confirmed" style="border: none;">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">指导教师信息修改申请</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            {% for msg_teach in msg_teach_list %}
+                <div class="geren1">
+                    <span>申请人：{{ msg_teach.teach_number.tea_name }}</span><br>
+                    <span>提交时间：{{ msg_teach.created_time }}</span>
+                    <span class="fun-btn pull-right">
+                        <a class="btn btn-transparent" data-toggle="modal"
+                           data-target="#teach{{ msg_teach.pk }}">详情</a>
+                        <a href="/member/msg_application_agree?p1=1&p2={{ msg_teach.pk }}"
+                           class="glyphicon glyphicon-ok btn btn-transparent"></a>
+                        <a href="/member/msg_application_disagree?p1=1&p2={{ msg_teach.pk }}"
+                           class="glyphicon glyphicon-remove btn btn-transparent"></a>
+                    </span>
+                </div>
+
+                <style>
+                    .motaikuang .modal-content {
+                        background-color: #2B2C30;
+                    }
+
+                    .motaikuang h5 {
+                        line-height: 20px;
+                        letter-spacing: 0.5px;
+                        font-family: 宋体;
+
+                    }
+                </style>
+
+                <div class="modal fade motaikuang" id="teach{{ msg_teach.pk }}" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel_1">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">修改详情</h4>
+                            </div>
+                            <div class="modal-body">
+                                <span>姓名：{{ msg_teach.teach_number.tea_name }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_teach.tea_name }}</span><br>
+                                <span>职称：{{ msg_teach.teach_number.profess.profess_name }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_teach.profess.profess_name }}</span><br>
+                                <span>院系：{{ msg_teach.teach_number.department.depart_name }}<span
+                                        class="glyphicon glyphicon-arrow-right"
+                                        aria-hidden="true"></span>{{ msg_teach.department.depart_name }}</span>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-transparent" data-dismiss="modal">关闭</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% empty %}
+                <h4>暂无申请</h4>
+            {% endfor %}
+        </div>
+        <div class="bgc2" style="height: 128px;"></div>
+    </div>
+{% endblock %}

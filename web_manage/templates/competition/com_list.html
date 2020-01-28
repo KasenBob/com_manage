@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load cache %}
+
+{% block title %}
+    学科竞赛|竞赛一览
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'sources/css/conteststyle.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block is_activate5 %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div id="bmlb">
+        <div class="container">
+
+            <div class="biaoti">
+                <h1 class="biaoti">个人赛</h1>
+                <div class="border"></div>
+            </div>
+
+            {% for com_list in com_list_one %}
+                <div class="row">
+                    {% for com in com_list %}
+                        <div class="col-md-3 col-sm-6">
+                            <div class="table-bordered">
+                                <img class="img-responsive myimg" src="/media/{{ com.series_id.photo }}" alt="acm">
+                                <div class="member">
+                                    <h3>{{ com.com_name }}</h3>
+                                    <p>报名开始：<br>{{ com.begin_regit }}</p>
+                                    <p>报名截止：<br>{{ com.end_regit }}</p>
+                                    <a class="btn btn-transparent"
+                                       href="/competition/com_detail?com_id={{ com.com_id }}">报名</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% empty %}
+                <h4>暂无进行中比赛</h4>
+            {% endfor %}
+
+            <div class="biaoti">
+                <h1 class="biaoti">团队赛</h1>
+                <div class="border"></div>
+            </div>
+
+            {% for com_list in com_list_all %}
+                <div class="row">
+                    {% for com in com_list %}
+                        <div class="col-md-3 col-sm-6">
+                            <div class="table-bordered">
+                                <img class="img-responsive myimg" src="/media/{{ com.series_id.photo }}" alt="acm">
+                                <div class="member">
+                                    <h3>{{ com.com_name }}</h3>
+                                    <p>报名开始：<br>{{ com.begin_regit }}</p>
+                                    <p>报名截止：<br>{{ com.end_regit }}</p>
+                                    <a class="btn btn-transparent"
+                                       href="/competition/com_detail?com_id={{ com.com_id }}">报名</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% empty %}
+                <h4>暂无进行中比赛</h4>
+            {% endfor %}
+
+        </div>
+
+    </div>
+{% endblock %}

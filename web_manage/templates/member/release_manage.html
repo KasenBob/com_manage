@@ -1,0 +1,41 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block member_active6 %}
+    com-xuanzhong
+{% endblock %}
+
+{% block body %}
+    <div id="fabu-jingsai" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">新闻管理</h3>
+        </div>
+
+        <div class="panel-body">
+            <table id="xinwenguanli" class="table" style="border-bottom: 1px solid white;">
+                <tr>
+                    <td>序号</td>
+                    <td>公告标题</td>
+                    <td>发布时间</td>
+                    <td>操作</td>
+                </tr>
+
+                {% for news in news_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>关于举办第10届蓝桥杯校内选拔赛的公告</td>
+                        <td>2019-10-15</td>
+                        <td><a class="btn btn-transparent">修改</a><a class="btn btn-transparent">删除</a></td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+            <p class="pull-right">搞个分页器</p>
+        </div>
+
+    </div>
+{% endblock %}

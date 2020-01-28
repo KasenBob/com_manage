@@ -1,0 +1,88 @@
+{% extends 'teacher/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block is_active3 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">个人赛</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+
+            {% for apply,stu in apply_one %}
+                <div class="geren">
+                    <p>{{ apply.com_id.com_name }}</p>
+                    <span>参赛学生：{{ stu.stu_id.stu_name }}</span><br>
+                    <span>报名时间：{{ apply.group_id.apply_time }}</span><br>
+                    <span>报名状态：报名成功</span>
+                    <br>
+                    {% if apply.com_id.com_status == '0' %}
+                        <span> 比赛状态：报名中</span>
+                    {% elif apply.com_id.com_status == '1' %}
+                        <span> 比赛状态：报名结束</span>
+                    {% elif apply.com_id.com_status == '2' %}
+                        <span> 比赛状态：比赛中</span>
+                    {% endif %}
+                    <a href="/teacher/teach_apply_deatil?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                       class="btn btn-transparent">详情</a></span>
+                </div>
+                {% empty %}
+                <h4>无正在比赛的小组</h4>
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="panel panel-default" id="confirmed" style="border: none;">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">团队赛</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            {% for apply,stu_list in apply_all %}
+                <div class="tuandui">
+                    <p>{{ apply.com_id.com_name }}</p>
+
+                    {% for stu in stu_list %}
+
+                        {% if stu.is_leader == 1 %}
+                            <span>发起者：{{ stu.stu_id.stu_name }}</span>
+                        {% endif %}
+
+                    {% endfor %}
+                    <br>
+                    <span>队员：
+
+                        {% for stu in stu_list %}
+                            {{ stu.stu_id.stu_name }}
+                        {% endfor %}
+
+                    </span>
+                    <br>
+                    <span>报名时间：{{ apply.group_id.apply_time }}</span><br>
+                    <span>报名状态：报名成功</span>
+                    <br>
+                    {% if apply.com_id.com_status == '0' %}
+                        <span> 比赛状态：报名中</span>
+                    {% elif apply.com_id.com_status == '1' %}
+                        <span> 比赛状态：报名结束</span>
+                    {% elif apply.com_id.com_status == '2' %}
+                        <span> 比赛状态：比赛中</span>
+                    {% endif %}
+                    <a href="/teacher/teach_apply_deatil?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}&p3=1"
+                       class="btn btn-transparent">详情</a></span>
+                </div>
+                {% empty %}
+                <h4>无正在比赛的小组</h4>
+            {% endfor %}
+        </div>
+        <div class="bgc2" style="height: 128px;"></div>
+    </div>
+{% endblock %}

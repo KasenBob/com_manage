@@ -1,0 +1,105 @@
+{% extends 'student/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block per_activate3 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">个人信息</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            <div id="xinxi">
+                <div id="jibenxinxi">
+                    <script>
+                        $(function () {
+                            $('[data-toggle="tooltip"]').tooltip('show')
+                        })
+                    </script>
+                    <style>
+                        .bian{
+                            border: 1px solid #666666;
+                        }
+                    </style>
+                    <h3 style="display: inline-block;" data-toggle="tooltip" data-placement="right"
+                        {% if change_flag == 1 %}title="您已提交基本信息修改申请，请等待审核通过"{% endif %}>
+                        基本信息</h3>
+                    <form class="navbar-form dist">
+                        <div class="form-group">
+                            学号：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.stu_number }}">
+                        </div>
+                        <div class="form-group">
+                            姓名：
+                            <input type="text" class="form-control bian" autocomplete="off" name="seach" readonly="readonly"
+                                   value="{{ stu_info.stu_name }}">
+                        </div>
+                        <div class="form-group">
+                            院系：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.department.depart_name }}">
+                        </div>
+                        <div class="form-group">
+                            专业：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.major.major_name }}">
+                        </div>
+                        <div class="form-group">
+                            年级：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.grade.grade_name }}">
+                        </div>
+                        <div class="form-group">
+                            班级：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.stu_class.class_name }}">
+                        </div>
+                        <div class="form-group">
+                            性别：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.sex }}">
+                        </div>
+                        <div class="form-group">
+                            身份证号：
+                            <input type="text" class="form-control bian"  autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.ID_number }}">
+                        </div>
+                    </form>
+                </div>
+                <div id="">
+                    <h3>拓展信息</h3>
+                    <form class="navbar-form dist">
+                        <div class="form-group">
+                            银行账号：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.bank_number }}">
+                        </div>
+                        <div class="form-group">
+                            电话号码：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.phone_number }}">
+                        </div>
+                        <div class="form-group">
+                            邮箱：
+                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
+                                   value="{{ stu_info.email }}">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="zuihouanniu">
+                <a class="btn btn-transparent quanbubisai" href="/student/alter_avatar">修改头像</a>
+                {% if change_flag != 1 %}
+                    <a class="btn btn-transparent quanbubisai" href="/student/alter_info_stu">修改信息</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="bgc2" style="height: 128px;"></div>
+{% endblock %}
+
+

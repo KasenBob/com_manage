@@ -1,0 +1,87 @@
+{% extends 'student/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block per_activate1 %}
+    active
+{% endblock %}
+
+{% block body %}
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip('show')
+        })
+    </script>
+
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">个人赛</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            {% for apply,change in apply_one %}
+                <div class="geren">
+                    <p>{{ apply.com_id.com_name }}</p>
+                    <span>报名时间：{{ apply.group_id.apply_time }}
+                        <br>
+                        {% if apply.group_id.status == '0' %}
+                            <span> 报名状态：待老师 / 成员确认</span>
+                        {% else %}
+                            <span> 报名状态：已成功</span>
+                        {% endif %}
+                        <br>
+                        {% if apply.com_id.com_status == '0' %}
+                            <span> 比赛状态：报名中</span>
+                        {% elif apply.com_id.com_status == '1' %}
+                            <span> 比赛状态：报名结束</span>
+                        {% elif apply.com_id.com_status == '2' %}
+                            <span> 比赛状态：比赛中</span>
+                        {% endif %}
+                        <a href="/student/stu_apply_detail?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                           class="btn btn-transparent" data-toggle="tooltip" data-placement="left"
+                           {% if change == 1 %}title="该报名有申请待审核"{% endif %}>详情</a></span>
+                </div>
+                {% empty %}
+                <h4>暂无报名</h4>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="panel panel-default" style="border: none;">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">团队赛</h3>
+        </div>
+        <div class="panel-body" style="background-color: #2B2C30;">
+            {% for apply,leader in apply_all %}
+                <div class="tuandui">
+                    <p>{{ apply.com_id.com_name }}</p>
+                    <span> 发起者：{{ leader.stu_id.stu_name }}</span>
+                    <br>
+                    <span> 报名时间：{{ apply.group_id.apply_time }}</span>
+                    <br>
+                    {% if apply.group_id.status == '0' %}
+                        <span> 报名状态：待老师 / 成员确认</span>
+                    {% else %}
+                        <span> 报名状态：已成功</span>
+                    {% endif %}
+                    <br>
+                    {% if apply.com_id.com_status == '0' %}
+                        <span> 比赛状态：报名中</span>
+                    {% elif apply.com_id.com_status == '1' %}
+                        <span> 比赛状态：报名结束</span>
+                    {% elif apply.com_id.com_status == '2' %}
+                        <span> 比赛状态：比赛中</span>
+                    {% endif %}
+                    <a href="/student/stu_apply_detail?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                       class="btn btn-transparent" data-toggle="tooltip" data-placement="left"
+                       {% if change == 1 %}title="该报名有申请待审核"{% endif %}>详情</a>
+                </div>
+                {% empty %}
+                <h4>暂无报名</h4>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="bgc2" style="height: 128px;"></div>
+{% endblock %}
+

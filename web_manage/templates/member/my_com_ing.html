@@ -1,0 +1,33 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block member_active3 %}
+    com-xuanzhong
+{% endblock %}
+
+{% block body %}
+    <div id="fabu-jingsai" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">比赛进行中</h3>
+        </div>
+
+        <div class="panel-body">
+            {% for com in com_list %}
+                <div class="geren">
+                    <h3 class="jingsaiing-biaoti">{{ com.com_name }}</h3>
+                    <span>
+                        比赛状态：{{ com.get_com_status_display }}
+                        <a href="/member/com_apply_detail?p={{ com.com_id }}" class="btn btn-transparent pull-right">参赛名单</a>
+                        <a href="/member/change_com?p={{ com.com_id }}"
+                           class="btn btn-transparent pull-right">修改比赛信息</a>
+                    </span>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block body %}
+    <div id="fabu-jingsai" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">新闻管理</h3>
+        </div>
+
+        <div class="panel-body">
+            <table id="xinwenguanli" class="table" style="border-bottom: 1px solid white;">
+                <tr>
+                    <td>序号</td>
+                    <td>新闻标题</td>
+                    <td>发布时间</td>
+                    <td>操作</td>
+                </tr>
+                {% for news in page_of_news.object_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ news.title }}</td>
+                        <td>{{ news.last_update_time }}</td>
+                        <td><a href="/member/change_news?p={{ news.pk }}" class="btn btn-transparent">修改</a>
+                            <a href="/member/delete_news?p={{ news.pk }}" class="btn btn-transparent">删除</a></td>
+                    </tr>
+                    {% empty %}
+                    <h4>暂无更多新闻</h4>
+                {% endfor %}
+            </table>
+
+            <nav class="page-nav" aria-label="Page navigation">
+                <ul class="pagination">
+                    {# 上一页 #}
+                    <li>
+                        {% if page_of_news.has_previous %}
+                            <a href="?page={{ page_of_news.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        {% else %}
+                            <span aria-hidden="true">&laquo;</span>
+                        {% endif %}
+                    </li>
+                    {# 分页 #}
+                    {% for page_num in page_range %}
+                        {% if page_num ==  page_of_news.number %}
+                            <li class="active"><span>{{ page_num }}</span></li>
+                        {% else %}
+                            {% if page_num == '...' %}
+                                <li><span>{{ page_num }}</span></li>
+                            {% else %}
+                                <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    {# 下一页 #}
+                    <li>
+                        {% if page_of_news.has_next %}
+                            <a href="?page={{ page_of_news.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        {% else %}
+                            <span aria-hidden="true">&raquo;</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+
+    </div>
+{% endblock %}

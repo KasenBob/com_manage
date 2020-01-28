@@ -1,0 +1,50 @@
+{% extends 'teacher/personal_center/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block is_active2 %}
+    active
+{% endblock %}
+
+{% block body %}
+    <div class="panel panel-default" style="border: none;" id="caozuomianban">
+        <div class="panel-heading"
+             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
+            <h3 class="panel-title">待确定申请</h3>
+        </div>
+
+        <div class="panel-body" style="background-color: #2B2C30;">
+            {% for leader,apply in confirm_apply %}
+                <div class="geren1">
+                    <p>{{ apply.com_id.com_name }}</p>
+                    <span>发起者：{{ leader.stu_id.stu_name }}</span><br>
+                    <span>报名时间：{{ apply.group_id.apply_time }}</span><br>
+                    <span>报名状态:
+                        {% if apply.group_id.status == '0' %}
+                            <span> 待老师 / 成员确认</span>
+                        {% else %}
+                            <span> 已成功</span>
+                        {% endif %}
+                    </span>
+                    <span class="fun-btn pull-right">
+                        {% if apply.status == '0' %}
+                            <a href="/teacher/confirm_apply?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                               class="glyphicon glyphicon-ok btn btn-transparent"></a>
+                            <a href="/teacher/reject_apply?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                               class="glyphicon glyphicon-remove btn btn-transparent"></a>
+                        {% endif %}
+                        <a href="/teacher/teach_apply_deatil?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                           class="btn btn-transparent">详情</a>
+                    </span>
+                </div>
+                {% empty %}
+                <h4>暂无指导申请</h4>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="bgc2" style="height: 128px;"></div>
+{% endblock %}

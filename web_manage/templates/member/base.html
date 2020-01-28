@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block css %}
+    <link href="{% static 'sources/css/gerenzhongxinStyle.css' %}" rel="stylesheet">
+    <script src="{% static 'sources/js/gerenzhongxinJS.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div id="gerenzhongxin_content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="{% static '/media/web_photo/touxiang.png' %}" alt="..."
+                                 style="width: 63px;height: 63px;border: 2px solid white;border-radius: 20px;">
+                        </div>
+                        <p class="xingming">学科竞赛委员会</p>
+                        <p class="banji">信息科学技术学院</p>
+                        <p style="margin-top: 0;font-size: 10px;">
+                            <a href="/member/edit_pwd/">修改密码</a>
+                            |
+                            <a href="/logout/">登出</a>
+                        </p>
+                    </div>
+                    <div class="com-gongneng">
+                        <div class="yizu-item">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span>发布</span>
+                            <li><a href="/member/add_com/">发布比赛</a></li>
+                            <li><a href="/member/add_notices/">发布公告</a></li>
+                            <li><a href="/member/add_news/">发布新闻</a></li>
+                        </div>
+                        <div class="yizu-item">
+                            <span class="glyphicon glyphicon-knight"></span>
+                            <span>比赛</span>
+                            <li><a href="/member/my_com_ing/">进行中的比赛</a></li>
+                            <li><a href="/member/my_com_ed/">历届比赛</a></li>
+                        </div>
+                        <div class="yizu-item">
+                            <span class="glyphicon glyphicon-wrench"></span>
+                            <span>管理</span>
+                            <li><a href="/member/notice_comanage/">公告管理</a></li>
+                            <li><a href="/member/news_comanage/">新闻管理</a></li>
+                            <li><a href="/member/my_series/">竞赛系列管理</a></li>
+                            <li><a href="/member/my_coms/">比赛管理</a></li>
+                        </div>
+                        <div class="yizu-item">
+                            <span class="glyphicon glyphicon-education"></span>
+                            <span>审核</span>
+                            <li><a href="/member/msg_application">个人信息修改申请</a></li>
+                            <li><a href="/member/apply_application">参赛信息修改申请</a></li>
+                            <li><a>获奖证书上传</a></li>
+                        </div>
+                        <div class="yizu-item">
+                            <span class="glyphicon glyphicon-stats"></span>
+                            <span>统计</span>
+                            <li><a>历届获奖统计表</a></li>
+                            <li><a>获奖统计图表</a></li>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    {% block body %}
+
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

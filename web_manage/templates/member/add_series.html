@@ -1,0 +1,38 @@
+{% extends 'member/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|个人中心
+{% endblock %}
+
+{% block body %}
+    <div id="fabu-jingsai" class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">增加竞赛</h3>
+        </div>
+
+        <div class="panel-body">
+            <form action="/member/add_series/" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <span>竞赛名称：</span><input type="text" class="form-control" name="series_name"
+                                  style="width: 50%;display: inline-block;border: 1px solid #666666;"/>
+                <br>
+                <span>简介：</span><input type="text" class="form-control" name="series_intro"
+                                style="width: 50%;display: inline-block;border: 1px solid #666666;"/>
+                <br>
+                <span>竞赛LOGO：</span><input type="file" name="series_logo">
+                <br>
+                <span>类型：
+                    <select name="series_type">
+                    <option value="0">个人赛</option>
+                    <option value="1">团体赛</option>
+                </select></span>
+
+                <div class="zuihouanniu">
+                    <input type="submit" class="tijiaoanniu" value="发布"/>
+                </div>
+
+            </form>
+        </div>
+    </div>
+{% endblock %}

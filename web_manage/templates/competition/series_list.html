@@ -1,0 +1,258 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    学科竞赛|竞赛一览
+{% endblock %}
+
+{% block css %}
+    <script src="{% static 'sources/js/jquery.eeyellow.Timeline.js' %}"></script>
+    <link href="{% static 'sources/css/conteststyle.css' %}" rel="stylesheet">
+    <link href="{% static 'sources/css/jquery.eeyellow.Timeline.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block is_activate4 %}
+    active
+{% endblock %}
+
+{% block content %}
+    <div class="shijianzhou htmleaf-container">
+        <div class="biaoti">
+            <h1>竞赛介绍</h1>
+            <h4>
+                <span id="qiebiao" class="qiehuan" style="color: #6CB670;">列表</span>
+	<!--<span> / </span><span id="qiezhou" class="qiehuan">时间轴</span>-->
+            </h4>
+            <div class="border"></div>
+        </div>
+
+        <div class="mianban">
+            <div class="container">
+                <div id="tiao">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="VivaTimeline">
+                                <dl>
+                                    <dt>January</dt>
+                                    <dd class="pos-left clearfix">
+                                        <div class="circ"></div>
+                                        <div class="time"></div>
+                                        <div class="events">
+                                            <div class="events-header">竞赛名称</div>
+                                            <div class="events-body">
+                                                <div class="row">
+                                                    <div class="events-desc">
+                                                        <p class="jieshaoneirong">
+                                                            简介内容</p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="events-footer"><a class="btn btn-transparent quanbubisai"
+                                                                          id="qhsjz">查看详情</a></div>
+                                        </div>
+                                    </dd>
+                                    <dd class="pos-left clearfix">
+                                        <div class="circ"></div>
+                                        <div class="time"></div>
+                                        <div class="events">
+                                            <div class="events-header">竞赛名称</div>
+                                            <div class="events-body">
+                                                <div class="row">
+                                                    <div class="events-desc">
+                                                        <p class="jieshaoneirong">
+                                                            简介内容</p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="events-footer"><a class="btn btn-transparent quanbubisai"
+                                                                          id="qhsjz">查看详情</a></div>
+                                        </div>
+                                    </dd>
+                                    <dt>February</dt>
+                                    <dd class="pos-right clearfix">
+                                        <div class="circ"></div>
+                                        <div class="time"></div>
+                                        <div class="events">
+                                            <div class="events-header">竞赛名称</div>
+                                            <div class="events-body">
+                                                <div class="row">
+                                                    <div class="events-desc">
+                                                        <p class="jieshaoneirong">
+                                                            简介内容</p>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="events-footer"><a class="btn btn-transparent quanbubisai"
+                                                                          id="qhsjz">查看详情</a></div>
+                                        </div>
+                                    </dd>
+                                    <dt>March</dt>
+                                    <dt>April</dt>
+                                    <dt>May</dt>
+                                    <dt>June</dt>
+                                    <dt>July</dt>
+                                    <dt>August</dt>
+                                    <dt>September</dt>
+                                    <dt>October</dt>
+                                    <dt>November</dt>
+                                    <dt>December</dt>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="zuihouanniu">
+                        <a class="btn btn-transparent quanbubisai" id="qhlb">切换至列表</a>
+                    </div>
+                </div>
+
+                <!--
+                这个style放到 indexstyle里
+                这个style放到 indexstyle里
+                这个style放到 indexstyle里
+                -->
+
+                <style>
+                    .motaikuang .modal-content {
+                        background-color: #2B2C30;
+                    }
+
+                    .motaikuang h5 {
+                        line-height: 20px;
+                        letter-spacing: 0.5px;
+                        font-family: 宋体;
+
+                    }
+                </style>
+
+                <div id="biao">
+
+                    <div class="biaoti">
+                        <h1 class="biaoti">个人赛</h1>
+                        <div class="border"></div>
+                    </div>
+
+                    {% for series_list in series_list_one %}
+                        <div class="row">
+                            {% for series in series_list %}
+
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="table-bordered">
+                                        <img class="img-responsive myimg" src="/media/{{ series.photo }}" alt="logo">
+                                        <div class="member">
+                                            <h3>{{ series.name }}</h3>
+ 		            <p>{{ series.introduction|truncatechars:120 }}......</p>
+                                            <a class="btn btn-transparent" data-toggle="modal"
+                                               data-target="#{{ series.name }}">更多详情</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade motaikuang" id="{{ series.name }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel_1">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">{{ series.name }}介绍</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>{{ series.name }}</h3>
+
+                                                <h5>{{ series.introduction }}</h5>
+
+                                                <img src="/media/{{ series.photo }}" style="margin: 0 auto"
+                                                     class="img-responsive">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a class="btn btn-transparent" data-dismiss="modal">关闭</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+                        {% empty %}
+                        <h4>暂无更多竞赛</h4>
+                    {% endfor %}
+
+                    <div class="biaoti">
+                        <h1 class="biaoti">团队赛</h1>
+                        <div class="border"></div>
+                    </div>
+
+                    {% for series_list in series_list_all %}
+                        <div class="row">
+                            {% for series in series_list %}
+                                <div class="col-md-3 col-sm-6">
+                                    <div class="table-bordered">
+                                        <img class="img-responsive myimg" src="/media/{{ series.photo }}" alt="logo">
+                                        <div class="member">
+                                            <h3>{{ series.name }}</h3>
+                                            <p>{{ series.introduction }}</p>
+                                            <a class="btn btn-transparent" data-toggle="modal"
+                                               data-target="#{{ series.name }}">
+                                                更多详情</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade motaikuang" id="{{ series.name }}" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel_1">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">{{ series.name }}介绍</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h3>{{ series.name }}</h3>
+
+                                                <h5>{{ series.introduction }}</h5>
+
+                                                <img src="/media/{{ series.photo }}" style="margin: 0 auto"
+                                                     class="img-responsive">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a class="btn btn-transparent" data-dismiss="modal">关闭</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% empty %}
+                        <h4>暂无更多竞赛</h4>
+                    {% endfor %}
+
+                    <!--
+                        <div class="zuihouanniu">
+                            <a class="btn btn-transparent quanbubisai" id="qhsjz">切换时间轴</a>
+                        </div>
+                        -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.VivaTimeline').vivaTimeline({
+                carousel: false,
+                carouselTime: 3000
+            });
+        });
+    </script>
+{% endblock %}
