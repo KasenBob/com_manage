@@ -12,7 +12,6 @@ import teacher.models as teacher_model
 import news.models  as news_model
 import competition.models as com_model
 from .tasks import send_email_demo
-from .forms import ArticleForm
 import os
 from django.core.cache import cache
 import time
@@ -52,17 +51,7 @@ def home(request):
 	else:
 		new_list = news_model.news.objects.all().order_by('-created_time')
 	cache.set(key_1, new_list, 30 * 60)
-	i = 0
-	news_list = []
-	top_new = None
-	for new in new_list:
-		if i == 0:
-			top_new = new
-		elif i < 10:
-			news_list.append(new)
-		i += 1
-	context['top_new'] = top_new
-	context['news_list'] = news_list
+	context['news_list'] = new_list
 
 	# 通知列表
 	key_2 = 'inform_list'
@@ -151,10 +140,3 @@ def logout(request):
 	request.session.flush()
 	return redirect("/home/")
 
-
-# test
-def article(request):
-	context = {}
-	form = ArticleForm()
-	context['form'] = form
-	return render(request, 'test.html', context)

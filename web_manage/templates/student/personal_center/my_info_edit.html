@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="head-board">
+        <div class="container">
+            <div class="row">
+                {% if change_flag == 1 %}
+                <div class="alert alert-success" role="alert">
+                    你已经提交过申请，<a href="#" class="alert-link" data-toggle="modal" data-target="#myModal">点此查看</a>，等待审核通过即可修改信息，无需重复提交。多次提交按最新一次提交信息为准
+                </div>
+                {% endif %}
+            </div>
+            <div class="row white-border mgb30">
+                <p class="title-text">修改信息申请</p>
+                <form id="apply" action="/student/" method="post">
+                    <div class="sz16 col-md-12">学院:<input name="depart" class="edit mg10" type="text" value="计算机科学与工程学院"></div>
+                    <div class="sz16 col-md-4">年级:<input name="" class="edit mg10" type="text" value="17"></div>
+                    <div class="sz16 col-md-4">专业:<input name="depart" class="edit mg10" type="text" value="软件工程"></div>
+                    <div class="sz16 col-md-4">班级:<input name="depart" class="edit mg10" type="text" value="2"></div>
+                    <div class="sz16 col-md-4">学号:<input name="depart" class="edit mg10" type="text" value="1714080902214"></div>
+                    <div class="sz16 col-md-4">姓名:<input name="depart" class="edit mg10" type="text" value="叶晋军"></div>
+                    {% if change_flag != 1 %}
+                    <div class="col-md-12">
+                        <button type="submit" class="btn-custom block mg50-ub">提交</button>
+                    </div>
+                    {% endif %}
+                </form>
+            </div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog " role="document">
+                    <div class="modal-content deep-black">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">修改详情</h4>
+                        </div>
+                        <div class="modal-body sz14 child-inline">
+
+                            <div>学院：<h5 class="line-through">蓝翔学院</h5><h5 class="bright-green">计算机学院</h5></div>
+                            <div>年级：<h5 class="line-through">16</h5><h5 class="bright-green">17</h5></div>
+                            <div>专业：<h5 class="line-through">网络工程</h5><h5 class="bright-green">软件工程</h5></div>
+                            <div>班级：<h5 class="line-through">2</h5><h5 class="bright-green">2</h5></div>
+                            <div>学号：<h5 class="line-through">10086</h5><h5 class="bright-green">1714080902214</h5></div>
+                            <div>姓名：<h5 class="line-through">赵日天</h5><h5 class="bright-green">鸡织面</h5></div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-custom-short" data-dismiss="modal">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="js/chickennoodleScript.js"></script>
+{% endblock %}

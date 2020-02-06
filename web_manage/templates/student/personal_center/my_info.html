@@ -1,105 +1,72 @@
 {% extends 'student/personal_center/base.html' %}
 {% load staticfiles %}
 
-{% block per_activate3 %}
-    active
+{% block current1 %}
+    current
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">个人信息</h3>
-        </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            <div id="xinxi">
-                <div id="jibenxinxi">
-                    <script>
-                        $(function () {
-                            $('[data-toggle="tooltip"]').tooltip('show')
-                        })
-                    </script>
-                    <style>
-                        .bian{
-                            border: 1px solid #666666;
-                        }
-                    </style>
-                    <h3 style="display: inline-block;" data-toggle="tooltip" data-placement="right"
-                        {% if change_flag == 1 %}title="您已提交基本信息修改申请，请等待审核通过"{% endif %}>
-                        基本信息</h3>
-                    <form class="navbar-form dist">
-                        <div class="form-group">
-                            学号：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.stu_number }}">
-                        </div>
-                        <div class="form-group">
-                            姓名：
-                            <input type="text" class="form-control bian" autocomplete="off" name="seach" readonly="readonly"
-                                   value="{{ stu_info.stu_name }}">
-                        </div>
-                        <div class="form-group">
-                            院系：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.department.depart_name }}">
-                        </div>
-                        <div class="form-group">
-                            专业：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.major.major_name }}">
-                        </div>
-                        <div class="form-group">
-                            年级：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.grade.grade_name }}">
-                        </div>
-                        <div class="form-group">
-                            班级：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.stu_class.class_name }}">
-                        </div>
-                        <div class="form-group">
-                            性别：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.sex }}">
-                        </div>
-                        <div class="form-group">
-                            身份证号：
-                            <input type="text" class="form-control bian"  autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.ID_number }}">
-                        </div>
-                    </form>
-                </div>
-                <div id="">
-                    <h3>拓展信息</h3>
-                    <form class="navbar-form dist">
-                        <div class="form-group">
-                            银行账号：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.bank_number }}">
-                        </div>
-                        <div class="form-group">
-                            电话号码：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.phone_number }}">
-                        </div>
-                        <div class="form-group">
-                            邮箱：
-                            <input type="text" class="form-control bian" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ stu_info.email }}">
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div id="zuihouanniu">
-                <a class="btn btn-transparent quanbubisai" href="/student/alter_avatar">修改头像</a>
-                {% if change_flag != 1 %}
-                    <a class="btn btn-transparent quanbubisai" href="/student/alter_info_stu">修改信息</a>
+    <div class="col-md-10 pdt30 white-border-left">
+        <div class="row pdb10 white-border-bottom">
+            <div class="col-md-2 ">
+                {% if stu_info.photo %}
+                    <img class="picture-home" src="/media/{{ stu_info.photo }}" alt="暂无头像">
+                {% else %}
+                    <img class="picture-home" src="/media/web_photo/noface.jpg" alt="暂无头像">
                 {% endif %}
+            </div>
+            <div class="col-md-10 ">
+                <h3 class="inline-block">{{ stu_info.stu_name }}</h3>
+                <h4>{{ stu_info.stu_number }}</h4>
+                <h4>
+                    {{ stu_info.department.depart_name }}{{ stu_info.major.major_name }}{{ stu_info.grade.grade_name }}{{ stu_info.stu_class.class_name }}</h4>
+            </div>
+        </div>
+        <div class="row pdl60">
+            <h3 class="mgl-40"><span class="glyphicon glyphicon-pencil mgr10"></span>个人信息<a class="sz14 warning-a "
+                                                                                            data-toggle="modal"
+                                                                                            data-target="#myModal">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>信息有误？</a></h3>
+            <div class="sz16">性别:<p class="mgt10 lh20 inline-block mgl10">{{ stu_info.sex }}</p></div>
+            <div class="sz16">身份证号:<p class="mgt10 lh20 inline-block mgl10">{{ stu_info.ID_number }}</p></div>
+            <form action="/student/alter_notness_info_stu/" method="POST">
+                {% csrf_token %}
+                <div class="sz16 letter-spacing inline-block">邮箱*:<input name="email" class="edit mg10" type="text"
+                                                                         value="{{ stu_info.email }}"></div>
+                <div class="sz16 letter-spacing inline-block">电话*:<input name="phone_number" class="edit mg10"
+                                                                         type="text"
+                                                                         value="{{ stu_info.phone_number }}"></div>
+                <div class="sz16 letter-spacing">银行卡号:<input name="bank_number" class="edit mg10" type="text"
+                                                             value="{{ stu_info.bank_number }}"></div>
+                <!--<div class="sz16 letter-spacing mgt10">个人签名: <textarea class="edit textarea half-width" rows="3"></textarea></div>-->
+                <button class="btn-custom block mg50-ub" type="submit">保存</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content deep-black">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改信息</h4>
+                </div>
+                <div class="modal-body sz14">
+                    <h4>基本信息不正确？</h4>
+                    <p>注意：</p>
+                    <p>1. 姓名、学号、院系专业等基本信息原则上不可修改，若有误需要提交修改申请</p>
+                    <p>2. 转专业或其他特殊情况的同学可能存在基本信息错误的问题，请及时修改</p>
+                    <p>3. 提交修改之后需要等待审核通过才修改成功</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="" class="btn-custom-short" data-dismiss="modal">取消</a>
+                    <a href="/student/alter_ness_info_stu/" class="btn-custom-short">申请修改</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="bgc2" style="height: 128px;"></div>
 {% endblock %}
+
+
 
 

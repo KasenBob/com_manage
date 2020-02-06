@@ -707,6 +707,8 @@ def apply_application_agree(request):
 		for temp_teach in temp_teach_list:
 			temp_teach.delete()
 
+		# 要发信息
+
 		temp_info.delete()
 		group_info.delete()
 

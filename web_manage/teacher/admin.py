@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import teach_basic_info, com_teach_info, temp_com_teach_info, teach_inform
+from .models import teach_basic_info, com_teach_info, temp_com_teach_info, teach_inform, profess_info
 
 
 # Register your models here.
@@ -22,3 +22,7 @@ class temp_com_teach_info_Admin(admin.ModelAdmin):
 @admin.register(teach_inform)
 class teach_inform_Admin(admin.ModelAdmin):
 	list_display = ('Recipient_acc', 'From_acc', 'title', 'content', 'create_time',)
+
+@admin.register(profess_info)
+class profess_info_Admin(admin.ModelAdmin):
+	list_display = ('profess_name',)

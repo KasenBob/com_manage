@@ -5,73 +5,38 @@
     学科竞赛|个人中心
 {% endblock %}
 
-{% block css %}
-    <link href="{% static 'sources/css/gerenzhongxinStyle.css' %}" rel="stylesheet">
-    <script src="{% static 'sources/js/gerenzhongxinJS.js' %}"></script>
-{% endblock %}
-
 {% block content %}
-    <div id="gerenzhongxin_content">
+    <div class="head-board">
         <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-4">
-                            {% if stu_info.photo %}
-                                <img src="/media/{{ stu_info.photo }}" alt="暂无头像"
-                                     style="width: 63px;height: 63px;border: 2px solid white;border-radius: 20px;">
-                            {% else %}
-                                <img src="/media/web_photo/noface.jpg" alt="暂无头像"
-                                     style="width: 63px;height: 63px;border: 2px solid white;border-radius: 20px;">
-                            {% endif %}
-                        </div>
-                        <p class="xingming">{{ stu_info.stu_name }}</p>
-                        <p class="banji">{{ stu_info.department.depart_name }}
-	            <br>
-	            {{ stu_info.major.major_name }}
-                            {{ stu_info.grade.grade_name }}{{ stu_info.stu_class.class_name }}</p>
-                        <p style="margin-top: 0;font-size: 10px;">
-                            <a href="/student/edit_pwd/">修改密码</a>
-                            |
-                            <a href="/logout/">登出</a>
-                        </p>
-                    </div>
-
-                    <div class="list-group" id="gongnenglan">
-                        <a href="/student/personal_center_stu_apply/"
-                           class="list-group-item {% block per_activate1 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-home"></span>我的报名
-                        </a>
-                        <a href="/student/personal_center_stu_message/"
-                           class="list-group-item {% block per_activate2 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-envelope"></span>我的消息
-                        </a>
-                        <a href="/student/personal_center_stu_info/"
-                           class="list-group-item {% block per_activate3 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-pencil"></span>个人信息
-                        </a>
-                        <a href="/student/personal_center_stu_award/"
-                           class="list-group-item {% block per_activate4 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-bookmark"></span>我的奖项
-                        </a>
-                        <a href="/student/personal_center_stu_experience/"
-                           class="list-group-item {% block per_activate5 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-time"></span>参赛历史
-                        </a>
+            <div class="row white-border mgb30">
+                <div class="col-md-2 ">
+                    <div class="list-home">
+                        <a class="{% block current1 %}{% endblock %}"
+                           href="/student/personal_center_stu_info/"><span
+                                class="glyphicon glyphicon-pencil mgr10"></span>个人信息</a>
+                        <a class="{% block current2 %}{% endblock %}"
+                           href="/student/personal_center_stu_message/"><span
+                                class="glyphicon glyphicon-envelope mgr10"></span>消息<span
+                                class="badge mgl10">4</span></a>
+                        <a class="{% block current3 %}{% endblock %}"
+                           href="/student/personal_center_stu_apply/"><span
+                                class="glyphicon glyphicon-list-alt mgr10"></span>竞赛<span
+                                class="badge mgl10">1</span></a>
+                        <a class="{% block current4 %}{% endblock %}"
+                           href="/student/personal_center_stu_experience/"><span
+                                class="glyphicon glyphicon-time mgr10"></span>参赛历史</a>
                     </div>
                 </div>
+                <!--
+                    <a href="/student/personal_center_stu_award/"
+                       class="list-group-item {% block per_activate4 %}{% endblock %}">
+                        <span class="glyphicon glyphicon-bookmark"></span>我的奖项
+                    </a>
+                    -->
+                {% block body %}
 
-                <div class="col-md-9">
-                    {% block body %}
-
-                    {% endblock %}
-                </div>
-
+                {% endblock %}
             </div>
         </div>
-        {% block need_style %}
-
-        {% endblock %}
     </div>
 {% endblock %}
-

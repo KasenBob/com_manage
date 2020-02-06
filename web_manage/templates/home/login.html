@@ -1,52 +1,38 @@
-{% extends 'base.html' %}
 {% load staticfiles %}
-
-{% block title %}
-    学科竞赛|登录
-{% endblock %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="zh-Hans-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>学科竞赛|登录</title>
+    <link href="{% static 'sources/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'sources/css/chickennoodleStyle.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="board">
     <div class="container">
-        <div class="row" style="margin-top: 50px;margin-left: 128px">
+        <div class="row text-center mg100auto">
             <img src="/media/web_photo/hzxy.png">
-        </div>
-
-        <style>
-            .zhuyeshuru {
-                width: 93.4%;
-                margin-bottom: 20px;
-                padding: 10px;
-                float: left;
-                background-color: transparent;
-                border: none;
-                font-size: 15px;
-                border-bottom: 1px solid white;
-                outline: none;
-                color: #FFF;
-            }
-        </style>
-
-        <div class="row" style="color: white;margin-top: 128px;padding-left: 128px">
-
-            <div class="col-md-6" style="border-right: 1px solid white">
-                <h1>登 录</h1>
-                <form action="/login/" method="post">
-                    {% csrf_token %}
-                    <input name="username" type="text" placeholder="账号"
-                           class="zhuyeshuru" autocomplete="off"><br>
-                    <input name="password" type="password" placeholder="密码"
-                           class="zhuyeshuru"><br>
-                    <button type="submit" class="tijiaoanniu">登录</button>
-                </form>
-                <div style="height: 100px">
-
+            <form id="login" action="/login/" method="post">
+                <div class="head">
+                    用户登录
                 </div>
-            </div>
-
-            <div class="col-md-4" style="margin-left: 50px">
-                <img src="/media/web_photo/bak/login.png" style="height: 320px;width: 320px">
-            </div>
-
+                {% csrf_token %}
+                <div class="body">
+                    <p>账 号: <input name="username" type="text" class="edit" autocomplete="off"></p>
+                    <p>密 码: <input name="password" type="password" class="edit"></p>
+                    <button class="btn-custom" type="submit">登录</button>
+                    <p class="warn">用户名或密码错误</p>
+                </div>
+            </form>
         </div>
     </div>
-{% endblock %}
+</div>
+<footer id="footer">
+    地址：广东惠州市演达大道46号 邮编：516007<br>
+    总机：0752-2529000 E-mail:webmaster@hzu.edu.cn<br>
+    版权所有©惠州学院 粤ICP备********号
+</footer>
+</body>
+<script src="{% static 'sources/js/jquery.min.js' %}"></script>
+<script src="{% static 'sources/js/bootstrap.min.js' %}"></script>
+</html>

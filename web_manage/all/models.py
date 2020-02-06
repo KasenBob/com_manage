@@ -32,11 +32,7 @@ class user_login_info(models.Model):
 	have_login = models.CharField(max_length=5, default='0')
 	have_alter = models.CharField(max_length=5, default='0')
 	jurisdiction = models.CharField(max_length=10, choices=(('0', '学生'), ('1', '教师'), ('5', '学科委员')), default=0)
-	ip = models.CharField(max_length=25)
-
-
-class Article(models.Model):
-	content = RichTextUploadingField()
+	ip = models.CharField(max_length=25, null=True, blank=True)
 
 
 class inform(models.Model):

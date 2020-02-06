@@ -1,87 +1,196 @@
 {% extends 'student/personal_center/base.html' %}
 {% load staticfiles %}
 
-{% block per_activate1 %}
-    active
+{% block current3 %}
+    current
 {% endblock %}
 
 {% block body %}
-
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip('show')
-        })
-    </script>
-
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">个人赛</h3>
+    <div class="col-md-10 white-border-left">
+        <div class="row white-border-bottom">
+            <p class="title-text">我的竞赛</p>
         </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            {% for apply,change in apply_one %}
-                <div class="geren">
-                    <p>{{ apply.com_id.com_name }}</p>
-                    <span>报名时间：{{ apply.group_id.apply_time }}
-                        <br>
-                        {% if apply.group_id.status == '0' %}
-                            <span> 报名状态：待老师 / 成员确认</span>
-                        {% else %}
-                            <span> 报名状态：已成功</span>
-                        {% endif %}
-                        <br>
-                        {% if apply.com_id.com_status == '0' %}
-                            <span> 比赛状态：报名中</span>
-                        {% elif apply.com_id.com_status == '1' %}
-                            <span> 比赛状态：报名结束</span>
-                        {% elif apply.com_id.com_status == '2' %}
-                            <span> 比赛状态：比赛中</span>
-                        {% endif %}
-                        <a href="/student/stu_apply_detail?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
-                           class="btn btn-transparent" data-toggle="tooltip" data-placement="left"
-                           {% if change == 1 %}title="该报名有申请待审核"{% endif %}>详情</a></span>
-                </div>
+        <div id="myCtx">
+            <div class="row pdl20">
+                <h3 class="gray-border-bottom pdr20 pdb30">
+                    <span class="glyphicon glyphicon-list-alt mgr10 "></span>
+                    竞赛列表
+                    <button class="btn-custom-short pull-right">
+                        <span class="glyphicon glyphicon-share-alt mgr10"></span>
+                        比赛报名
+                    </button>
+                </h3>
+                {% for flag, apply in apply_list %}
+                    <div class="msg-piece">
+                        <p class="invisible">{{ apply.group_id.group_id }}</p>
+                        <h4 class="inline-block">
+                            {% if flag == 0 %}
+                                <span class="label label-success mgr10">成功报名</span>
+                            {% elif flag == 1 %}
+                                <span class="label label-info mgr10">待老师确认</span>
+                            {% elif flag == 2 %}
+                                <span class="label label-warning mgr10">待成员确认</span>
+                            {% elif flag == 3 %}
+                                <span class="label label-danger mgr10">组队待确认</span>
+                            {% elif flag == 4 %}
+                                <span class="label label-default mgr10">修改审核中</span>
+                            {% elif flag == 5 %}
+                                <span class="label label-default mgr10">撤销审核中</span>
+                            {% endif %}
+                            {{ apply.com_id.com_name }}
+                        </h4>
+                        <p class="inline-block pull-right mgt10">报名时间<br> {{ apply.group_id.apply_time }}</p>
+                        <h5>竞赛类型：
+                            {% if apply.com_id.type == '0' %}
+                                个人赛
+                            {% else %}
+                                团队赛
+                            {% endif %}
+                        </h5>
+                    </div>
                 {% empty %}
-                <h4>暂无报名</h4>
-            {% endfor %}
+                    <p class="empty-tip">这里空空如也，连黄鼠狼都不光顾~</p>
+                {% endfor %}
+            </div>
+            <div class="row pd1030">
+                <p class="sz14">温馨提示:</p>
+                <p class="sz10">5. 显示成功报名则完成报名，请留意开赛时间等消息</p>
+                <p class="sz10">1. 待老师确认： 请等待指导老师确认</p>
+                <p class="sz10">2. 团队赛 -- 待确认： 请点击，查看报名详情再确认</p>
+                <p class="sz10">3. 团队赛 -- 待成员确认： 请尽快联系队员上线确认</p>
+                <p class="sz10">4. 团队赛中，成员未按时确认则视为放弃报名</p>
+                <p class="sz10">6. 如有特殊情况需要撤销报名，可在我的竞赛中点击竞赛详情进行撤销</p>
+                <p class="sz10">7. 若报名已成功，则修改和撤销均需等待学科竞赛委员会进行审核</p>
+                <p class="sz10">8. 如有需要进入官网报名的比赛，请选手们记得到官网提交相关信息</p>
+            </div>
+        </div>
+
+
+        <div id="myCtx-show">
+
+            <div class="pdl20">
+                <h3 id="contest-name">天梯程序设计</h3>
+                <div id="contest-detail">
+
+
+                </div>
+            </div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog " role="document">
+                    <div class="modal-content deep-black">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">撤销报名</h4>
+                        </div>
+                        <div class="modal-body sz14">
+                            <h4>你确定撤销报名？</h4>
+                            <p>注意：</p>
+                            <p>撤销报名后如需参加可重新报名</p>
+                            <p>若指导老师已确认报名，则撤销需要等待审核</p>
+                            <p>无特殊情况不建议取消报名！</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn-custom-short" data-dismiss="modal">再想想</button>
+                            <a href="/student/stu_apply_detail?p1=" class="btn-custom-short">确定撤销</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row white-border-top">
+                <div class="text-center pd1030">
+                    <a id="ctx-back" class="link-a">点击返回</a>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="panel panel-default" style="border: none;">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">团队赛</h3>
-        </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            {% for apply,leader in apply_all %}
-                <div class="tuandui">
-                    <p>{{ apply.com_id.com_name }}</p>
-                    <span> 发起者：{{ leader.stu_id.stu_name }}</span>
-                    <br>
-                    <span> 报名时间：{{ apply.group_id.apply_time }}</span>
-                    <br>
-                    {% if apply.group_id.status == '0' %}
-                        <span> 报名状态：待老师 / 成员确认</span>
-                    {% else %}
-                        <span> 报名状态：已成功</span>
-                    {% endif %}
-                    <br>
-                    {% if apply.com_id.com_status == '0' %}
-                        <span> 比赛状态：报名中</span>
-                    {% elif apply.com_id.com_status == '1' %}
-                        <span> 比赛状态：报名结束</span>
-                    {% elif apply.com_id.com_status == '2' %}
-                        <span> 比赛状态：比赛中</span>
-                    {% endif %}
-                    <a href="/student/stu_apply_detail?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
-                       class="btn btn-transparent" data-toggle="tooltip" data-placement="left"
-                       {% if change == 1 %}title="该报名有申请待审核"{% endif %}>详情</a>
-                </div>
-                {% empty %}
-                <h4>暂无报名</h4>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="bgc2" style="height: 128px;"></div>
 {% endblock %}
 
+{% block js %}
+    <script src="{% static 'sources/js/chickennoodleScript.js' %}"></script>
+    <script>
+    $(function () {
+        $(".msg-piece").click(function () {
+            //获得当前点击的位置
+            var n = $(".msg-piece").index($(this));
+            //获得当前位置的id，每个详情里面有一个隐藏的p，渲染数据的时候渲染上去的
+            var id = $(".msg-piece:eq(" + n + ") .invisible:eq(0)").text();
+            var contestState = $(".msg-piece:eq("+n+") span:eq(0)").text();
+
+            //AJAX操作
+            $.ajax({
+                type: 'get',
+                //查询链接，传一个id
+                url: '/student/stu_apply_detail?p=' + id,
+                //返回一个字符串
+                dataType: 'json',
+                //获取成功就更新详情页面
+                success: function (data) {
+                    //把获取到的字符串转换成JSON
+                    //var myJson = JSON.parse(data);
+                    //然后访问JSON里的数据，一个个更新
+                   //上来先把之前的内容删了
+                    $("#contest-detail div").remove();
+                    //更新操作，连上以后括号里就换成JSON里的数据
+                    //不同比赛要展示的内容不同，按需添加
+                    //1.比赛标题都有
+                    $("#contest-name").text(data['com_name']);
+                    //2.其他的就一个个写入，统一样式<div>项目名：<h4>内容</h4></div>
+                    if (data['type'] == 0) {
+                        $("#contest-detail").append("<div>比赛类型：<h4>个人赛</h4></div>");
+                        $("#contest-detail").append("<div>参赛成员：<h4>" + data['member'][0] + "</h4></div>");
+                    }
+                    if (data['type'] == 1) {
+                        $("#contest-detail").append("<div>比赛类型：<h4>团队赛</h4></div>");
+                        $("#contest-detail").append("<div>队长：<h4>" + data['leader'] + "</h4></div>");
+                        var member_list = ""
+                        for (var i = 0; i < data['member_list'].length; i++){
+                            member_list = member_list + data['member_list'][i] + " "
+                        }
+                        $("#contest-detail").append("<div>成员：<h4>" + member_list + "</h4></div>");
+                    }
+                    var teach_list = ""
+                    for (var i = 0; i < data['teach_list'].length; i++){
+                        teach_list = teach_list + data['teach_list'][i] + " "
+                    }
+                    $("#contest-detail").append("<div>指导教师：<h4>" + teach_list + "</h4></div>");
+                    //3.报名状态，用标签来表示,判断不同状态
+                    if (contestState == "成功")//待确认 .label-danger
+                        $("#contest-detail").append("<div>竞赛状态：<h4><span class=\"label label-danger mgr10\">成功</span></h4></div>");
+                    else if (contestState == "待老师确认")//报名成功 .label-success
+                        $("#contest-detail").append("<div>竞赛状态：<h4><span class=\"label label-success mgr10\">待老师确认</span></h4></div>");
+                    else if (contestState == "待成员确认")//待老师 .label-info
+                        $("#contest-detail").append("<div>竞赛状态：<h4><span class=\"label label-info mgr10\">待成员确认</span></h4></div>");
+                    else if (contestState == "组队待确认")//待成员确认 .label-warning
+                        $("#contest-detail").append("<div>竞赛状态：<h4><span class=\"label label-warning mgr10\">组队待确认</span></h4></div>");
+                    else if (contestState == "修改审核中")//撤销审核中 .label-default
+                        $("#contest-detail").append("<div>竞赛状态：<h4><span class=\"label label-default mgr10\">修改审核中</span></h4></div>");
+                    else if (contestState == "撤销审核中")//撤销审核中 .label-default
+                        $("#contest-detail").append("<div>竞赛状态：<h4><span class=\"label label-default mgr10\">撤销审核中</span></h4></div>");
+                    //4.操作
+                    //个人赛，只用添加上修改信息和撤销报名
+                    //团队赛，队员只有在待确认状态下有确认参加、拒绝参加，其他状态都不能操作
+                    //团队赛，队长只有修改信息、撤销报名操作（默认接受）
+                    var state = data['status']
+                    if (state == 0)
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">修改报名信息</a></h4></div>");
+                    else if (state == 1)
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">申请撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">申请修改报名信息</a></h4></div>");
+                    else if (state == 3)
+                        $("#contest-detail").append("<div>操作：<h4><a href=\"alterSignUp.html\" class=\"link-a mgl10\">确认邀请</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">拒绝邀请</a></h4></div>");
+                    else if (state == 5)
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">修改报名信息</a></h4></div>");
+                    else if (state == 6)
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">申请撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">申请修改报名信息</a></h4></div>");
+                }, error: function () {
+                }
+            })
+
+        })
+    })
+</script>
+
+
+{% endblock %}

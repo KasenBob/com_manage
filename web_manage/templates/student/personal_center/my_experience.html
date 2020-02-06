@@ -6,42 +6,62 @@
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">参赛历史</h3>
+    <div class="col-md-10 white-border-left">
+        <div class="row white-border-bottom">
+            <p class="title-text">参赛历史</p>
         </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            <h4>暂无参赛经历</h4>
-            <!--
-            <table id="cansailishi" class="table" style="border-bottom: 1px solid white;">
-                <tr>
-                    <td>竞赛名称</td>
-                    <td>比赛时间</td>
-                    <td>指导老师</td>
-                    <td>获奖情况</td>
-                </tr>
-                <tr>
-                    <td>第10届蓝桥杯校内选拔赛</td>
-                    <td>2018-11-15</td>
-                    <td>XXX</td>
-                    <td>一等奖</td>
-                </tr>
-                <tr>
-                    <td>第9届蓝桥杯校内选拔赛</td>
-                    <td>2018-11-15</td>
-                    <td>XXX</td>
-                    <td>二等奖</td>
-                </tr>
-                <tr>
-                    <td>第8届蓝桥杯校内选拔赛</td>
-                    <td>2018-11-15</td>
-                    <td>XXX</td>
-                    <td>优秀奖</td>
-                </tr>
-            </table>
-            -->
+        <div id="myHst">
+            <div class="row pdl20">
+                <h3 class="gray-border-bottom pdr20 pdb30"><span
+                        class="glyphicon glyphicon-time mgr10 "></span>参赛历史
+                </h3>
+                {% for award in award_list %}
+                    <div class="msg-piece" data-toggle="modal" data-target="#myModal">
+                        <span class="label label-danger">{{ award.award }}</span>
+                        <h4 class="inline-block">{{ award.group_id.com_id.com_name }}</h4>
+                        <p class="inline-block pull-right mgt10">参与时间<br> {{ award.created_time }}</p>
+                        <h5>竞赛类型：
+                            {% if award.group_id.com_id.type == '0' %}
+                                个人赛
+                            {% else %}
+                                团队赛
+                            {% endif %}
+                        </h5>
+                    </div>
+                {% empty %}
+                    <p class="empty-tip">这里空空如也，连黄鼠狼都不光顾~</p>
+                {% endfor %}
+            </div>
+            <div class="row pd1030">
+                <p class="sz14">小贴士:</p>
+                <p class="sz10">1. 参与学科竞赛可以在综合测评相应位置加分</p>
+                <p class="sz10">2. 参与学科竞赛获奖可以抵扣一定学分，详见教务处</p>
+                <p class="sz10">3. 参与学科竞赛获奖可以申请学科竞赛奖，详情参考学院通知</p>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content deep-black">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">参赛详情</h4>
+                    </div>
+                    <div class="modal-body sz14 child-inline">
+                        <h4>天梯程序设计</h4>
+                        <div>比赛类型：<h5>省级团队</h5></div>
+                        <div>队长：<h5>喵喵喵</h5></div>
+                        <div>参赛成员：<h5>阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德</h5></div>
+                        <div>指导老师：<h5>饭过后</h5></div>
+                        <div>参与时间：<h5>2020-1-30</h5></div>
+                        <div>获奖情况：<h5><span class="label label-success mgr10">三等奖</span></h5></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn-custom-short" data-dismiss="modal">确定</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        </div>
     </div>
 {% endblock %}

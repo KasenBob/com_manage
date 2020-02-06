@@ -1,113 +1,123 @@
 {% extends 'student/personal_center/base.html' %}
 {% load staticfiles %}
 
-{% block per_activate2 %}
-    active
+{% block current2 %}
+    current
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-
-        <style>
-            .recent-msg a {
-                color: white;
-                text-decoration: none;
-            }
-            .recent-msg a:hover{
-                color: #6CB670;
-                background-color: #333439;
-            }
-
-        </style>
-
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">我的消息</h3>
+    <div class="col-md-10 white-border-left">
+        <div class="row white-border-bottom">
+            <p class="title-text">我的消息</p>
         </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            <div class="col-md-4">
-
+        <div id="myMsg">
+            <div class="row pdl20">
+                <h3 class="gray-border-bottom pdr20 pdb30"><span class="glyphicon glyphicon-envelope mgr10 "></span>消息列表
+                    <button class="btn-custom-short pull-right"><span
+                            class="glyphicon glyphicon-share-alt mgr10"></span>全标已读
+                    </button>
+                </h3>
                 {% for imform in page_of_informs.object_list %}
-                    <div class="recent-msg">
-                        <a href="/student/personal_center_stu_message?p={{ imform.pk }}&page={{ page_of_informs.number }}">
-                            <h4>{{ imform.title }}
-                            </h4>
-                            <h6>{{ imform.content|truncatechars:7 }}......</h6>
-                        </a>
+                    <div class="msg-piece">
+                        <h4 class="inline-block">
+                            {% if imform.status == '0' %}
+                                <span class="label label-success mgr10">未读</span>
+                            {% endif %}
+                            {{ imform.title }}
+                        </h4>
+                        <p class="inline-block pull-right mgt10">
+                            {% if imform.From_acc == 'None' or imform.From_acc == None %}
+                                系统自动消息
+                            {% else %}
+                                {{ imform.From_acc }}
+                            {% endif %}
+                            <br> {{ imform.create_time }}</p>
+                        <h5>{{ imform.content|truncatechars:7 }}......</h5>
                     </div>
-                    {% empty %}
-                    <h4>暂无消息</h4>
+                {% empty %}
+                    <p class="empty-tip">这里空空如也，连黄鼠狼都不光顾~</p>
                 {% endfor %}
-
-                <div class>
-                    <ul class="pagination">
-                        {# 上一页 #}
-                        <li>
-                            {% if page_of_informs.has_previous %}
-                                <a href="?page={{ page_of_informs.previous_page_number }}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            {% else %}
-                                <span aria-hidden="true">&laquo;</span>
-                            {% endif %}
-                        </li>
-                        {% for page_num in page_range %}
-                            {% if page_num ==  page_of_informs.number %}
-                                <li class="active"><span>{{ page_num }}</span></li>
-                            {% else %}
-                                {% if page_num == '...' %}
-                                    <li><span>{{ page_num }}</span></li>
+                <!--分页器开始-->
+                <div class="row pd1030">
+                    <nav id="apart" aria-label="Page navigation">
+                        <ul class="pagination">
+                            {# 上一页 #}
+                            <li>
+                                {% if page_of_informs.has_previous %}
+                                    <a href="?page={{ page_of_informs.previous_page_number }}" class="next-page"
+                                       aria-label="Next">
+                                        <span aria-hidden="true" style="">< 上一页</span>
+                                    </a>
                                 {% else %}
-                                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                    <a href="#" class="next-page" aria-label="Next">
+                                        <span aria-hidden="true" style="">< 上一页</span>
+                                    </a>
                                 {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                        {# 下一页 #}
-                        <li>
-                            {% if page_of_informs.has_next %}
-                                <a href="?page={{ page_of_informs.next_page_number }}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            {% else %}
-                                <span aria-hidden="true">&raquo;</span>
-                            {% endif %}
-                        </li>
-                    </ul>
-                    <p>
-                        共有{{ page_of_informs.paginator.count }}篇通知 ,
-                        当前第{{ page_of_informs.number }}页，共{{ page_of_informs.paginator.num_pages }}页
-                    </p>
+                            </li>
+                            {# 上一页结束 #}
+                            {# 正文 #}
+                            <li>
+                                {% for page_num in page_range %}
+                                    {% if page_num ==  page_of_informs.number %}
+                                        <a href="#" class="current">{{ page_num }}</a>
+                                    {% else %}
+                                        {% if page_num == '...' %}
+                                            <a href="#">{{ page_num }}</a>
+                                        {% else %}
+                                            <a href="?page={{ page_num }}">{{ page_num }}</a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </li>
+                            {# 正文结束 #}
+                            {# 下一页 #}
+                            <li>
+                                {% if page_of_informs.has_next %}
+                                    <a href="?page={{ page_of_informs.next_page_number }}" class="next-page"
+                                       aria-label="Next">
+                                        <span aria-hidden="true">下一页 ></span>
+                                    </a>
+                                {% else %}
+                                    <a href="#" class="next-page" aria-label="Next">
+                                        <span aria-hidden="true">下一页 ></span>
+                                    </a>
+                                {% endif %}
+                            </li>
+                            {# 下一页结束 #}
+                        </ul>
+                    </nav>
                 </div>
-
-            </div>
-            <div class="col-md-8">
-                {% if inform_flag == 1 %}
-                    <div class="panel panel-default" style="border: none;background-color: #333439;">
-                        <div class="panel-heading"
-                             style="background-color: #333439;color:white;border-bottom: 1px solid #666;">
-                            <h3 class="panel-title" style="text-align: center;">{{ inform.title }}</h3>
-                        </div>
-                        <div class="panel-body" style="background-color: #333439;color:white;">
-                            <p style="text-indent: 2em;">{{ inform.content }}</p>
-                            <p class="pull-right">
-                                {{ inform.create_time }}
-                            </p>
-                        </div>
-
-                    </div>
-                {% else %}
-                    <div class="panel panel-default" style="border: none;background-color: #333439;">
-                        <div class="panel-heading"
-                             style="background-color: #333439;color:white;border-bottom: 1px solid #666;">
-                            <h3 class="panel-title" style="text-align: center;">暂无通知</h3>
-                        </div>
-                    </div>
-                {% endif %}
+                <!--分页器结束-->
             </div>
         </div>
+
+        <div id="myMsg-show">
+            <!--详细信息
+            <div class="row">
+                <div class="pd50100">
+                    <h4>{{ inform.content }}</h4>
+                    <p class="pull-right sz18"><span>
+                        {% if inform.From_acc == 'None' or inform.From_acc == None %}
+                            系统自动消息
+                        {% else %}
+                            {{ inform.From_acc }}
+                        {% endif %}
+                    </span>
+                    <br>
+                    <span>{{ inform.create_time }}</span></p>
+                </div>
+            </div>
+            -->
+            <div class="row white-border-top">
+                <div class="text-center pd1030">
+                    <a id="msg-back" class="link-a">点击返回</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 {% endblock %}
 
-{% block need_style %}
-    <div style="height: 100px;"></div>
+{% block js %}
+    <script src="{% static 'sources/js/chickennoodleScript.js' %}"></script>
 {% endblock %}

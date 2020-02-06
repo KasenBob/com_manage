@@ -70,3 +70,11 @@ class stu_inform(models.Model):
 	title = models.CharField(max_length=225, null=True, blank=True)
 	content = models.TextField(max_length=500, null=True, blank=True)
 	create_time = models.DateTimeField(auto_now=True)
+	status = models.CharField(max_length=10, choices=(('0', '未读'), ('1', '已读')), default='0')
+
+# 比赛结果
+class com_stu_award(models.Model):
+	id = models.AutoField(primary_key=True)
+	group_id = models.ForeignKey('competition.com_group_basic_info', to_field='group_id', on_delete=models.CASCADE)
+	created_time = models.DateField(auto_now=True)
+	award = models.CharField(max_length=20, default='无奖项')
