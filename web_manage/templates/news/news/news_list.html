@@ -5,126 +5,73 @@
     学科竞赛|获奖新闻
 {% endblock %}
 
-{% block css %}
-    <link href="{% static 'sources/css/newsstyle.css' %}" rel="stylesheet">
-{% endblock %}
-
 {% block is_activate2 %}
     active
 {% endblock %}
 
 {% block content %}
-    <div id="newsboard">
+    <div class="head-board end-board">
         <div class="container">
-
-            <div id="hjxw">
-                <div class="iconblock">
+            <div style="text-align: center;letter-spacing: 4px;margin-bottom: 50px;">
+                <div style="border:1px solid #6cb670;border-radius:50%;color:#6cb670;display:inline-block;padding-top: 16px;padding-left: 11px;width: 100px;height: 100px;font-size: 64px">
                     <div class="glyphicon glyphicon-star"></div>
                 </div>
                 <h1>获奖新闻</h1>
             </div>
-
-            <div class="col-md-9">
-                <div class="panel panel-default yigexinwen">
+            <div class="row">
+                <!--新闻列表-->
+                <div id="news-list" class="col-md-9">
                     {% for news in page_of_news.object_list %}
-                        <div class="panel-body">
-                            <img src="/media/{{ news.new_photo }}" alt="不给看不给看">
-                            <h3>{{ news.title }}</h3>
-                            <a class="btn btn-transparent quanbubisai" href="/news/news_detail?p={{ news.pk }}">了解详情</a>
+                        <div class="panel panel-default news-member">
+                            <div class="panel-body">
+                                <img src="/media/{{ news.new_photo }}" class="img-responsive"/>
+                                <h3>{{ news.title }}</h3>
+                                <!--
+                                <p>第十届“蓝桥杯”全国软件和信息技术专业人才大赛全国总决赛颁奖典礼在北京大学举行。我校信息科学技术学院派出25名选手参加比赛，最终24人获奖！ 其中，JAVA
+                                    软件开发大学B组获得二等奖1项、三等奖1项，C/C++程序设计大学B组获得二等奖7项、三等奖4项、优秀奖11项。</p>
+                                    -->
+                                <a class="btn btn-custom" href="/news/news_detail?p={{ news.pk }}">了解详情</a>
+                            </div>
+                            <div class="panel-footer">
+                                <span><i class="glyphicon glyphicon-time"></i>{{ news.last_update_time }}</span>
+                                <span><i class="glyphicon glyphicon-pencil"></i>{{ news.author }}</span>
+                            </div>
                         </div>
-                        <div class="panel-footer" style="background-color: #3C4349;border: none;">
-                            <span><i class="glyphicon glyphicon-time"></i>{{ news.last_update_time }}</span>
-                            <span><i class="glyphicon glyphicon-pencil"></i>{{ news.author.depart_name }}</span>
-                        </div>
-                        {% empty %}
+                    {% empty %}
                         <div class="blog">
                             <h3>暂无新闻，敬请期待</h3>
                         </div>
                     {% endfor %}
                 </div>
-
-                <nav class="page-nav" aria-label="Page navigation">
-                    <ul class="pagination">
-                        {# 上一页 #}
-                        <li>
-                            {% if page_of_news.has_previous %}
-                                <a href="?page={{ page_of_news.previous_page_number }}" aria-label="Previous">
-                                    <span aria-hidden="true">&laquo;</span>
-                                </a>
-                            {% else %}
-                                <span aria-hidden="true">&laquo;</span>
-                            {% endif %}
-                        </li>
-                        {# 分页 #}
-                        {% for page_num in page_range %}
-                            {% if page_num ==  page_of_news.number %}
-                                <li class="active"><span>{{ page_num }}</span></li>
-                            {% else %}
-                                {% if page_num == '...' %}
-                                    <li><span>{{ page_num }}</span></li>
-                                {% else %}
-                                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-                        {# 下一页 #}
-                        <li>
-                            {% if page_of_news.has_next %}
-                                <a href="?page={{ page_of_news.next_page_number }}" aria-label="Next">
-                                    <span aria-hidden="true">&raquo;</span>
-                                </a>
-                            {% else %}
-                                <span aria-hidden="true">&raquo;</span>
-                            {% endif %}
-                        </li>
-                    </ul>
-                </nav>
-
-                <p>
-                    共有{{ page_of_news.paginator.count }}篇新闻,
-                    当前第{{ page_of_news.number }}页，共{{ page_of_news.paginator.num_pages }}页
-                    当前第{{ page_of_news.number }}页，共{{ page_of_news.paginator.num_pages }}页
-                </p>
-            </div>
-
-            <div class="col-md-3" id="xinwenpang">
-                <!--
-                <h3>新闻搜索</h3>
-                <span>
-						<input type="text" class="form-control" placeholder="查询"
-                               style="width:80%;display: inline-block;">
-						<button type="submit" class="btn btn-default search-submit" id="chaxinwen">
-						<i class="glyphicon glyphicon-search"></i>
-						</button>
-					</span>
-					-->
-                <div id="rukou">
-                    <h3>其他入口</h3>
-                    <div id="rukouanniu">
-                        <a href="/competition/series_list/" class="btn btn-transparent">
-                            <span class="glyphicon glyphicon-share-alt"></span>
-                            <span>竞赛一览</span>
-                        </a>
-                        <a href="/competition/com_list/" class="btn btn-transparent">
-                            <span class="glyphicon glyphicon-share-alt"></span>
-                            <span>比赛报名</span>
-                        </a>
-                        <a href="/news/news_list/" class="btn btn-transparent">
-                            <span class="glyphicon glyphicon-share-alt"></span>
-                            <span>获奖新闻</span>
-                        </a>
-                        <a href="/news/informs_list/" class="btn btn-transparent">
+                <!--其他入口-->
+                <div class="col-md-3">
+                    <h3>搜索</h3>
+                    <form action="" method="post">
+                        <input type="text" class="edit" name="" placeholder="查询">
+                        <button type="submit" class="btn-custom-short none-border"><span
+                                class="glyphicon glyphicon-search"></span></button>
+                    </form>
+                    <div id="other-entrance">
+                        <h3 class="mgt30">其他入口</h3>
+                        <a href="/news/informs_list/" class="btn btn-custom-short">
                             <span class="glyphicon glyphicon-share-alt"></span>
                             <span>通知公告</span>
                         </a>
-                        <a class="btn btn-transparent" href="/home/">
+                        <a href="/competition/series_list/" class="btn btn-custom-short">
                             <span class="glyphicon glyphicon-share-alt"></span>
-                            <span>返回首页</span>
+                            <span>竞赛一览</span>
+                        </a>
+                        <a href="/competition/com_list/" class="btn btn-custom-short">
+                            <span class="glyphicon glyphicon-share-alt"></span>
+                            <span>比赛报名</span>
                         </a>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'sources/js/chickennoodleScript.js' %}"></script>
 {% endblock %}

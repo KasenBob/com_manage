@@ -15,6 +15,7 @@ import teacher.models as teacher_model
 import student.models as student_model
 from .tasks import send_stu_inform
 from teacher.tasks import send_teach_inform
+from competition.views import verify_all_apply
 
 
 # Create your views here.
@@ -56,6 +57,25 @@ def alter_ness_info_stu(request):
     context['major_info'] = major_info
     context['grade_info'] = grade_info
     context['class_info'] = class_info
+
+    if request.method == "POST":
+        # 需要验证（信息是否错误；是否有修改）
+        temp_stu = models.temp_stu_basic_info()
+        temp_stu.stu_name = stu_info.stu_name
+        temp_stu.stu_number = stu_info
+        temp_stu.ID_number = request.POST.get("ID_number")
+        temp_stu.sex = request.POST.get("sex")
+        temp_stu.department = get_object_or_404(all_model.depart_info, depart_name=request.POST.get('depart'))
+        temp_stu.major = get_object_or_404(all_model.major_info, major_name=request.POST.get('major'))
+        temp_stu.grade = get_object_or_404(all_model.grade_info, grade_name=request.POST.get('grade'))
+        temp_stu.stu_class = get_object_or_404(all_model.class_info, class_name=request.POST.get('stu_class'))
+        temp_stu.save()
+        # 发送通知
+        stu_id = stu_info.stu_number
+        title = '个人信息修改申请'
+        content = '您已成功提交个人信息修改申请，请等待学科委员审核。'
+        send_stu_inform(stu_id, title, content)
+        return  redirect('/student/personal_center_stu_info/')
 
     return render(request, 'student/personal_center/my_info_edit.html', context)
 
@@ -196,7 +216,7 @@ def alter_avatar(request):
     return render(request, 'student/personal_center/alter_avatar.html', context)
 
 
-# 学生个人中心-报名
+# 学生个人中心-竞赛
 def personal_center_stu_apply(request):
     context = {}
     stu_info = get_object_or_404(models.stu_basic_info, stu_number=request.session['user_number'])
@@ -233,7 +253,8 @@ def personal_center_stu_apply(request):
                         if apply.status == '0':
                             flag = 3
                 if flag == -1:
-                    temp_apply_lists = competition_model.temp_com_group_basic_info.objects.filter(group_id=apply.group_id).order_by("created_time")
+                    temp_apply_lists = competition_model.temp_com_group_basic_info.objects.filter(
+                        group_id=apply.group_id).order_by("created_time")
                     # 待审核
                     for temp_apply in temp_apply_lists:
                         if temp_apply.apply_type == '1':
@@ -249,7 +270,7 @@ def personal_center_stu_apply(request):
     return render(request, 'student/personal_center/my_apply.html', context)
 
 
-# 学生个人中心-信息
+# 学生个人中心-消息
 def personal_center_stu_message(request):
     context = {}
 
@@ -282,6 +303,15 @@ def personal_center_stu_message(request):
     return render(request, 'student/personal_center/my_message.html', context)
 
 
+# 学生个人中心-个人信息-查看详情
+def message_detail(request):
+    context = {}
+    inform_id = request.GET.get("p")
+    inform = get_object_or_404(models.stu_inform, pk=inform_id)
+    context['inform'] = inform.content
+    return JsonResponse(context)
+
+
 # 学生个人中心-个人信息
 def personal_center_stu_info(request):
     context = {}
@@ -290,7 +320,7 @@ def personal_center_stu_info(request):
     return render(request, 'student/personal_center/my_info.html', context)
 
 
-# 学生个人中心-我的经历
+# 学生个人中心-参赛历史
 def personal_center_stu_experience(request):
     context = {}
     stu_info = get_object_or_404(models.stu_basic_info, stu_number=request.session['user_number'])
@@ -370,8 +400,34 @@ def stu_apply_detail(request):
                 elif len(temp_apply) > 0:
                     status = 7
     context['status'] = status
-    #context = json.loads(serializers.serialize('json', context))
+    # context = json.loads(serializers.serialize('json', context))
     return JsonResponse(context)
+
+
+# 学生个人中心-确认报名邀请
+def verify_apply(request):
+    context = {}
+    group_id = request.GET.get('p2')
+    group = get_object_or_404(competition_model.com_group_basic_info, group_id=group_id)
+    # 获取学生比赛信息
+    stu = get_object_or_404(student_model.stu_basic_info, stu_number=request.session['user_number'])
+    com_stu_list = student_model.com_stu_info.objects.filter(group_id=group, stu_id=stu)
+    com_stu = com_stu_list[0]
+    com_stu.status = '1'
+    com_stu.save()
+    # 检查小组确认情况
+    verify_all_apply(group_id)
+    # 团队赛，若非队长则确认后向队长发送确认信息
+    if com_stu.is_leader != 1:
+        com_stu_list = student_model.com_stu_info.objects.filter(group_id=group)
+        for com_stu in com_stu_list:
+            if com_stu.is_leader == 1:
+                stu_id = com_stu.stu_id.stu_number
+                title = '报名进度通知'
+                content = stu.stu_name + '已确认关于' + group.com_id.com_name + '的组队邀请。'
+                send_stu_inform(stu_id, title, content)
+                break
+    return redirect('/student/personal_center_stu_apply')
 
 
 # 学生个人中心-修改报名信息

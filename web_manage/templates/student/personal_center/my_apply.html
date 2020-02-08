@@ -87,8 +87,8 @@
                         <div class="modal-body sz14">
                             <h4>你确定撤销报名？</h4>
                             <p>注意：</p>
-                            <p>撤销报名后如需参加可重新报名</p>
-                            <p>若指导老师已确认报名，则撤销需要等待审核</p>
+                            <p>撤销报名后可重新报名</p>
+                            <p>若报名已成功，则需等待并通过审核才可完成撤销</p>
                             <p>无特殊情况不建议取消报名！</p>
                         </div>
                         <div class="modal-footer">
@@ -175,22 +175,27 @@
                     //团队赛，队长只有修改信息、撤销报名操作（默认接受）
                     var state = data['status']
                     if (state == 0)
-                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">修改报名信息</a></h4></div>");
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\" data-myid1=\"" + data['com_id'] + "\"data-myid2=\"" + data['group_id'] + "\"data-myid3=\"1\">撤销报名</a><a href=\"/student/stu_apply_edit?p1=" + data['com_id'] + "&p2=" + data['group_id'] + "\" class=\"link-a mgl10\">修改报名信息</a></h4></div>");
                     else if (state == 1)
-                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">申请撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">申请修改报名信息</a></h4></div>");
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\" data-myid1=\"" + data['com_id'] + "\"data-myid2=\"" + data['group_id'] + "\"data-myid3=\"2\">申请撤销报名</a><a href=\"/student/stu_apply_edit?p1=" + data['com_id'] + "&p2=" + data['group_id'] + "\" class=\"link-a mgl10\">申请修改报名信息</a></h4></div>");
                     else if (state == 3)
-                        $("#contest-detail").append("<div>操作：<h4><a href=\"alterSignUp.html\" class=\"link-a mgl10\">确认邀请</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">拒绝邀请</a></h4></div>");
+                        $("#contest-detail").append("<div>操作：<h4><a href=\"/student/verify_apply?p2=" + data['group_id'] + "\" class=\"link-a mgl10\">确认邀请</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">拒绝邀请</a></h4></div>");
                     else if (state == 5)
-                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">修改报名信息</a></h4></div>");
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\" data-myid1=\"" + data['com_id'] + "\"data-myid2=\"" + data['group_id'] + "\"data-myid3=\"1\">撤销报名</a><a href=\"/student/stu_apply_edit?p1=" + data['com_id'] + "&p2=" + data['group_id'] + "\" class=\"link-a mgl10\">修改报名信息</a></h4></div>");
                     else if (state == 6)
-                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\">申请撤销报名</a><a href=\"alterSignUp.html\" class=\"link-a mgl10\">申请修改报名信息</a></h4></div>");
+                        $("#contest-detail").append("<div>操作：<h4><a class=\"link-a\" data-toggle=\"modal\" data-target=\"#myModal\" data-myid1=\"" + data['com_id'] + "\"data-myid2=\"" + data['group_id'] + "\"data-myid3=\"2\">申请撤销报名</a><a href=\"/student/stu_apply_edit?p1=" + data['com_id'] + "&p2=" + data['group_id'] + "\" class=\"link-a mgl10\">申请修改报名信息</a></h4></div>");
                 }, error: function () {
                 }
             })
 
         })
     })
+
+    $("#myModal").on("show.bs.modal", function (e) {
+        var s1 = $(e.relatedTarget).data("myid1")
+        var s2 = $(e.relatedTarget).data("myid2")
+        var s3 = $(e.relatedTarget).data("myid3")
+        $("#myModal a:eq(0)").attr("href","/student/delete_apply?p1=" + s1 + "&p2=" + s2 + "&p3=" + s3);
+    })
 </script>
-
-
 {% endblock %}

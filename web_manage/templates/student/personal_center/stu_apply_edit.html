@@ -1,18 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block title %}
-    学科竞赛|个人中心
-{% endblock %}
+{% block body %}
 
-{% block css %}
-    <link href="{% static 'sources/css/baomingStyle.css' %}" rel="stylesheet">
-{% endblock %}
 
-{% block content %}
-    <form class="navbar-form dist"
-          action="/student/stu_apply_edit/?p1={{ group_info.com_id.com_id }}&p2={{ group_info.group_id }}"
-          method="POST">
+    <!--
+    <form class="navbar-form dist" action="/student/stu_apply_edit/?p1={{ group_info.com_id.com_id }}&p2={{ group_info.group_id }}" method="POST">
         {% csrf_token %}
         <div id="baoming_content2">
             <div class="container">
@@ -107,7 +100,6 @@
         </div>
     </form>
 
-    <!-- 选人 -->
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -197,7 +189,6 @@
             </div>
         </div>
     </div>
-    <!-- 选老师 -->
 
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
@@ -290,4 +281,5 @@
             </div>
         </div>
     </div>
+    -->
 {% endblock %}

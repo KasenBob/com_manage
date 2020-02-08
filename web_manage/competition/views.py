@@ -612,7 +612,7 @@ def com_apply_second(request):
 
 		return render(request, 'competition/apply/com_apply_succeed.html', context)
 
-
+"""
 # 确认报名信息
 def verify_apply(request):
 	context = {}
@@ -636,7 +636,7 @@ def verify_apply(request):
 			send_stu_inform(stu_id, title, content)
 
 	return redirect('/student/personal_center_stu_apply')
-
+"""
 
 # 选学生
 def select_mate_first(request):

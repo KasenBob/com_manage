@@ -19,6 +19,7 @@
                 </h3>
                 {% for imform in page_of_informs.object_list %}
                     <div class="msg-piece">
+                        <p class="invisible">{{ imform.pk }}</p>
                         <h4 class="inline-block">
                             {% if imform.status == '0' %}
                                 <span class="label label-success mgr10">未读</span>
@@ -92,22 +93,16 @@
         </div>
 
         <div id="myMsg-show">
-            <!--详细信息
+
             <div class="row">
                 <div class="pd50100">
                     <h4>{{ inform.content }}</h4>
-                    <p class="pull-right sz18"><span>
-                        {% if inform.From_acc == 'None' or inform.From_acc == None %}
-                            系统自动消息
-                        {% else %}
-                            {{ inform.From_acc }}
-                        {% endif %}
-                    </span>
-                    <br>
-                    <span>{{ inform.create_time }}</span></p>
+                    <p class="pull-right sz18">
+
+                    </p>
                 </div>
             </div>
-            -->
+
             <div class="row white-border-top">
                 <div class="text-center pd1030">
                     <a id="msg-back" class="link-a">点击返回</a>
@@ -120,4 +115,29 @@
 
 {% block js %}
     <script src="{% static 'sources/js/chickennoodleScript.js' %}"></script>
+    <script>
+        $(function () {
+            $(".msg-piece").click(function () {
+                //拿数据
+                var n = $(".msg-piece").index($(this));
+                var id = $(".msg-piece:eq(" + n + ") .invisible:eq(0)").text();
+                //日期和发送者
+                var myhtml = $(".msg-piece:eq(" + n + ") .pull-right:eq(0)").html();
+                $("#myMsg-show p").html(myhtml);
+                $.ajax({
+                    type: 'get',
+                    //查询链接，传一个id
+                    url: '/student/message_detail?p=' + id,
+                    //返回一个字符串
+                    dataType: 'json',
+                    //获取成功就更新详情页面
+                    success: function (data) {
+                        //拿到text直接放上去了
+                        $("#myMsg-show h4").text(data['inform']);
+
+                    }
+                })
+            })
+        });
+    </script>
 {% endblock %}
