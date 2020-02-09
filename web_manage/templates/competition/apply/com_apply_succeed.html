@@ -6,25 +6,19 @@
     学科竞赛|竞赛报名
 {% endblock %}
 
-{% block css %}
-    <link href="{% static 'sources/css/baomingStyle.css' %}" rel="stylesheet">
-{% endblock %}
-
 {% block is_activate5 %}
     active
 {% endblock %}
 
 {% block content %}
-    <div id="baomingchenggong_content">
+    <div id="op-success" class="head-board end-board">
         <div class="container">
-            <div id="quanquan">
-                <div class="glyphicon glyphicon-ok" style="color: white; margin-top: 30%;"></div>
-            </div>
+            <div class="glyphicon glyphicon-ok-circle bright-green sz256"></div>
             <h1>操作成功</h1>
             <h4>赛出成绩，赛出水平，赛出风格！</h4>
-            <h5 id="tiaozhuan"><a href="/student/personal_center_stu_apply">点此</a>查看报名信息</h5>
-            <div id="zuihouanniu">
-                <a class="btn btn-transparent quanbubisai" href="/home/">返回首页</a>
+            <h5><a href="/student/personal_center_stu_apply" class="link-a under-line">点此</a>查看报名信息</h5>
+            <div class="text-center mgt30">
+                <a class="btn-custom " href="/home/">返回首页</a>
             </div>
         </div>
     </div>

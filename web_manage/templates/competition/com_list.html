@@ -3,11 +3,7 @@
 {% load cache %}
 
 {% block title %}
-    学科竞赛|竞赛一览
-{% endblock %}
-
-{% block css %}
-    <link href="{% static 'sources/css/conteststyle.css' %}" rel="stylesheet">
+    学科竞赛|比赛报名
 {% endblock %}
 
 {% block is_activate5 %}
@@ -15,6 +11,40 @@
 {% endblock %}
 
 {% block content %}
+    <div id="contest-show" class="head-board">
+    <div class="container">
+        <div class="row">
+            <h1>竞赛报名</h1>
+            <div class="border-down"></div>
+            <!--放竞赛-->
+            <div id="contest-signUp">
+                {% for flag,com in com_list %}
+                <div class="msg-piece">
+                    <a href="/competition/com_detail?com_id={{ com.com_id }}" class="msg-a">
+                        <h4 class="inline-block">
+                            <span class="label label-success mgr10">报名中</span>
+                            {{ com.com_name }}
+                        </h4>
+                        {% if flag == 0 %}
+                        <h3 class="red">未报名</h3>
+                        {% else %}
+                        <h3 class="green">已报名</h3>
+                        {% endif %}
+                        <h5>比赛类型：{{ com.get_type_display }}</h5>
+                        <h5>报名开始：{{ com.begin_regit }}</h5>
+                        <h5>报名截止：{{ com.end_regit }}</h5>
+                    </a>
+                </div>
+                {% empty %}
+
+                {% endfor %}
+                <!--已报名就用green，未报名就用red-->
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!--
     <div id="bmlb">
         <div class="container">
 
@@ -22,7 +52,6 @@
                 <h1 class="biaoti">个人赛</h1>
                 <div class="border"></div>
             </div>
-
             {% for com_list in com_list_one %}
                 <div class="row">
                     {% for com in com_list %}
@@ -43,12 +72,10 @@
                 {% empty %}
                 <h4>暂无进行中比赛</h4>
             {% endfor %}
-
             <div class="biaoti">
                 <h1 class="biaoti">团队赛</h1>
                 <div class="border"></div>
             </div>
-
             {% for com_list in com_list_all %}
                 <div class="row">
                     {% for com in com_list %}
@@ -69,8 +96,7 @@
                 {% empty %}
                 <h4>暂无进行中比赛</h4>
             {% endfor %}
-
         </div>
-
     </div>
+    -->
 {% endblock %}
