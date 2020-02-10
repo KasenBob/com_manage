@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="head-board">
+        <div class="container">
+            <div class="row">
+                {% if change_flag == 1 %}
+                    <div class="alert alert-success" role="alert">
+                        你已经提交过申请，<a href="#" class="alert-link" data-toggle="modal" data-target="#myModal">点此查看</a>，等待审核通过即可修改信息，无需重复提交。多次提交按最新一次提交信息为准
+                    </div>
+                {% endif %}
+            </div>
+            <div class="row white-border mgb30">
+                <p class="title-text">修改信息申请</p>
+                <form id="apply" action="/teacher/alter_ness_info_teach/" method="post">
+                    {% csrf_token %}
+                    <div class="sz16 col-md-3">工号:<h4>{{ teach_info.tea_number }}</h4></div>
+                    <div class="sz16 col-md-3">姓名:<h4>{{ teach_info.tea_name }}</h4></div>
+                    <div class="sz16 col-md-3">
+                        职称:
+                        <select class="edit select" name="profess">
+                            {% for profess in profess_info %}
+                                {% if teach_info.profess.profess_name == profess.profess_name %}
+                                    <option value="{{ profess.profess_name }}" selected>{{ profess.profess_name }}</option>
+                                {% else %}
+                                    <option value="{{ profess.profess_name }}">{{ profess.profess_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="sz16 col-md-3">
+                        院系:
+                        <select class="edit select" name="depart">
+                            {% for depart in depart_info %}
+                                {% if teach_info.department.depart_name == depart.depart_name %}
+                                    <option value="{{ depart.depart_name }}" selected>{{ depart.depart_name }}</option>
+                                {% else %}
+                                    <option value="{{ depart.depart_name }}">{{ depart.depart_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    {% if change_flag != 1 %}
+                        <div class="col-md-12">
+                            <button type="submit" class="btn-custom block mg50-ub">提交</button>
+                        </div>
+                    {% else %}
+                        <div class="col-md-12">
+                            <button type="submit" class="btn-custom block mg50-ub" disabled>提交</button>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog " role="document">
+                    <div class="modal-content deep-black">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">修改详情</h4>
+                        </div>
+                        <div class="modal-body sz14 child-inline">
+                            <!--学号-->
+                            {% if change_teacher.teach_number.tea_number != teach_info.tea_number %}
+                                <div>工号：<h5 class="line-through">{{ teach_info.tea_number }}</h5><h5
+                                        class="bright-green">{{ change_teacher.teach_number.tea_number }}</h5></div>
+                            {% else %}
+                                <div>工号：<h5>{{ teach_info.tea_number }}</h5></div>
+                            {% endif %}
+                            <!--姓名-->
+                            {% if change_teacher.tea_name != teach_info.tea_name %}
+                                <div>姓名：<h5 class="line-through">{{ teach_info.tea_name }}</h5><h5
+                                        class="bright-green">{{ change_teacher.tea_name }}</h5></div>
+                            {% else %}
+                                <div>姓名：<h5>{{ teach_info.tea_name }}</h5></div>
+                            {% endif %}
+                            <!--院系-->
+                            {% if change_teacher.department.depart_name != teach_info.department.depart_name %}
+                                <div>院系：<h5 class="line-through">{{ teach_info.department.depart_name }}</h5><h5
+                                        class="bright-green">{{ change_teacher.department.depart_name }}</h5>
+                                </div>
+                            {% else %}
+                                <div>院系：<h5>{{ teach_info.department.depart_name }}</h5></div>
+                            {% endif %}
+                            <!--职称-->
+                            {% if change_teacher.profess.profess_name != teach_info.profess.profess_name %}
+                                <div>职称：<h5 class="line-through">{{ teach_info.profess.profess_name }}</h5><h5
+                                        class="bright-green">{{ change_teacher.profess.profess_name }}</h5>
+                                </div>
+                            {% else %}
+                                <div>职称：<h5>{{ teach_info.profess.profess_name }}</h5></div>
+                            {% endif %}
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn-custom-short" data-dismiss="modal">确定</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'sources/js/chickennoodleScript.js' %}"></script>
+{% endblock %}

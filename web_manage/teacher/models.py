@@ -16,7 +16,6 @@ class teach_basic_info(models.Model):
 	department = models.ForeignKey('all.depart_info', to_field='depart_name', on_delete=models.SET_NULL, null=True,
 	                               blank=True)
 	part = models.CharField(max_length=25, null=True, blank=True)
-	ID_number = models.CharField(max_length=25, null=True, blank=True)
 	email = models.EmailField(max_length=255, null=True, blank=True)
 	phone_number = models.CharField(max_length=25, null=True, blank=True)
 	photo = models.ImageField(upload_to='photo', null=True, blank=True)

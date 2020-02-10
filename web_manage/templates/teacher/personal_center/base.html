@@ -2,79 +2,40 @@
 {% load staticfiles %}
 
 {% block title %}
-    学科竞赛|指导教师
-{% endblock %}
-
-{% block css %}
-    <link href="{% static 'sources/css/gerenzhongxinStyle.css' %}" rel="stylesheet">
-    <link href="{% static 'sources/css/baomingStyle.css' %}" rel="stylesheet">
-    <script src="{% static 'sources/js/gerenzhongxinJS.js' %}"></script>
+    学科竞赛|个人中心
 {% endblock %}
 
 {% block content %}
-    <div id="gerenzhongxin_content">
+    <div class="head-board">
         <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="row">
-                        <div class="col-md-4">
-                            {% if stu_info.photo %}
-                                <img src="/media/{{ teach_info.photo }}/" alt="..."
-                                     style="width: 63px;height: 63px;border: 2px solid white;border-radius: 20px;">
-                            {% else %}
-                                <img src="/media/web_photo/noface.jpg" alt="暂无头像"
-                                     style="width: 63px;height: 63px;border: 2px solid white;border-radius: 20px;">
-                            {% endif %}
-                        </div>
-                        <p class="xingming">{{ teach_info.tea_name }}</p>
-                        <p class="banji">{{ teach_info.department.depart_name }}</p>
-                        <p style="margin-top: 0;font-size: 10px;">
-                            <a href="/teacher/edit_pwd/">修改密码</a>
-                            |
-                            <a href="/logout/">登出</a>
-                        </p>
-                    </div>
-                    <div class="list-group" id="gongnenglan">
-                        <a href="/teacher/personal_center_teach_info"
-                           class="list-group-item {% block is_active1 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-home"></span>个人信息
-                        </a>
-                        <a href="/teacher/personal_center_teach_message"
-                           class="list-group-item {% block is_active7 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-home"></span>我的消息
-                        </a>
-                        <a href="/teacher/personal_center_teach_apply"
-                           class="list-group-item {% block is_active2 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-comment"></span>指导申请
-                            <!--
-                            {% if apply_number > 0 %}
-                                <span class="badge pull-right">{{ apply_number }}</span>
-                            {% endif %}
-                            -->
-                        </a>
-                        <a href="/teacher/personal_center_teach_team"
-                           class="list-group-item {% block is_active3 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-user"></span>参赛小组
-                        </a>
-                        <a href="/teacher/personal_center_teach_experience"
-                           class="list-group-item {% block is_active4 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-time"></span>参赛经历
-                        </a>
-                        <a href="/teacher/personal_center_teach_award"
-                           class="list-group-item {% block is_active5 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-education"></span>获奖结果
-                        </a>
-                        <a href="/teacher/personal_center_teach_record"
-                           class="list-group-item {% block is_active6 %}{% endblock %}">
-                            <span class="glyphicon glyphicon-list"></span>指导记录
-                        </a>
+            <div class="row white-border mgb30">
+                <div class="col-md-2 ">
+                    <div class="list-home">
+                        <a class="{% block current1 %}{% endblock %}"
+                           href="/teacher/personal_center_teach_info"><span
+                                class="glyphicon glyphicon-pencil mgr10"></span>个人信息</a>
+                        <a class="{% block current2 %}{% endblock %}"
+                           href="/teacher/personal_center_teach_message"><span
+                                class="glyphicon glyphicon-envelope mgr10"></span>我的消息<span
+                                class="badge mgl10">4</span></a>
+                        <a class="{% block current3 %}{% endblock %}"
+                           href="/teacher/personal_center_teach_apply"><span
+                                class="glyphicon glyphicon-list-alt mgr10"></span>指导申请<span
+                                class="badge mgl10">1</span></a>
+                        <a class="{% block current4 %}{% endblock %}"
+                           href=href="/teacher/personal_center_teach_experience"><span
+                                class="glyphicon glyphicon-time mgr10"></span>历届指导</a>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    {% block body %}
+                <!--
+                    <a href="/student/personal_center_stu_award/"
+                       class="list-group-item {% block per_activate4 %}{% endblock %}">
+                        <span class="glyphicon glyphicon-bookmark"></span>获奖情况
+                    </a>
+                    -->
+                {% block body %}
 
-                    {% endblock %}
-                </div>
+                {% endblock %}
             </div>
         </div>
     </div>

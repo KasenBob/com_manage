@@ -6,7 +6,7 @@ from .models import teach_basic_info, com_teach_info, temp_com_teach_info, teach
 @admin.register(teach_basic_info)
 class teach_basic_info_Admin(admin.ModelAdmin):
 	list_display = (
-		'tea_number', 'tea_name', 'profess', 'department', 'ID_number', 'email', 'phone_number', 'photo',)
+		'tea_number', 'tea_name', 'profess', 'department', 'email', 'phone_number', 'photo',)
 
 
 @admin.register(com_teach_info)

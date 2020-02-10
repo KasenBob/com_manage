@@ -10,64 +10,60 @@
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">个人信息</h3>
-        </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            <div id="xinxi">
-                <div id="jibenxinxi">
-                    <h3>基本信息</h3>
-                    <form class="navbar-form dist">
-                        <div class="form-group">
-                            姓名：
-                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ teach_info.tea_name }}">
-                        </div>
-                        <div class="form-group">
-                            工号：
-                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ teach_info.tea_number }}">
-                        </div>
-                        <div class="form-group">
-                            职称：
-                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ teach_info.profess.profess_name }}">
-                        </div>
-                        <div class="form-group">
-                            院系：
-                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ teach_info.department.depart_name }}">
-                        </div>
-                    </form>
-                </div>
-                <div id="">
-                    <h3>拓展信息</h3>
-                    <form class="navbar-form dist">
-                        <div class="form-group">
-                            身份证号：
-                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ teach_info.ID_number }}">
-                        </div>
-                        <div class="form-group">
-                            邮箱：
-                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ teach_info.email }}">
-                        </div>
-                        <div class="form-group">
-                             手机号码：
-                            <input type="text" class="form-control" autocomplete="on" name="seach" readonly="readonly"
-                                   value="{{ teach_info.phone_number }}">
-                        </div>
-                    </form>
-                </div>
+    <div class="col-md-10 pdt30 white-border-left">
+        <div class="row pdb10 white-border-bottom">
+            <div class="col-md-2 ">
+                {% if stu_info.photo %}
+                    <img class="picture-home" src="/media/{{ teach_info.photo }}" alt="暂无头像">
+                {% else %}
+                    <img class="picture-home" src="/media/web_photo/noface.jpg" alt="暂无头像">
+                {% endif %}
             </div>
-            <div id="zuihouanniu">
-                <a class="btn btn-transparent quanbubisai" href="/teacher/alter_avatar">修改头像</a>
-                <a class="btn btn-transparent quanbubisai" href="/teacher/alter_info_teach">修改消息</a>
+            <div class="col-md-10 ">
+                <h3 class="inline-block">{{ teach_info.tea_name }}</h3>
+                <h4>{{ teach_info.tea_number }}</h4>
+                <h4>
+                    {{ teach_info.department.depart_name }}
+                </h4>
+            </div>
+        </div>
+        <div class="row pdl60">
+            <h3 class="mgl-40"><span class="glyphicon glyphicon-pencil mgr10"></span>个人信息
+                <a class="sz14 warning-a " data-toggle="modal" data-target="#myModal">
+                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>信息有误？
+                </a>
+            </h3>
+            <div class="sz16">职称:<p class="mgt10 lh20 inline-block mgl10">{{ teach_info.profess.profess_name }}</p></div>
+            <div class="sz16">身份证号:<p class="mgt10 lh20 inline-block mgl10">{{ teach_info.ID_number }}</p></div>
+            <form action="/teacher/alter_notness_info_teach/" method="POST">
+                {% csrf_token %}
+                <div class="sz16 letter-spacing inline-block">邮箱*:<input name="email" class="edit mg10" type="text" value="{{ teach_info.email }}"></div>
+                <div class="sz16 letter-spacing inline-block">电话*:<input name="phone_number" class="edit mg10" type="text" value="{{ teach_info.phone_number }}"></div>
+                <!--<div class="sz16 letter-spacing mgt10">个人签名: <textarea class="edit textarea half-width" rows="3"></textarea></div>-->
+                <button class="btn-custom block mg50-ub" type="submit">保存</button>
+            </form>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog " role="document">
+            <div class="modal-content deep-black">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">修改信息</h4>
+                </div>
+                <div class="modal-body sz14">
+                    <h4>基本信息不正确？</h4>
+                    <p>注意：</p>
+                    <p>1. 姓名、学号、院系专业等基本信息原则上不可修改，若有误需要提交修改申请</p>
+                    <p>2. 转专业或其他特殊情况的同学可能存在基本信息错误的问题，请及时修改</p>
+                    <p>3. 提交修改之后需要等待审核通过才修改成功</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="" class="btn-custom-short" data-dismiss="modal">取消</a>
+                    <a href="/teacher/alter_ness_info_teach/" class="btn-custom-short">申请修改</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="bgc2" style="height: 128px;"></div>
 {% endblock %}
