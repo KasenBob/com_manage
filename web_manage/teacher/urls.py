@@ -13,6 +13,7 @@ urlpatterns = [
     path('personal_center_teach_info/', views.personal_center_teach_info, name='personal_center_teach_info'),
     path('personal_center_teach_apply/', views.personal_center_teach_apply, name='personal_center_teach_apply'),
     path('personal_center_teach_team/', views.personal_center_teach_team, name='personal_center_teach_team'),
+    path('apply_list/', views.apply_list, name='apply_list'),
     path('personal_center_teach_experience/', views.personal_center_teach_experience,
          name='personal_center_teach_experience'),
     path('personal_center_teach_message/', views.personal_center_teach_message, name='personal_center_teach_message'),

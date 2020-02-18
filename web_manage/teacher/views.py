@@ -193,32 +193,40 @@ def personal_center_teach_info(request):
     return render(request, 'teacher/personal_center/my_info.html', context)
 
 
-# 教师个人中心-指导申请
+# 教师个人中心-申请
 def personal_center_teach_apply(request):
     context = {}
     teach_id = request.session['user_number']
     # 获取教师信息
     teach_info = get_object_or_404(models.teach_basic_info, tea_number=teach_id)
-    context['teach_info'] = teach_info
     com_apply = models.com_teach_info.objects.filter(status='0', teach_id=teach_info)
-    apply_number = len(com_apply)
-    context['apply_number'] = apply_number
-
-    # 未确认的指导申请
-    temp_com_apply = models.com_teach_info.objects.filter(teach_id=teach_info)
-    com_apply = []
-    for temp_com in temp_com_apply:
-        if temp_com.group_id.status == '0':
-            com_apply.append(temp_com)
-    # 指导申请发起人
-    leader_apply = []
-    for apply in com_apply:
-        group_id = apply.group_id
-        leader = student_model.com_stu_info.objects.filter(group_id=group_id, is_leader=1)
-        for i in leader:
-            leader_apply.append(i)
-
-    confirm_apply = zip(leader_apply, com_apply)
+    # 分页处理请求
+    paginator = Paginator(com_apply, 5)  # 每5篇进行分页
+    page_num = request.GET.get('page', 1)  # 获取url的页面参数（GET请求）
+    page_of_applys = paginator.get_page(page_num)
+    current_page_num = page_of_applys.number  # 获取当前页码
+    # 获取当前前后各两页的页码范围
+    page_range = list(range(max(current_page_num, 1), current_page_num)) + \
+                 list(range(current_page_num, min(current_page_num, paginator.num_pages) + 1))
+    # 加上省略页面标记
+    if page_range[0] - 1 >= 2:
+        page_range.insert(0, '...')
+    if paginator.num_pages - page_range[-1] >= 2:
+        page_range.append('...')
+    # 加上首页和尾页
+    if page_range[0] != 1:
+        page_range.insert(0, 1)
+    if page_range[-1] != paginator.num_pages:
+        page_range.append(paginator.num_pages)
+    context['page_of_applys'] = page_of_applys
+    context['page_range'] = page_range
+    # 获取当前页面报名信息
+    member_list = []
+    for apply in page_of_applys:
+        stu_list = student_model.com_stu_info.objects.filter(group_id=apply.group_id)
+        member_list.append(stu_list)
+    # 打包
+    confirm_apply = zip(member_list, page_of_applys)
     context['confirm_apply'] = confirm_apply
 
     return render(request, 'teacher/personal_center/my_apply.html', context)
@@ -230,37 +238,66 @@ def personal_center_teach_team(request):
     teach_id = request.session['user_number']
     # 获取教师信息
     teach_info = get_object_or_404(models.teach_basic_info, tea_number=teach_id)
-    context['teach_info'] = teach_info
-    com_apply = models.com_teach_info.objects.filter(status='0', teach_id=teach_info)
-    apply_number = len(com_apply)
-    context['apply_number'] = apply_number
-
-    # 正在参赛小组
-    apply_list = models.com_teach_info.objects.filter(teach_id=teach_info.tea_number).order_by('-group_id')
-
-    apply_one_list = []
-    apply_all_list = []
-    stu_list_one = []
-    stu_list_all = []
-    for apply in apply_list:
-        if apply.com_id.type == '0' and apply.group_id.status == '1':
-            apply_one_list.append(apply)
-            group = apply.group_id
-            stu = get_object_or_404(student_model.com_stu_info, group_id=group)
-            stu_list_one.append(stu)
-        elif apply.com_id.type == '1' and apply.group_id.status == '1':
-            apply_all_list.append(apply)
-            group = apply.group_id
-            stu = student_model.com_stu_info.objects.filter(group_id=group)
-            stu_list_all.append(stu)
-
-    apply_one = zip(apply_one_list, stu_list_one)
-    apply_all = zip(apply_all_list, stu_list_all)
-
-    context['apply_one'] = apply_one
-    context['apply_all'] = apply_all
-
+    com_lists = competition_model.com_basic_info.objects.all()
+    com_list = []
+    number_list = []
+    for com in com_lists:
+        if com.com_status != '3':
+            com_list.append(com)
+            apply_list = models.com_teach_info.objects.filter(teach_id=teach_info, com_id=com)
+            m = 0
+            for apply in apply_list:
+                m += len(student_model.com_stu_info.objects.filter(group_id=apply.group_id))
+            number_list.append(m)
+    com_list = zip(com_list, number_list)
+    context['com_list'] = com_list
     return render(request, 'teacher/personal_center/my_team.html', context)
+
+
+# 教师个人中心-参赛小组-名单
+def apply_list(request):
+    context = {}
+    # 获取比赛信息
+    com_id = request.GET.get('p')
+    com_info = competition_model.com_basic_info.objects.get(com_id=com_id)
+    need_info = competition_model.com_need_info.objects.get(com_id=com_id)
+    context['com_info'] = com_info
+    context['need_info'] = need_info
+    # 获取教师信息
+    teach_id = request.session['user_number']
+    teach_info = get_object_or_404(models.teach_basic_info, tea_number=teach_id)
+    # 获取该比赛该教师指导所有小组
+    group_list = models.com_teach_info.objects.filter(com_id=com_info, teach_id=teach_info)
+
+    # 分页处理请求
+    paginator = Paginator(group_list, 10)  # 每5篇进行分页
+    page_num = request.GET.get('page', 1)  # 获取url的页面参数（GET请求）
+    page_of_applys = paginator.get_page(page_num)
+    current_page_num = page_of_applys.number  # 获取当前页码
+    # 获取当前前后各两页的页码范围
+    page_range = list(range(max(current_page_num, 1), current_page_num)) + \
+                 list(range(current_page_num, min(current_page_num, paginator.num_pages) + 1))
+    # 加上省略页面标记
+    if page_range[0] - 1 >= 2:
+        page_range.insert(0, '...')
+    if paginator.num_pages - page_range[-1] >= 2:
+        page_range.append('...')
+    # 加上首页和尾页
+    if page_range[0] != 1:
+        page_range.insert(0, 1)
+    if page_range[-1] != paginator.num_pages:
+        page_range.append(paginator.num_pages)
+    context['page_of_applys'] = page_of_applys
+    context['page_range'] = page_range
+    # 取出该页参赛学生
+    stu_list = []
+    for group in page_of_applys:
+        members = student_model.com_stu_info.objects.filter(group_id=group.group_id)
+        for member in members:
+            stu_list.append(member)
+    # 打包
+    context['stu_list'] = stu_list
+    return render(request, "teacher/personal_center/apply_list.html", context)
 
 
 # 教师个人中心-参赛经历

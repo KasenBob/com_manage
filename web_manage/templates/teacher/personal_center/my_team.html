@@ -1,88 +1,60 @@
 {% extends 'teacher/personal_center/base.html' %}
 {% load staticfiles %}
 
-{% block title %}
-    学科竞赛|个人中心
-{% endblock %}
-
-{% block is_active3 %}
-    active
+{% block current4 %}
+    current
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">个人赛</h3>
+    <div class="col-md-10 white-border-left">
+        <div class="row white-border-bottom">
+            <p class="title-text">参赛名单</p>
         </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
+        <!--指导申请-->
+        <div id="myLst">
+            <div class="row pdl20">
+                <h3 class="gray-border-bottom pdr20 pdb30"><span
+                        class="glyphicon glyphicon-file mgr10"></span>参赛名单
+                </h3>
 
-            {% for apply,stu in apply_one %}
-                <div class="geren">
-                    <p>{{ apply.com_id.com_name }}</p>
-                    <span>参赛学生：{{ stu.stu_id.stu_name }}</span><br>
-                    <span>报名时间：{{ apply.group_id.apply_time }}</span><br>
-                    <span>报名状态：报名成功</span>
-                    <br>
-                    {% if apply.com_id.com_status == '0' %}
-                        <span> 比赛状态：报名中</span>
-                    {% elif apply.com_id.com_status == '1' %}
-                        <span> 比赛状态：报名结束</span>
-                    {% elif apply.com_id.com_status == '2' %}
-                        <span> 比赛状态：比赛中</span>
-                    {% endif %}
-                    <a href="/teacher/teach_apply_deatil?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
-                       class="btn btn-transparent">详情</a></span>
-                </div>
+                {% for com, number in com_list %}
+                    <!--比赛列表，有成员就用.green-square，暂无成员就用.red-square-->
+                    <div class="msg-piece">
+                        <a class="msg-a" href="/teacher/apply_list?p={{ com.com_id }}">
+                            <h4 class="inline-block">
+                                {% if com.type == '1' %}
+                                    <span class="label label-danger mgr10">团队赛</span>
+                                {% else %}
+                                    <span class="label label-success mgr10">个人赛</span>
+                                {% endif %}
+                                {{ com.com_name }}
+                            </h4>
+                            {% if number != 0 %}
+                                <h3 class="green-square pull-right">{{ number }}人次</h3>
+                            {% else %}
+                                <h3 class="red-square pull-right">暂无成员</h3>
+                            {% endif %}
+                            <h5>报名开始时间：{{ com.begin_regit }}</h5>
+                            <h5>报名截止时间：{{ com.end_regit }}</h5>
+                        </a>
+                    </div>
                 {% empty %}
-                <h4>无正在比赛的小组</h4>
-            {% endfor %}
+                    <p class="empty-tip" style="display: none">这里空空如也，连黄鼠狼都不光顾~</p>
+                {% endfor %}
 
+                <p class="mgt30">小贴士：</p>
+                <p>1. 此页面展示的是所有正在进行报名的比赛</p>
+                <p>2. 右侧方块展示选择您作为指导老师的学生人数</p>
+                <p>3. 只有选择您作为指导老师的学生名单才会被展示</p>
+                <p>4. 在指导申请同意后，才将学生加入参赛名单</p>
+                <p>5. 比赛结束后本次比赛指导学生名单将放入历届指导</p>
+                <p>6. 比赛后学生的获奖情况也记录在历届指导当中</p>
+            </div>
         </div>
+        <!--指导申请结束-->
     </div>
-    <div class="panel panel-default" id="confirmed" style="border: none;">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">团队赛</h3>
-        </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            {% for apply,stu_list in apply_all %}
-                <div class="tuandui">
-                    <p>{{ apply.com_id.com_name }}</p>
+{% endblock %}
 
-                    {% for stu in stu_list %}
-
-                        {% if stu.is_leader == 1 %}
-                            <span>发起者：{{ stu.stu_id.stu_name }}</span>
-                        {% endif %}
-
-                    {% endfor %}
-                    <br>
-                    <span>队员：
-
-                        {% for stu in stu_list %}
-                            {{ stu.stu_id.stu_name }}
-                        {% endfor %}
-
-                    </span>
-                    <br>
-                    <span>报名时间：{{ apply.group_id.apply_time }}</span><br>
-                    <span>报名状态：报名成功</span>
-                    <br>
-                    {% if apply.com_id.com_status == '0' %}
-                        <span> 比赛状态：报名中</span>
-                    {% elif apply.com_id.com_status == '1' %}
-                        <span> 比赛状态：报名结束</span>
-                    {% elif apply.com_id.com_status == '2' %}
-                        <span> 比赛状态：比赛中</span>
-                    {% endif %}
-                    <a href="/teacher/teach_apply_deatil?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}&p3=1"
-                       class="btn btn-transparent">详情</a></span>
-                </div>
-                {% empty %}
-                <h4>无正在比赛的小组</h4>
-            {% endfor %}
-        </div>
-        <div class="bgc2" style="height: 128px;"></div>
-    </div>
+{% block js %}
+    <script src="{% static 'sources/js/chickennoodleScript.js' %}"></script>
 {% endblock %}

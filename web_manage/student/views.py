@@ -618,6 +618,7 @@ def stu_apply_edit(request):
                 stu.stu_id = i
                 if number == 1:
                     stu.is_leader = 1
+                    stu.status = '1'
                 number += 1
                 stu.save()
             for i in teach_list:
