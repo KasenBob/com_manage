@@ -14,8 +14,8 @@
     <div class="head-board">
         <div class="container">
             <div class="row white-border mgb30">
-                <p class="title-text pdr20">{{ com_info.com_name }}报名报名<a href="/competition/com_list/"
-                                                                          class="link-a pull-right">✖</a></p>
+                <p class="title-text pdr20">报名信息确认<a href="/competition/com_list/"
+                                                     class="link-a pull-right">✖</a></p>
                 <form id="apply" action="/competition/com_apply_second/?id={{ info_list.com_id }}" method="POST">
                     {% csrf_token %}
                     {% for stu in stu_list %}
@@ -80,42 +80,45 @@
 
                     {% if info_list.tea_num %}
                         {% for teacher,i in teach_list %}
-                            {% for teach in teacher %}
-                                <div class="col-md-12"><h2>指导教师（{{ forloop.counter }}）</h2></div>
-                                <div class="sz18 col-md-4 mgt10">工号：<input name="tea_name{{ i }}" class="edit" readonly value="{{ teach.tea_number }}"></div>
-                                <div class="sz18 col-md-4 mgt10">姓名：<input class="edit" readonly value="{{ teach.tea_name }}"></div>
-                                <div class="sz18 col-md-4 mgt10">院系：<input class="edit" readonly value="{{ teach.department.depart_name }}"></div>
-                                <div class="sz18 col-md-4 mgt10">邮箱:<input class="edit" readonly value="{{ teach.email }}"></div>
-                            {% endfor %}
+                            <div class="col-md-12"><h2>指导教师（{{ forloop.counter }}）</h2></div>
+                            <div class="sz18 col-md-4 mgt10">工号：<input name="tea_name{{ i }}" class="edit" readonly
+                                                                       value="{{ teacher.tea_number }}"></div>
+                            <div class="sz18 col-md-4 mgt10">姓名：<input class="edit" readonly
+                                                                       value="{{ teacher.tea_name }}"></div>
+                            <div class="sz18 col-md-4 mgt10">院系：<input class="edit" readonly
+                                                                       value="{{ teacher.department.depart_name }}"></div>
+                            <div class="sz18 col-md-4 mgt10">邮箱:<input class="edit" readonly value="{{ teacher.email }}">
+                            </div>
                         {% endfor %}
                     {% endif %}
 
 
                     <div class="col-md-12"><h2>小组信息</h2></div>
 
-                        {% if info_list.group_name %}
-                            <div class="sz18 col-md-4 mgt10">
-                                小组名称：<input type="text" class="edit" name="group_name" readonly value="{{ group_name }}">
-                            </div>
-                        {% endif %}
+                    {% if info_list.group_name %}
+                        <div class="sz18 col-md-4 mgt10">
+                            小组名称：<input type="text" class="edit" name="group_name" readonly value="{{ group_name }}">
+                        </div>
+                    {% endif %}
 
-                        {% if info_list.com_group %}
-                            <div class="sz18 col-md-4 mgt10">
-                                组别：<input type="text" class="edit" name="group" readonly value="{{ group.sort_name }}">
-                            </div>
-                        {% endif %}
+                    {% if info_list.com_group %}
+                        <div class="sz18 col-md-4 mgt10">
+                            组别：<input type="text" class="edit" name="group" readonly value="{{ group.sort_name }}">
+                        </div>
+                    {% endif %}
 
-                        {% if info_list.product_name %}
-                            <div class="sz18 col-md-4 mgt10">
-                                作品名称：<input type="text" class="edit" name="product_name" readonly value="{{ product_name }}">
-                            </div>
-                        {% endif %}
+                    {% if info_list.product_name %}
+                        <div class="sz18 col-md-4 mgt10">
+                            作品名称：<input type="text" class="edit" name="product_name" readonly
+                                        value="{{ product_name }}">
+                        </div>
+                    {% endif %}
 
-                        {% if info_list.else_info %}
-                            <div class="sz18 col-md-4 mgt10">
-                                备注：<input type="text" class="edit" name="else_info" readonly value="{{ else_info }}">
-                            </div>
-                        {% endif %}
+                    {% if info_list.else_info %}
+                        <div class="sz18 col-md-4 mgt10">
+                            备注：<input type="text" class="edit" name="else_info" readonly value="{{ else_info }}">
+                        </div>
+                    {% endif %}
 
                     <div class="col-md-12">
                         <button type="submit" class="btn-custom block mg50-ub">确认提交</button>

@@ -14,13 +14,13 @@
     <div class="head-board">
         <div class="container">
             <!--警示栏 -->
-            <!--
+            {% if message %}
                 <div class="row">
                     <div class="alert alert-success" role="alert">
-                        你都报过名了，<a href="stu_myCtx.html" class="alert-link">点此查看</a>，别报了
+                        {{ message }}
                     </div>
                 </div>
-                -->
+            {% endif %}
             <div class="row white-border mgb30">
                 <p class="title-text pdr20">{{ com_info.com_name }}报名<a href="/competition/com_list/"
                                                                         class="link-a pull-right">✖</a></p>
@@ -36,18 +36,22 @@
                             </div>
                         {% else %}
                             <div class="sz18 col-md-4 mgt10">
-                                学生({{ forloop.counter }})：<input type="text" class="edit xuanren" data-toggle="modal"
-                                                                 data-target="#myModal" name="stu_num{{ num }}"
-                                                                 readonly>
+                                学生({{ forloop.counter }})：
+                                <!--这里放成员姓名给看，提交时无name-->
+                                <input type="text" class="edit" readonly data-toggle="modal" data-target="#myModal2">
+                                <!--这里放成员ID不给看，提交时收这个ID，name写在这-->
+                                <input type="text" class="invisible" name="stu_num{{ num }}"/>
                             </div>
                         {% endif %}
                     {% endfor %}
                     <div class="col-md-12"><h2>指导教师</h2></div>
                     {% for tea in tea_num %}
-                        <div class="sz18 col-md-8">
-                            指导教师({{ forloop.counter }}):<input type="text" class="edit xuanren2 half-width"
-                                                               name="tea_name{{ tea }}" data-toggle="modal"
-                                                               data-target="#myModal2" readonly>
+                        <div class="sz18 col-md-4 mgt10">
+                            指导教师({{ forloop.counter }}):
+                            <!--这里放教师姓名给看，提交时无name-->
+                            <input type="text" class="edit" readonly data-toggle="modal" data-target="#myModal"/>
+                            <!--这里放教师ID不给看，提交时收这个ID，name写在这-->
+                            <input type="text" class="invisible" name="tea_name{{ tea }}"/>
                         </div>
                     {% endfor %}
                     <div class="col-md-12"><h2>小组信息</h2></div>
@@ -64,17 +68,17 @@
                         </div>
                     {% endif %}
                     {% if info_list.group_name == 1 %}
-                        <div class="sz18 col-md-4 mgt10">
+                        <div class="sz18 col-md-4">
                             小组名称:<input type="text" class="edit" name="group_name">
                         </div>
                     {% endif %}
                     {% if info_list.product_name == 1 %}
-                        <div class="sz18 col-md-4 mgt10">
+                        <div class="sz18 col-md-4">
                             作品名称:<input type="text" class="edit" name="product_name">
                         </div>
                     {% endif %}
                     {% if info_list.else_info == 1 %}
-                        <div class="sz18 col-md-4 mgt10">
+                        <div class="sz18 col-md-4">
                             备注:<input type="text" class="edit" name="else_info">
                         </div>
                     {% endif %}
@@ -82,21 +86,57 @@
                         <button type="submit" class="btn-custom block mg50-ub">下一步</button>
                     </div>
                 </form>
-
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <!--这里是学生成员的选人模态框-->
+                <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content deep-black">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                         aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">查找成员</h4>
+                                <h4 class="modal-title" id="myModalLabel">参赛成员</h4>
                             </div>
                             <div class="modal-body sz16 child-inline">
-                                <div>请输入姓名:</div>
-                                <p id="back_fill" style="display: none;"></p>
-                                <input id="mate_name" type="text" class="edit">
-                                <button id="mate_button" class="btn-custom-short mgl10" onclick="search_name()">查找
-                                </button>
+                                <p class="invisible"></p>
+                                <div>输入成员姓名：<input type="text" class="edit" name="stu-name">
+                                    <button type="submit" class="btn-custom-short mgl10">查找</button>
+                                </div>
+                                <div class="sz14 mgt10">
+                                    <p>小贴士：</p>
+                                    <p>1. 请不要使用360垃圾浏览器</p>
+                                    <p>2. 请不要乱打老师名字</p>
+                                    <p>3. 成员名字记不完整你就别报了</p>
+                                    <p>4. 团队赛报名最好跟成员多bb</p>
+                                </div>
+                                <div id="find-result2">
+                                    查找结果：
+                                    <table class="table">
+
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-custom-short" data-dismiss="modal">返回</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn-custom-short" data-dismiss="modal">取消</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--这里是教师的选人模态框-->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content deep-black">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">指导教师</h4>
+                        </div>
+                        <div class="modal-body sz16 child-inline">
+                            <p class="invisible"></p>
+                            <div>请输入老师姓名:<input name="tea-name" type="text" class="edit">
+                                <button type="submit" class="btn-custom-short mgl10">查找</button>
                             </div>
                             <div class="sz14 mgt10">
                                 <p>小贴士：</p>
@@ -107,155 +147,163 @@
                             </div>
                             <div id="find-result">
                                 查找结果：
-                                <table id="mate_list" class="table">
+                                <table class="table">
 
                                 </table>
                             </div>
                         </div>
-                        <script>
-                            function cc(temp) {
-                                var hang = $(temp.parentNode).parent().prevAll().length;
-
-                                var str = "#mate_list tr:eq(" + hang + ") td:nth-child(1)";
-                                var back_name = $("#back_fill").text();
-                                var a = document.getElementsByName(back_name);
-                                a[0].value = $(str).text();
-                                $("#mate_list").empty();
-                                $("#mate_name").val("");
-                            }
-
-                            function search_name() {
-                                var name = $("#mate_name").val();
-                                var url = "/competition/select_mate_first?name=" + name;
-                                $.ajax({
-                                    type: 'get',
-                                    url: url,
-                                    data: {},
-                                    dataType: 'json',
-                                    success: function (data) {
-                                        if (data["mate_list"].length > 0) {
-                                            var mate_list = data["mate_list"];
-                                            var myHtml = "<tr><td>学号</td><td>姓名</td><td>班级</td><td>选择</td></tr>";
-                                            for (var i = 0; i < mate_list.length; i++) {
-                                                var tmp = mate_list[i];
-                                                var pk = tmp.pk;
-                                                var name = tmp.fields.stu_name;
-                                                var num = tmp.fields.stu_num;
-                                                var sClass = tmp.fields.grade + tmp.fields.major + tmp.fields.stu_class;
-                                                myHtml += "<tr><td>" + pk + "</td><td>" + name + "</td><td>" + sClass + "</td><td><button data-toggle=\"modal\"\n" +
-                                                    "                                            data-target=\"#myModal\" onclick=\"cc(this)\" class=\"btn-custom-short\">是你了</button></td></tr>";
-                                            }
-                                            $("#mate_list").html(myHtml);
-                                        } else {
-                                            $("#mate_list").empty();
-                                            alert("无查找结果");
-                                        }
-                                    },
-                                    error: function (error) {
-                                        alert('error');
-                                    }
-                                })
-                            }
-                        </script>
-                        <script>
-                            $(document).ready(function () {
-                                $(".xuanren").click(function () {
-                                    $("#back_fill").text(this.name);
-                                })
-                            })
-                        </script>
-                        <script>
-                        </script>
                         <div class="modal-footer">
-                            <a class="btn-custom-short" data-dismiss="modal">取消</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content deep-black">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">指导教师</h4>
-                        </div>
-                        <div class="modal-body sz16 child-inline">
-                            <div>请输入老师姓名:
-                                <p id="back_fill2" style="display: none;"></p>
-                                <input id="mate_name2" type="text" class="edit">
-                                <button id="mate_button" class="btn-custom-short mgl10" value="查找"
-                                        onclick="search_name2()">查找
-                                </button>
-                            </div>
-                            <div id="find-result">
-                                查找结果：
-                                <table id="mate_list2" class="table">
-
-                                </table>
-                            </div>
-                        </div>
-                        <script>
-                            function ccc(temp) {
-                                var hang = $(temp.parentNode).parent().prevAll().length;
-                                var lie = 2;
-                                var str = "#mate_list2 tr:eq(" + hang + ") td:nth-child(1)";
-                                var back_name = $("#back_fill2").text();
-                                var a = document.getElementsByName(back_name);
-                                a[0].value = $(str).text();
-                                $("#mate_list2").empty();
-                                $("#mate_name2").val("");
-                            }
-
-                            function search_name2() {
-                                var name = $("#mate_name2").val();
-                                var url = "/competition/select_mate_second?name=" + name;
-                                $.ajax({
-                                    type: 'get',
-                                    url: url,
-                                    data: {},
-                                    dataType: 'json',
-                                    success: function (data) {
-                                        if (data["mate_list2"].length > 0) {
-                                            var mate_list2 = data["mate_list2"];
-                                            var myHtml = "<tr><td>工号</td><td>姓名</td><td>学院</td><td>邮箱</td><td>操作</td></tr>";
-                                            for (var i = 0; i < mate_list2.length; i++) {
-                                                var tmp = mate_list2[i];
-                                                var pk = tmp.pk;
-                                                var name = tmp.fields.tea_name;
-                                                var dpm = tmp.fields.department;
-                                                var sClass = tmp.fields.email;
-                                                myHtml += "<tr><td>" + pk + "</td><td>" + name + "</td><td>" + dpm + "</td><td>" + sClass + "</td><td><button data-toggle=\"modal\"\n" +
-                                                    "                                            data-target=\"#myModal2\" onclick=\"ccc(this)\" class=\"btn-custom-short\">是你了</button></td></tr>";
-                                            }
-                                            $("#mate_list2").html(myHtml);
-                                        } else {
-                                            $("#mate_list2").empty();
-                                            alert("无查找结果");
-                                        }
-                                    },
-                                    error: function (error) {
-                                        alert('error');
-                                    }
-                                })
-                            }
-                        </script>
-                        <script>
-                            $(document).ready(function () {
-                                $(".xuanren2").click(function () {
-                                    $("#back_fill2").text(this.name);
-                                })
-                            })
-                        </script>
-                        <script>
-                        </script>
-                        <div class="modal-footer">
-                            <a class="btn-custom-short" data-dismiss="modal">取消</a>
+                            <button type="button" class="btn-custom-short" data-dismiss="modal">返回</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'sources/js/chickennoodleScript.js' %}"></script>
+    <script>
+        //这里是教师的选人模态框的操作
+        $(function () {
+            //页面启动时，模态框查找内容默认为隐藏
+            $("#find-result").hide();
+            //点击模态框的查找按钮
+            $("#myModal button:eq(1)").click(function () {
+                //获取输入的教师姓名
+                var str = $("input[name='tea-name']").val();
+                if (str == "") {
+                    alert("输入不能为空");
+                    return;
+                }
+                //van一下
+                $.ajax({
+                    type: 'get',
+                    //查询链接，传一个id
+                    url: "/competition/select_mate_second?name=" + str,
+                    //返回一个字符串
+                    dataType: 'json',
+                    success: function (data) {
+                        var myjson = data['mate_list2']
+                        if (myjson.length > 5) {
+                            alert("请重新输入，确认姓名没有错误!")
+                        } else {
+                            //myhtml保存要在table上加入的查找内容
+                            //工号那一列为隐藏内容，工号也可以改成数据库的ID，能收数据就行
+                            var myhtml = "<tr><td class='hide'>工号</td><td>姓名</td><td>学院</td><td>邮箱</td><td>选择</td></tr>";
+                            for (var i = 0; i < myjson.length; i++) {
+                                var tmp = myjson[i];
+                                var pk = tmp.pk;
+                                var name = tmp.fields.tea_name;
+                                var dpm = tmp.fields.department;
+                                var sClass = tmp.fields.email;
+                                myhtml += "<tr><td class='hide'>" + pk + "</td><td>" + name + "</td><td>" + dpm + "</td><td>" + sClass + "</td><td><button class=\"btn-custom-short\" data-dismiss=\"modal\" onclick='ff(this)' >是你了</button></td></tr>"
+                            }
+                            //myhtml加入肯打鸡豪华套餐
+                            $("#find-result .table").html(myhtml);
+                            //查找结果变为可见
+                            $("#find-result").show();
+                        }
+                    }, error: function () {
+                        alert("无查找结果，可能是因为您使用了360浏览器或者输入有误。")
+                    }
+                })
+            });
+            //模态框关闭时，清除模态框已查找的内容
+            $("#myModal").on("hide.bs.modal", function () {
+                $("input[name='tea-name']").val("");
+                $("#find-result").hide();
+            });
+            //模态框启动时，在模态框的隐藏文本写入关系输入框的位置参数
+            $("#myModal").on("show.bs.modal", function (e) {
+                var s = ($("input").index($(e.relatedTarget)));
+                $("#myModal .invisible").text(s);
+            });
+
+        });
+
+        //点下选人按钮的时候数据回填
+        function ff(e) {
+            $("input:eq(" + $("#myModal .invisible").text() + ")").val($(e).parent().siblings().eq(1).text());
+            $("input:eq(" + $("#myModal .invisible").text() + ")").next().val($(e).parent().siblings().eq(0).text());
+        }
+    </script>
+    <script>
+        //这里是学生成员的选人模态框的操作
+        $(function () {
+            //页面启动时，模态框查找内容默认为隐藏
+            $("#find-result2").hide();
+            //点击模态框的查找按钮
+            $("#myModal2 button:eq(1)").click(function () {
+                //获取输入的成员姓名
+                var str = $("input[name='stu-name']").val();
+                if (str == "") {
+                    alert("结果不能为空");
+                    return;
+                }
+                //van一下
+                $.ajax({
+                    type: 'get',
+                    //查询链接，传一个id
+                    url: "/competition/select_mate_first?name=" + str,
+                    //返回一个字符串
+                    dataType: 'json',
+                    success: function (data) {
+                        var myjson = data['mate_list']
+                        if (myjson.length > 5) {
+                            alert("请重新输入，确认姓名没有错误!")
+                        } else {
+                            //myhtml保存要在table上加入的查找内容
+                            //工号那一列为隐藏内容，工号也可以改成数据库的ID，能收数据就行
+                            var myhtml = "<tr><td>学号</td><td>姓名</td><td>班级</td><td>选择</td></tr>";
+                            for (var i = 0; i < myjson.length; i++) {
+                                var tmp = myjson[i];
+                                var pk = tmp.pk;
+                                var name = tmp.fields.stu_name;
+                                var num = tmp.fields.stu_num;
+                                var sClass = tmp.fields.grade + tmp.fields.major + tmp.fields.stu_class;
+                                myhtml += "<tr><td class='hide'>" + pk + "</td><td>" + name + "</td><td>" + dpm + "</td><td>" + sClass + "</td><td><button class=\"btn-custom-short\" data-dismiss=\"modal\" onclick='ff(this)' >是你了</button></td></tr>"
+                            }
+                            //myhtml加入肯打鸡豪华套餐
+                            $("#find-result .table").html(myhtml);
+                            //查找结果变为可见
+                            $("#find-result").show();
+                        }
+                    }, error: function () {
+                        alert("无查找结果，可能是因为您使用了360浏览器或者输入有误。")
+                    }
+                })
+            });
+            //模态框关闭时，清除模态框已查找的内容
+            $("#myModal2").on("hide.bs.modal", function () {
+                $("input[name='stu-name']").val("");
+                $("#find-result2").hide();
+            });
+            //模态框启动时，在模态框的隐藏文本写入关系输入框的位置参数
+            $("#myModal2").on("show.bs.modal", function (e) {
+                var s = ($("input").index($(e.relatedTarget)));
+                $("#myModal2 .invisible").text(s);
+            });
+        });
+
+        //点下选人按钮的时候数据回填
+        function fff(e) {
+            $("input:eq(" + $("#myModal2 .invisible").text() + ")").val($(e).parent().siblings().eq(1).text());
+            $("input:eq(" + $("#myModal2 .invisible").text() + ")").next().val($(e).parent().siblings().eq(0).text());
+        }
+    </script>
+    <script>
+        //点击提交时检查是否所有信息都填写了
+        function check() {
+            var tmp = $("#apply input:text").length;
+            for (let i = 0; i < tmp; i++) {
+                if ($("input:text").eq(i).val() == "") {
+                    alert("信息不完整");
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
 {% endblock %}

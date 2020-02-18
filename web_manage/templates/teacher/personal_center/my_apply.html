@@ -1,15 +1,100 @@
 {% extends 'teacher/personal_center/base.html' %}
 {% load staticfiles %}
 
-{% block title %}
-    学科竞赛|个人中心
-{% endblock %}
-
-{% block is_active2 %}
-    active
+{% block current3 %}
+    current
 {% endblock %}
 
 {% block body %}
+    <div class="col-md-10 white-border-left">
+        <div class="row white-border-bottom">
+            <p class="title-text">指导申请</p>
+        </div>
+        <div id="myMsg">
+            <div class="row pdl20">
+                <h3 class="gray-border-bottom pdr20 pdb30"><span class="glyphicon glyphicon-ok-circle mgr10 "></span>申请列表
+                    <button class="btn-custom-short pull-right"><span class="glyphicon glyphicon-ok mgr10"></span>一键同意
+                    </button>
+                </h3>
+                <p class="empty-tip">这里空空如也，连黄鼠狼都不光顾~</p>
+                <div class="msg-piece">
+                    <h4 class="inline-block"><span class="label label-success mgr10">未读</span>我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block"><span class="label label-success mgr10">未读</span>我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block">我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block">我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block">我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block">我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block">我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block"><span class="label label-success mgr10">未读</span>我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block">我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+                <div class="msg-piece">
+                    <h4 class="inline-block">我是大大的消标题</h4>
+                    <p class="inline-block pull-right mgt10">学科竞赛委员会<br> 2020-01-23</p>
+                    <h5>我是小小小小的部分消息展示,模版最好字多一丢丢......</h5>
+                </div>
+
+                <div class="row pd1030">
+                    <p class="sz10 text-center">第1页 共2页</p>
+                    <button class="btn-custom-short pull-right ">下一页</button>
+                    <button class="btn-custom-short pull-right mgr10">上一页</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="myMsg-show">
+
+            <div class="row">
+                <div style="padding: 50px 100px 200px 100px">
+                    <h3>亲爱的某某某同学：</h3>
+                    <h4>你已成功报名相关比赛！</h4>
+                    <p class="pull-right sz18"><span>学科竞赛委员会</span><br><span>2020-01-24</span></p>
+                </div>
+            </div>
+            <div class="row white-border-top">
+                <div class="text-center pd1030">
+                    <a id="msg-back" class="link-a">点击返回</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!--
     <div class="panel panel-default" style="border: none;" id="caozuomianban">
         <div class="panel-heading"
              style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
@@ -31,12 +116,14 @@
                     </span>
                     <span class="fun-btn pull-right">
                         {% if apply.status == '0' %}
-                            <a href="/teacher/confirm_apply?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                            <a href="/teacher/confirm_apply?p1={{ apply.com_id.com_id }}&p2=
+        {{ apply.group_id.group_id }}"
                                class="glyphicon glyphicon-ok btn btn-transparent"></a>
                             <a href="/teacher/reject_apply?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
                                class="glyphicon glyphicon-remove btn btn-transparent"></a>
                         {% endif %}
-                        <a href="/teacher/teach_apply_deatil?p1={{ apply.com_id.com_id }}&p2={{ apply.group_id.group_id }}"
+                        <a href="/teacher/teach_apply_deatil?p1={{ apply.com_id.com_id }}&p2=
+        {{ apply.group_id.group_id }}"
                            class="btn btn-transparent">详情</a>
                     </span>
                 </div>
@@ -47,4 +134,5 @@
 
     </div>
     <div class="bgc2" style="height: 128px;"></div>
+    -->
 {% endblock %}

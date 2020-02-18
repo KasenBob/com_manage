@@ -108,7 +108,8 @@ def com_list(request):
     nid = request.session['user_number']
     flag = []
     for com in com_list:
-        com_stu_list = student_model.com_stu_info.objects.filter(stu_id=get_object_or_404(student_model.stu_basic_info, stu_number=nid), com_id=com)
+        com_stu_list = student_model.com_stu_info.objects.filter(
+            stu_id=get_object_or_404(student_model.stu_basic_info, stu_number=nid), com_id=com)
         if len(com_stu_list) > 0:
             flag.append(1)
         else:
@@ -185,31 +186,26 @@ def com_attach_download(request):
 def com_apply_first(request):
     context = {}
     id = request.GET.get('id')
-    if request.method == 'GET':
-        leader_id = request.session.get('user_number')
-        leader = get_object_or_404(student_model.stu_basic_info, stu_number=leader_id)
-        # 获取竞赛组别信息
-        group_list = models.com_sort_info.objects.filter(com_id=id)
-        # 获取竞赛报名所需信息
-        info_list = get_object_or_404(models.com_need_info, com_id=id)
-        # 获取竞赛信息
-        com_info = get_object_or_404(models.com_basic_info, com_id=id)
-
-        context['leader'] = leader
-        context['com_info'] = com_info
-        context['info_list'] = info_list
-        context['group_list'] = group_list
-        context['tea_num'] = range(1, info_list.tea_num + 1)
-        num = com_info.num_stu
-        context['stu_num'] = range(1, num + 1)
-        return render(request, 'competition/apply/com_apply_first.html', context)
-
+    leader_id = request.session.get('user_number')
+    leader = get_object_or_404(student_model.stu_basic_info, stu_number=leader_id)
+    # 获取竞赛组别信息
+    group_list = models.com_sort_info.objects.filter(com_id=id)
+    # 获取竞赛报名所需信息
+    info_list = get_object_or_404(models.com_need_info, com_id=id)
+    # 获取竞赛信息
+    com_info = get_object_or_404(models.com_basic_info, com_id=id)
+    context['leader'] = leader
+    context['com_info'] = com_info
+    context['info_list'] = info_list
+    context['group_list'] = group_list
+    context['tea_num'] = range(1, info_list.tea_num + 1)
+    num = com_info.num_stu
+    context['stu_num'] = range(1, num + 1)
     if request.method == "POST":
         id = request.GET.get('id')
         com_info = get_object_or_404(models.com_basic_info, com_id=id)
         info_list = get_object_or_404(models.com_need_info, com_id=id)
         group_list = models.com_sort_info.objects.filter(com_id=id)
-
         # 人数
         # 是否需要满员(1；需要， 0：不需要)
         # 成员能否重复（同上）
@@ -224,7 +220,6 @@ def com_apply_first(request):
         flag_group = info_list.com_group
         flag_else = info_list.else_info
         flag_groupname = info_list.group_name
-
         # 获取页面姓名输入
         stu_list = []
         for i in range(1, num + 1):
@@ -233,34 +228,18 @@ def com_apply_first(request):
             temp = temp.strip()
             if temp != None and temp != "":
                 stu_list.append(temp)
-
-        teach_list = []
+        teach_num_list = []
         if flag_teanum:
             for i in range(1, flag_teanum + 1):
                 name = str('tea_name' + str(i))
                 temp = request.POST.get(name)
-                teach_list.append(temp)
-
+                teach_num_list.append(temp)
         # 获取学生信息
         stu_info_list = []
         for stu in stu_list:
-            try:
-                name = student_model.stu_basic_info.objects.get(stu_number=stu)
-            except ObjectDoesNotExist:
-                # 回到first页面
-                context['message'] = '无法搜索到学号对应学生信息，请确认学号无误'
-                context['com_info'] = com_info
-                context['info_list'] = info_list
-                context['group_list'] = group_list
-                context['tea_num'] = range(1, info_list.tea_num + 1)
-                num = com_info.num_stu
-                context['stu_num'] = range(1, num + 1)
-                return redirect('/competition/com_apply_first?id='+id)
-            else:
-                stu_info_list.append(name)
-
+            name = student_model.stu_basic_info.objects.get(stu_number=stu)
+            stu_info_list.append(name)
         # 判断是否符合条件，不符合则跳回first页面
-
         # 判断是够重复报名
         flag = 1
         if flag_same == 0:
@@ -288,14 +267,7 @@ def com_apply_first(request):
         if flag == 0:
             # 回到first页面
             context['message'] = '参赛成员不符合规定哦 :('
-            context['com_info'] = com_info
-            context['info_list'] = info_list
-            context['group_list'] = group_list
-            context['tea_num'] = range(1, info_list.tea_num + 1)
-            num = com_info.num_stu
-            context['stu_num'] = range(1, num + 1)
-            return redirect('/competition/com_apply_first?id='+id)
-
+            return render(request, 'competition/apply/com_apply_first.html', context)
         # 判断满员
         student_num = com_info.num_stu
         len_stu = len(stu_info_list)
@@ -303,38 +275,20 @@ def com_apply_first(request):
             if len_stu != student_num:
                 # 回到first页面
                 context['message'] = '队伍人数不足 :('
-                context['com_info'] = com_info
-                context['info_list'] = info_list
-                context['group_list'] = group_list
-                context['tea_num'] = range(1, info_list.tea_num + 1)
-                num = com_info.num_stu
-                context['stu_num'] = range(1, num + 1)
-                return redirect('/competition/com_apply_first?id='+id)
+                return render(request, 'competition/apply/com_apply_first.html', context)
         # 判断学号重复
         list1 = stu_info_list
         list2 = list(set(list1))
         if len(list1) != len(list2):
             # 回到first页面
             context['message'] = '有重复人员的哦 :('
-            context['com_info'] = com_info
-            context['info_list'] = info_list
-            context['group_list'] = group_list
-            context['tea_num'] = range(1, info_list.tea_num + 1)
-            num = com_info.num_stu
-            context['stu_num'] = range(1, num + 1)
-            return redirect('/competition/com_apply_first?id='+id)
+            return render(request, 'competition/apply/com_apply_first.html', context)
         # 判断作品名称是否为空
         if flag_proname == 1:
             prodect_name = request.POST.get('product_name')
             if prodect_name == "":
                 context['message'] = "作品名称没有填哦 :( "
-                context['com_info'] = com_info
-                context['info_list'] = info_list
-                context['group_list'] = group_list
-                context['tea_num'] = range(1, info_list.tea_num + 1)
-                num = com_info.num_stu
-                context['stu_num'] = range(1, num + 1)
-                return redirect('/competition/com_apply_first?id='+id)
+                return render(request, 'competition/apply/com_apply_first.html', context)
             prodect_name = prodect_name.strip()
             context['product_name'] = prodect_name
         # 判断小组名称是否为空
@@ -342,37 +296,15 @@ def com_apply_first(request):
             group_name = request.POST.get('group_name')
             if group_name == "":
                 context['message'] = "小组名称没有填哦 :("
-                context['com_info'] = com_info
-                context['info_list'] = info_list
-                context['group_list'] = group_list
-                context['tea_num'] = range(1, info_list.tea_num + 1)
-                num = com_info.num_stu
-                context['stu_num'] = range(1, num + 1)
-                return redirect('/competition/com_apply_first?id='+id)
+                return render(request, 'competition/apply/com_apply_first.html', context)
             group_name = group_name.strip()
             context['group_name'] = group_name
         # 对指导教师进行判断
         teach_list = []
         if flag_teanum:
-            for i in range(1, flag_teanum + 1):
-                name = str('tea_name' + str(i))
-                temp = request.POST.get(name)
-                temp = temp.strip()
-                teach = teacher_model.teach_basic_info.objects.filter(tea_number=temp)
-                if len(teach) == 0:
-                    # 回到first页面
-                    context['message'] = '无法搜索到对应指导教师信息，请确认信息无误'
-                    context['com_info'] = com_info
-                    context['info_list'] = info_list
-                    context['group_list'] = group_list
-                    context['tea_num'] = range(1, info_list.tea_num + 1)
-                    num = com_info.num_stu
-                    context['stu_num'] = range(1, num + 1)
-                    return redirect('/competition/com_apply_first?id='+id)
-                else:
-                    # 教师信息列表中也是一个列表
-                    teach_list.append(teach)
-
+            for temp in teach_num_list:
+                teach = teacher_model.teach_basic_info.objects.get(tea_number=temp)
+                teach_list.append(teach)
             teach_list = zip(teach_list, range(1, info_list.tea_num + 1))
             context['teach_list'] = teach_list
         # 对组别信息进行判断
@@ -385,33 +317,33 @@ def com_apply_first(request):
             else_info = request.POST.get("else_info")
             else_info = else_info.strip()
             context['else_info'] = else_info
-
         # 跳转确认页面
         # print(stu_info_list)
         # print(info_list)
         context['stu_list'] = stu_info_list
         context['info_list'] = info_list
         return render(request, 'competition/apply/com_apply_second.html', context)
+    return render(request, 'competition/apply/com_apply_first.html', context)
 
 
 # 报名参加比赛第二步
 def com_apply_second(request):
     context = {}
+    id = request.GET.get('id')
+    com_info = get_object_or_404(models.com_basic_info, com_id=id)
+    info_list = get_object_or_404(models.com_need_info, com_id=id)
+    group_list = models.com_sort_info.objects.filter(com_id=id)
+    leader_id = request.session.get('user_number')
+    leader = get_object_or_404(student_model.stu_basic_info, stu_number=leader_id)
+    context['leader'] = leader
+    context['com_info'] = com_info
+    context['info_list'] = info_list
+    context['group_list'] = group_list
 
     # 检测进程锁
     key = str(request.session.get('user_number')) + "_lock"
     if cache.has_key(key):
-        context['message'] = "请勿频繁操作！请等待一分钟后再进行操作！"
-        id = request.GET.get('id')
-        com_info = get_object_or_404(models.com_basic_info, com_id=id)
-        info_list = get_object_or_404(models.com_need_info, com_id=id)
-        group_list = models.com_sort_info.objects.filter(com_id=id)
-        leader_id = request.session.get('user_number')
-        leader = get_object_or_404(student_model.stu_basic_info, stu_number=leader_id)
-        context['leader'] = leader
-        context['com_info'] = com_info
-        context['info_list'] = info_list
-        context['group_list'] = group_list
+        context['message'] = "请勿频繁操作！！！"
         context['tea_num'] = range(1, info_list.tea_num + 1)
         num = com_info.num_stu
         context['stu_num'] = range(1, num + 1)

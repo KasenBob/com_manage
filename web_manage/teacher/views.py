@@ -384,7 +384,7 @@ def personal_center_teach_message(request):
     return render(request, 'teacher/personal_center/my_message.html', context)
 
 
-# 学生个人中心-个人信息-查看详情
+# 教师个人中心-个人信息-查看详情
 def message_detail(request):
     context = {}
     inform_id = request.GET.get("p")

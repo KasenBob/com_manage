@@ -261,7 +261,7 @@ def personal_center_stu_apply(request):
                             flag = 4
                         elif temp_apply.apply_type == '2':
                             flag = 5
-                flags.append(flag)
+            flags.append(flag)
     # 打包标志和小组信息
     applys = zip(flags, apply_list)
 
@@ -445,6 +445,13 @@ def stu_apply_edit(request):
     teach_list = teacher_model.com_teach_info.objects.filter(group_id=group_info)
     sort_list = competition_model.com_sort_info.objects.filter(com_id=com_info)
 
+    temp_group_list = competition_model.temp_com_group_basic_info.objects.filter(group_id=group_info).order_by("-created_time")
+    change_flag = 0
+    if len(temp_group_list) > 0:
+        change_flag = 1
+        context['change_group'] = temp_group_list[0]
+    context['change_flag'] = change_flag
+
     context['info_list'] = info_list
     context['stu_list'] = stu_list
     context['teach_list'] = teach_list
@@ -470,17 +477,10 @@ def stu_apply_edit(request):
             if temp:
                 stu_list.append(temp)
 
-        # print(stu_list)
-
         stu_info_list = []
         for stu in stu_list:
-            try:
-                name = models.stu_basic_info.objects.get(stu_number=stu)
-            except ObjectDoesNotExist:
-                context['message'] = '无法搜索到学号对应学生信息，请确认学号无误'
-                return redirect('/student/stu_apply_detail?p1=' + com_id + '&p2=' + group_id)
-            else:
-                stu_info_list.append(name)
+            name = models.stu_basic_info.objects.get(stu_number=stu)
+            stu_info_list.append(name)
 
         # 判断是够重复报名
         flag = 1
@@ -509,35 +509,35 @@ def stu_apply_edit(request):
         if flag == 0:
             # 回到first页面
             context['message'] = '参赛成员不符合规定哦 :('
-            return redirect('/student/stu_apply_detail?p1=' + com_id + '&p2=' + group_id)
+            return render(request, 'student/personal_center/stu_apply_edit.html', context)
         # 判断满员
         student_num = com_info.num_stu
         len_stu = len(stu_info_list)
         if flag_full == 1:
             if len_stu != student_num:
                 context['message'] = "人数不符合规定"
-                return redirect('/student/stu_apply_detail?p1=' + com_id + '&p2=' + group_id)
+                return render(request, 'student/personal_center/stu_apply_edit.html', context)
         # 判断学号重复
         list1 = stu_info_list
         list2 = list(set(list1))
         if len(list1) != len(list2):
             # 回到first页面
             context['message'] = '有重复人员的哦 :('
-            return redirect('/student/stu_apply_detail?p1=' + com_id + '&p2=' + group_id)
+            return render(request, 'student/personal_center/stu_apply_edit.html', context)
         # 判断作品名称是否为空
         if flag_proname == 1:
             prodect_name = request.POST.get('product_name')
             prodect_name = prodect_name.strip()
             if prodect_name == "":
                 context['message'] = "作品名称没有填哦 X D "
-                return redirect('/student/stu_apply_detail?p1=' + com_id + '&p2=' + group_id)
+                return render(request, 'student/personal_center/stu_apply_edit.html', context)
         # 判断小组名称是否为空
         if flag_groupname == 1:
             group_name = request.POST.get('group_name')
             group_name = group_name.strip()
             if not group_name:
                 context['message'] = "小组名称没有填哦 X D "
-                return redirect('/student/stu_apply_detail?p1=' + com_id + '&p2=' + group_id)
+                return render(request, 'student/personal_center/stu_apply_edit.html', context)
         # 获取教师信息
         teach_list = []
         if flag_teanum:
@@ -546,7 +546,7 @@ def stu_apply_edit(request):
                 teacher = teacher_model.teach_basic_info.objects.get(tea_number=teach)
                 if not teacher:
                     context['message'] = "指导教师信息不正确哦 X D "
-                    return redirect('/student/stu_apply_detail?p1=' + com_id + '&p2=' + group_id)
+                    return render(request, 'student/personal_center/stu_apply_edit.html', context)
                 else:
                     teach_list.append(teacher)
         # 对组别信息进行判断
