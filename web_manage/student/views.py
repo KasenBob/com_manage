@@ -324,8 +324,34 @@ def personal_center_stu_info(request):
 def personal_center_stu_experience(request):
     context = {}
     stu_info = get_object_or_404(models.stu_basic_info, stu_number=request.session['user_number'])
-    award_lists = models.com_stu_award.objects.all()
-    context['award_list'] = award_lists
+    award_lists = models.com_stu_award.objects.filter(stu_id=stu_info)
+    # 拆出团队赛中的队长和成员以及指导教师名单
+    leader_list = []
+    member_list = []
+    teacher_list = []
+    for award in award_lists:
+        # 学生
+        if award.group_id.com_id.type == '1':
+            stu_list = models.com_stu_info.objects.filter(group_id=award.group_id)
+            student = []
+            for stu in stu_list:
+                if stu.is_leader == 1:
+                    leader = stu
+                else:
+                    student.append(stu)
+            leader_list.append(leader)
+            member_list.append(student)
+        else:
+            # 个人赛参赛名单做空值处理
+            leader_list.append("null")
+            member_list.append("null")
+        # 指导教师
+        teach_list = teacher_model.com_teach_info.objects.filter(group_id=award.group_id)
+        teacher_list.append(teach_list)
+    # 打包以上数据
+    award_list = zip(award_lists, leader_list, member_list, teacher_list)
+    context['award_list'] = award_list
+
     return render(request, 'student/personal_center/my_experience.html', context)
 
 

@@ -1,8 +1,8 @@
 {% extends 'student/personal_center/base.html' %}
 {% load staticfiles %}
 
-{% block per_activate5 %}
-    active
+{% block current4 %}
+    current
 {% endblock %}
 
 {% block body %}
@@ -15,12 +15,13 @@
                 <h3 class="gray-border-bottom pdr20 pdb30"><span
                         class="glyphicon glyphicon-time mgr10 "></span>参赛历史
                 </h3>
-                {% for award in award_list %}
-                    <div class="msg-piece" data-toggle="modal" data-target="#myModal">
+                {% for award, leader, member, teacher in award_list %}
+
+                    <div class="msg-piece" data-toggle="modal" data-target="#myModal{{ forloop.counter }}">
                         <span class="label label-danger">{{ award.award }}</span>
                         <h4 class="inline-block">{{ award.group_id.com_id.com_name }}</h4>
                         <p class="inline-block pull-right mgt10">参与时间<br> {{ award.created_time }}</p>
-                        <h5>竞赛类型：
+                        <h5>比赛类型：
                             {% if award.group_id.com_id.type == '0' %}
                                 个人赛
                             {% else %}
@@ -28,6 +29,50 @@
                             {% endif %}
                         </h5>
                     </div>
+
+                    <div class="modal fade" id="myModal{{ forloop.counter }}" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel">
+                        <div class="modal-dialog " role="document">
+                            <div class="modal-content deep-black">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">参赛详情</h4>
+                                </div>
+                                <div class="modal-body sz14 child-inline">
+                                    <h4>{{ award.group_id.com_id.com_name }}</h4>
+                                    <div>比赛类型：
+                                        <h5>
+                                            {% if award.group_id.com_id.type == '1' %}
+                                                个人赛
+                                            {% else %}
+                                                团队赛
+                                            {% endif %}
+                                        </h5>
+                                    </div>
+                                    {% if award.group_id.com_id.type == '1' %}
+                                        <div>队长：<h5>{{ leader.stu_id.stu_name }}</h5></div>
+                                        <div>参赛成员：<h5>
+                                            {% for stu in member %}
+                                                {{ stu.stu_id.stu_name }}&nbsp;
+                                            {% endfor %}
+                                        </h5></div>
+                                    {% endif %}
+                                    <div>指导老师：<h5>
+                                        {% for teach in teacher %}
+                                            {{ teach.teach_id.tea_name }}&nbsp;
+                                        {% endfor %}
+                                    </h5></div>
+                                    <div>参与时间：<h5>{{ award.created_time }}</h5></div>
+                                    <div>获奖情况：<h5><span class="label label-success mgr10">{{ award.award }}</span></h5></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn-custom-short" data-dismiss="modal">确定</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 {% empty %}
                     <p class="empty-tip">这里空空如也，连黄鼠狼都不光顾~</p>
                 {% endfor %}
@@ -39,29 +84,5 @@
                 <p class="sz10">3. 参与学科竞赛获奖可以申请学科竞赛奖，详情参考学院通知</p>
             </div>
         </div>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog " role="document">
-                <div class="modal-content deep-black">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">参赛详情</h4>
-                    </div>
-                    <div class="modal-body sz14 child-inline">
-                        <h4>天梯程序设计</h4>
-                        <div>比赛类型：<h5>省级团队</h5></div>
-                        <div>队长：<h5>喵喵喵</h5></div>
-                        <div>参赛成员：<h5>阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德,阿萨德</h5></div>
-                        <div>指导老师：<h5>饭过后</h5></div>
-                        <div>参与时间：<h5>2020-1-30</h5></div>
-                        <div>获奖情况：<h5><span class="label label-success mgr10">三等奖</span></h5></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn-custom-short" data-dismiss="modal">确定</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 {% endblock %}
