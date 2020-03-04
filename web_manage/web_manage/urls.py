@@ -27,8 +27,8 @@ urlpatterns = [
 	path('teacher/', include('teacher.urls')),
 	path('member/', include('member.urls')),
 	path('news/', include('news.urls')),
-	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 	# 静态资源
+	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 	re_path(r'^media/(?P<path>.*)$', serve, {"document_root": settings.MEDIA_ROOT}),
 	# editor
 	path('ckeditor/', include('ckeditor_uploader.urls')),
