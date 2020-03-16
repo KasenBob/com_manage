@@ -1,54 +1,99 @@
 {% extends 'member/base.html' %}
 {% load staticfiles %}
 
-{% block title %}
-    学科竞赛|个人中心
-{% endblock %}
-
-{% block active6 %}
-    active
+{% block current8 %}
+    current
 {% endblock %}
 
 {% block body %}
-    <div class="panel-heading">
-        <h3>比赛管理</h3>
-    </div>
-    <div class="panel-body">
-        <a href="/member/add_com/" class="btn btn-primary btn-lg" role="button">发布比赛</a>
-        <a href="#" class="btn btn-default btn-lg" role="button">先放着</a>
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th>序号</th>
-                <th>比赛</th>
-                <th>状态</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for com in com_list %}
-                <tr>
-                    <th>{{ forloop.counter }}</th>
-                    <td>{{ com.com_name }}</td>
+    <div class="col-md-9">
+        <div id="com-right" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">比赛管理</h3>
+            </div>
 
-                    {% if com.com_status == 0 %}
-                        <td>报名中</td>
-                    {% endif %}
-                    {% if com.com_status == 1 %}
-                        <td>报名结束</td>
-                    {% endif %}
-                    {% if com.com_status == 2 %}
-                        <td>比赛中</td>
-                    {% endif %}
-                    {% if com.com_status == 3 %}
-                        <td>已结束</td>
-                    {% endif %}
-                    <td>
-                        <a href="/member/com_detail_manage?p={{ com.com_id }}" class="btn btn-default" role="button">详情</a>
-                    </td>
-                </tr>
-                {% empty %}
-            {% endfor %}
-            </tbody>
-        </table>
+            <div class="panel-body">
+                <a href="/member/add_com/" class="link-a sz20">点击添加+</a>
+                <table class="table white-border-bottom mgt10">
+                    <tbody>
+                    <tr>
+                        <th>序号</th>
+                        <th>比赛</th>
+                        <th>状态</th>
+                    </tr>
+
+                    {% for com in com_list %}
+                        <tr>
+                            <th>{{ forloop.counter }}</th>
+                            <td>{{ com.com_name }}</td>
+
+                            {% if com.com_status == 0 %}
+                                <td>报名中</td>
+                            {% endif %}
+                            {% if com.com_status == 1 %}
+                                <td>报名结束</td>
+                            {% endif %}
+                            {% if com.com_status == 2 %}
+                                <td>比赛中</td>
+                            {% endif %}
+                            {% if com.com_status == 3 %}
+                                <td>已结束</td>
+                            {% endif %}
+                            <td>
+                                <a href="/member/com_detail_manage?p={{ com.com_id }}" class="btn btn-custom-short"
+                                   role="button">详情</a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+                <nav id="apart" aria-label="Page navigation">
+                    <ul class="pagination ">
+                        {# 上一页 #}
+                        <li>
+                            {% if page_of_series.has_previous %}
+                                <a href="?page={{ page_of_series.previous_page_number }}" aria-label="Previous"
+                                   class="next-page">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <a aria-label="Previous" class="next-page">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                        {# 分页 #}
+                        {% for page_num in page_range %}
+                            {% if page_num ==  page_of_series.number %}
+                                <li><a class="current">{{ page_num }}</a></li>
+                            {% else %}
+                                {% if page_num == '...' %}
+                                    <li><a>{{ page_num }}</a></li>
+                                {% else %}
+                                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {# 下一页 #}
+                        <li>
+                            {% if page_of_series.has_next %}
+                                <a href="?page={{ page_of_series.next_page_number }}" aria-label="Next"
+                                   class="next-page">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
+                                <a aria-label="Next" class="next-page">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
     </div>
 {% endblock %}

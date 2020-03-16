@@ -1,52 +1,44 @@
 {% extends 'member/base.html' %}
 {% load staticfiles %}
 
-{% block title %}
-    学科竞赛|个人中心
-{% endblock %}
-
 {% block body %}
-    <div id="fabu-jingsai" class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">公告修改</h3>
-        </div>
-        <div class="panel-body">
-            <form action="/member/change_notice/?p={{ notice.pk }}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <span>标题: </span><input type="text" class="form-control" name="title"
-                                        style="width: 50%;display: inline-block;border: 1px solid #666666;"
-                                        value="{{ notice.title }}"/>
+    <div class="col-md-9">
+        <div id="com-right" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">公告修改</h3>
+            </div>
+            <div class="panel-body">
                 <br>
-                <div>
+                <form action="/member/change_notice/?p={{ notice.pk }}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <h4 class="inline-block">标题: </h4>
+                    <input class="edit half-width" type="text" name="title" value="{{ notice.title }}"/>
+                    <!--这里放富文本编辑器-->
                     {{ form.media }}
                     {{ form.as_p }}
-                </div>
-                <br>
-
-                <span>比赛报名入口：</span>
-                <select name="com_id">
-                    <option>无</option>
-                    {% for com in com_list %}
-                        {% if notice.com_id == com %}
-                        <option value="{{ com.com_id }}" selected>{{ com.com_name }}</option>
-                        {% else %}
-                        <option value="{{ com.com_id }}">{{ com.com_name }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-
-                <br>
-
-                <span>作者: </span><input type="text" class="form-control" name="author"
-                                        style="width: 50%;display: inline-block;border: 1px solid #666666;"
-                                        value="{{ notice.author }}"/>
-
-                <br>
-
-                <div class="zuihouanniu">
-                    <input type="submit" class="tijiaoanniu" value="修改"/>
-                </div>
-            </form>
+                    <!--编辑器结束-->
+                    <h4 class="inline-block">报名入口：</h4>
+                    <select class="edit-select" name="com_id">
+                        <option>无</option>
+                        {% for com in com_list %}
+                            {% if notice.com_id == com %}
+                                <option value="{{ com.com_id }}" selected>{{ com.com_name }}</option>
+                            {% else %}
+                                <option value="{{ com.com_id }}">{{ com.com_name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <br><br>
+                    <span>作者: </span>
+                    <input class="edit half-width" type="text" name="author" value="{{ notice.author }}"/>
+                    <br><br>
+                    <span>上传附件：</span><input type="file" name="com_attach"/>
+                    <br><br>
+                    <div class="text-center">
+                        <button class="btn-custom" type="submit">发布</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 {% endblock %}

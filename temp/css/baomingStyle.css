@@ -1,0 +1,86 @@
+#baomingbody {
+	background-color: #2B2C30;
+}
+
+#baoming_content {
+	padding-top: 128px;
+	color: white;
+}
+
+#baseinfo input{
+	background-color: #2F383D;
+	border: 0;
+}
+
+#jibenxinxi {
+	border-bottom: 1px solid #666666;
+}
+
+#baoming_content .form-group {
+	margin: 10px;
+}
+
+#tuozhanxinxi {
+	border-bottom: 1px solid #666666;
+}
+
+#baoming_content2 {
+	padding-top: 128px;
+	color: white;
+}
+
+#baoming_content2 input {
+	background-color: transparent;
+	border: 0;
+}
+
+#baoming_content2 .form-group {
+	margin: 10px;
+}
+
+#baomingchenggong_content {
+	background-color: #2B2C30;
+	color: white;
+	text-align: center;
+}
+
+#quanquan {
+	width: 200px;
+	height: 200px;
+	border: none;
+	background-color: #6CB670;
+	border-radius: 50%;
+	margin: 135px auto 45px;
+	position: relative;
+	font-size: 64px;
+	text-align: center;
+
+}
+
+#baomingchenggong_content span {
+	text-decoration: underline
+}
+
+#tiaozhuan a {
+	color: white;
+	text-decoration: underline;
+}
+
+#tiaozhuan a:hover {
+	color: #6CB670;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+#chaxunjieguo{
+	margin-top: 10px;
+}
+
+.duiyoujieguo{
+	display: inline-block;margin-top: 10px;border: 1px solid white;padding: 5px;
+}
+
+#chaxunduiyou{
+
+}
+

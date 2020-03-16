@@ -31,6 +31,10 @@ body {
     margin-right: 10px;
 }
 
+.mg0 {
+    margin: 0;
+}
+
 .mgr30 {
     margin-right: 30px;
 }
@@ -41,6 +45,10 @@ body {
 
 .mgl-40 {
     margin-left: -40px;
+}
+
+.mgb10{
+    margin-bottom: 10px;
 }
 
 .mgb30 {
@@ -155,6 +163,10 @@ body {
     width: 50%;
 }
 
+.width5 {
+    width: 5%;
+}
+
 .letter-spacing {
     letter-spacing: 1px;
 }
@@ -223,6 +235,11 @@ body {
     text-decoration: none;
 }
 
+.link-a:link {
+    color: white;
+    text-decoration: none;
+}
+
 .link-a:hover {
     color: white;
     cursor: pointer;
@@ -245,11 +262,10 @@ body {
     text-decoration: none;
 }
 
-.msg-a:link{
+.msg-a:link {
     color: white;
     text-decoration: none;
 }
-
 
 
 .warning-a {
@@ -525,7 +541,11 @@ button[disabled] {
     width: 207px;
     height: 34px;
     margin-top: 10px;
+}
 
+.edit-select {
+    padding: 2px;
+    background-color: #2B2C30;
 }
 
 .edit {
@@ -908,13 +928,107 @@ button[disabled] {
     background-color: #6cb670;
 }
 
-#tea-myLst-show{
+#tea-myLst-show {
     border-bottom: 1px solid white;
 }
 
-#tea-myLst-show tr:hover{
+#tea-myLst-show tr:hover {
     background-color: #333439;
 }
+
+/*学科竞赛委员会*/
+/*头像*/
+.com-sculpture {
+    width: 63px;
+    height: 63px;
+    border: 2px solid white;
+    border-radius: 20px;
+}
+
+/*左侧功能栏*/
+#com-left {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    border: 1px solid #666666;
+}
+
+/*功能栏元素*/
+#com-left .item {
+    padding-top: 20px;
+    width: 100%;
+}
+
+/*元素li和span*/
+#com-left span {
+    font-size: 20px;
+}
+
+#com-left li {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 5px;
+    line-height: 25px;
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-family: "宋体";
+    list-style: none;
+    text-indent: 2em;
+    cursor: pointer;
+}
+
+#com-left li:hover {
+    color: #6CB670;
+    background-color: #333439;
+}
+
+#com-left .current {
+    color: #6CB670;
+}
+
+/*右侧*/
+
+#com-right {
+    border: none;
+}
+
+#com-right .panel-heading {
+    padding-top: 15px;
+    border: none;
+    height: 50px;
+    background-color: #333439;
+    color: white;
+}
+
+#com-right .panel-body {
+    background-color: #2B2C30;
+}
+
+#com-right table{
+    font-size: 16px;
+}
+
+/*时间选择*/
+.time-choose {
+    margin: 4px;
+    width: 24%;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.com-contest-piece {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #666666;
+    border-radius: 20px;
+}
+
+.com-contest-piece a {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
 
 
 

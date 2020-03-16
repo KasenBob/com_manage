@@ -1,152 +1,172 @@
 {% extends 'member/base.html' %}
 {% load staticfiles %}
 
-{% block title %}
-    学科竞赛|个人中心
+{% block current9 %}
+    current
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">学生信息修改申请</h3>
-        </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            {% for msg_stu in msg_stu_list %}
-                <div class="geren1">
-                    <span>申请人：{{ msg_stu.stu_number.stu_name }}</span><br>
-                    <span>提交时间：{{ msg_stu.created_time }}</span>
-                    <span class="fun-btn pull-right">
-                        <a class="btn btn-transparent" data-toggle="modal"
-                           data-target="#stu{{ msg_stu.pk }}">详情</a>
+    <div class="col-md-9">
+        <div id="com-right" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">个人信息修改申请</h3>
+            </div>
+            <div class="panel-body">
+                {% for pre_stu, msg_stu in msg_stu_list %}
+                    <div class="row com-contest-piece">
+                        <h4>申请人：{{ msg_stu.stu_number.stu_name }}</h4>
+                        <span>修改内容：<a class="link-a bright-green" data-toggle="modal"
+                                      data-target="#stu{{ msg_stu.pk }}">点击查看</a></span><br>
+                        <span>提交时间：{{ msg_stu.created_time }}</span><br>
                         <a href="/member/msg_application_agree?p1=0&p2={{ msg_stu.pk }}"
-                           class="glyphicon glyphicon-ok btn btn-transparent"></a>
+                           class="btn-custom-short pull-right">同意</a>
                         <a href="/member/msg_application_disagree?p1=0&p2={{ msg_stu.pk }}"
-                           class="glyphicon glyphicon-remove btn btn-transparent"></a>
-                    </span>
-                </div>
+                           class="btn-custom-short pull-right">拒绝</a>
+                    </div>
+                    <div class="modal fade" id="stu{{ msg_stu.pk }}" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel">
+                        <div class="modal-dialog " role="document">
+                            <div class="modal-content deep-black">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">修改详情</h4>
+                                </div>
+                                <div class="modal-body sz14 child-inline">
 
-                <style>
-                    .motaikuang .modal-content {
-                        background-color: #2B2C30;
-                    }
+                                    {% if msg_stu.stu_number.stu_number != pre_stu.stu_number %}
+                                        <div>学号：<h5 class="line-through">{{ pre_stu.stu_number }}</h5><h5
+                                                class="bright-green">{{ msg_stu.stu_number.stu_number }}</h5></div>
+                                    {% else %}
+                                        <div>学号：<h5>{{ msg_stu.stu_number.stu_number }}</h5></div>
+                                    {% endif %}
+                                    <!--姓名-->
+                                    {% if msg_stu.stu_number.stu_name != pre_stu.stu_name %}
+                                        <div>姓名：<h5 class="line-through">{{ pre_stu.stu_name }}</h5><h5
+                                                class="bright-green">{{ msg_stu.stu_name }}</h5></div>
+                                    {% else %}
+                                        <div>姓名：<h5>{{ msg_stu.stu_name }}</h5></div>
+                                    {% endif %}
+                                    <!--性别-->
+                                    {% if msg_stu.sex != pre_stu.sex %}
+                                        <div>性别：<h5 class="line-through">{{ pre_stu.sex }}</h5><h5
+                                                class="bright-green">{{ msg_stu.sex }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>性别：<h5>{{ msg_stu.sex }}</h5></div>
+                                    {% endif %}
+                                    <!--身份账号-->
+                                    {% if msg_stu.ID_number != pre_stu.ID_number %}
+                                        <div>身份账号：<h5 class="line-through">{{ pre_stu.ID_number }}</h5><h5
+                                                class="bright-green">{{ msg_stu.ID_number }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>身份账号：<h5>{{ msg_stu.ID_number }}</h5></div>
+                                    {% endif %}
+                                    <!--院系-->
+                                    {% if msg_stu.stu_number.department.depart_name != pre_stu.department.depart_name %}
+                                        <div>院系：<h5 class="line-through">{{ pre_stu.department.depart_name }}</h5><h5
+                                                class="bright-green">{{ msg_stu.stu_number.department.depart_name }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>院系：<h5>{{ msg_stu.department.depart_name }}</h5></div>
+                                    {% endif %}
+                                    <!--专业-->
+                                    {% if msg_stu.major.major_name != pre_stu.major.major_name %}
+                                        <div>专业：<h5 class="line-through">{{ pre_stu.major.major_name }}</h5><h5
+                                                class="bright-green">{{ msg_stu.major.major_name }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>专业：<h5>{{ msg_stu.major.major_name }}</h5></div>
+                                    {% endif %}
+                                    <!--年级-->
+                                    {% if msg_stu.grade.grade_name != pre_stu.grade.grade_name %}
+                                        <div>年级：<h5 class="line-through">{{ pre_stu.grade.grade_name }}</h5><h5
+                                                class="bright-green">{{ msg_stu.grade.grade_name }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>年级：<h5>{{ msg_stu.grade.grade_name }}</h5></div>
+                                    {% endif %}
+                                    <!--班级-->
+                                    {% if msg_stu.stu_class.class_name != pre_stu.stu_class.class_name %}
+                                        <div>班级：<h5 class="line-through">{{ pre_stu.stu_class.class_name }}</h5><h5
+                                                class="bright-green">{{ msg_stu.stu_class.class_name }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>班级：<h5>{{ msg_stu.stu_class.class_name }}</h5></div>
+                                    {% endif %}
 
-                    .motaikuang h5 {
-                        line-height: 20px;
-                        letter-spacing: 0.5px;
-                        font-family: 宋体;
-
-                    }
-                </style>
-
-                <div class="modal fade motaikuang" id="stu{{ msg_stu.pk }}" tabindex="-1" role="dialog"
-                     aria-labelledby="myModalLabel_1">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">修改详情</h4>
-                            </div>
-                            <div class="modal-body">
-                                <span>姓名：{{ msg_stu.stu_number.stu_name }}<span class="glyphicon glyphicon-arrow-right"
-                                                                                aria-hidden="true"></span>{{ msg_stu.stu_name }}</span><br>
-                                <span>学院：{{ msg_stu.stu_number.department.depart_name }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_stu.department.depart_name }}</span><br>
-                                <span>专业：{{ msg_stu.stu_number.major.major_name }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_stu.major.major_name }}</span><br>
-                                <span>年级：{{ msg_stu.stu_number.grade.grade_name }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_stu.grade.grade_name }}</span><br>
-                                <span>班级：{{ msg_stu.stu_number.stu_class.class_name }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_stu.stu_class.class_name }}</span><br>
-                                <span>性别：{{ msg_stu.stu_number.sex }}<span class="glyphicon glyphicon-arrow-right"
-                                                                           aria-hidden="true"></span>{{ msg_stu.sex }}</span><br>
-                                <span>身份证号：{{ msg_stu.stu_number.ID_number }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_stu.ID_number }}</span>
-                            </div>
-                            <div class="modal-footer">
-                                <a class="btn btn-transparent" data-dismiss="modal">关闭</a>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn-custom-short" data-dismiss="modal">确定</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
 
-                {% empty %}
-                <h4>暂无申请</h4>
-            {% endfor %}
-        </div>
-    </div>
-    <div class="panel panel-default" id="confirmed" style="border: none;">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">指导教师信息修改申请</h3>
-        </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            {% for msg_teach in msg_teach_list %}
-                <div class="geren1">
-                    <span>申请人：{{ msg_teach.teach_number.tea_name }}</span><br>
-                    <span>提交时间：{{ msg_teach.created_time }}</span>
-                    <span class="fun-btn pull-right">
-                        <a class="btn btn-transparent" data-toggle="modal"
-                           data-target="#teach{{ msg_teach.pk }}">详情</a>
+
+                {% for pre_teach, msg_teach in msg_teach_list %}
+                    <div class="row com-contest-piece">
+                        <h4>申请人：{{ msg_teach.teach_number.tea_name }}</h4>
+                        <span>修改内容：<a class="link-a bright-green" data-toggle="modal"
+                                      data-target="#teach{{ msg_teach.pk }}">点击查看</a></span><br>
+                        <span>提交时间：{{ msg_teach.created_time }}</span><br>
                         <a href="/member/msg_application_agree?p1=1&p2={{ msg_teach.pk }}"
-                           class="glyphicon glyphicon-ok btn btn-transparent"></a>
+                           class="btn-custom-short pull-right">同意</a>
                         <a href="/member/msg_application_disagree?p1=1&p2={{ msg_teach.pk }}"
-                           class="glyphicon glyphicon-remove btn btn-transparent"></a>
-                    </span>
-                </div>
+                           class="btn-custom-short pull-right">拒绝</a>
+                    </div>
+                    <div class="modal fade" id="teach{{ msg_teach.pk }}" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel">
+                        <div class="modal-dialog " role="document">
+                            <div class="modal-content deep-black">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">修改详情</h4>
+                                </div>
+                                <div class="modal-body sz14 child-inline">
+                                    {% if msg_teach.teach_number.tea_number != pre_teach.tea_number %}
+                                        <div>工号：<h5 class="line-through">{{ pre_teach.tea_number }}</h5><h5
+                                                class="bright-green">{{ msg_teach.teach_number.tea_number }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>工号：<h5>{{ pre_teach.tea_number }}</h5></div>
+                                    {% endif %}
+                                    <!--姓名-->
+                                    {% if msg_teach.tea_name != pre_teach.tea_name %}
+                                        <div>姓名：<h5 class="line-through">{{ pre_teach.tea_name }}</h5><h5
+                                                class="bright-green">{{ msg_teach.tea_name }}</h5></div>
+                                    {% else %}
+                                        <div>姓名：<h5>{{ pre_teach.tea_name }}</h5></div>
+                                    {% endif %}
+                                    <!--院系-->
+                                    {% if msg_teach.department.depart_name != pre_teach.department.depart_name %}
+                                        <div>院系：<h5 class="line-through">{{ pre_teach.department.depart_name }}</h5><h5
+                                                class="bright-green">{{ msg_teach.department.depart_name }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>院系：<h5>{{ pre_teach.department.depart_name }}</h5></div>
+                                    {% endif %}
+                                    <!--职称-->
+                                    {% if msg_teach.profess.profess_name != pre_teach.profess.profess_name %}
+                                        <div>职称：<h5 class="line-through">{{ pre_teach.profess.profess_name }}</h5><h5
+                                                class="bright-green">{{ msg_teach.profess.profess_name }}</h5>
+                                        </div>
+                                    {% else %}
+                                        <div>职称：<h5>{{ pre_teach.profess.profess_name }}</h5></div>
+                                    {% endif %}
 
-                <style>
-                    .motaikuang .modal-content {
-                        background-color: #2B2C30;
-                    }
-
-                    .motaikuang h5 {
-                        line-height: 20px;
-                        letter-spacing: 0.5px;
-                        font-family: 宋体;
-
-                    }
-                </style>
-
-                <div class="modal fade motaikuang" id="teach{{ msg_teach.pk }}" tabindex="-1" role="dialog"
-                     aria-labelledby="myModalLabel_1">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">修改详情</h4>
-                            </div>
-                            <div class="modal-body">
-                                <span>姓名：{{ msg_teach.teach_number.tea_name }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_teach.tea_name }}</span><br>
-                                <span>职称：{{ msg_teach.teach_number.profess.profess_name }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_teach.profess.profess_name }}</span><br>
-                                <span>院系：{{ msg_teach.teach_number.department.depart_name }}<span
-                                        class="glyphicon glyphicon-arrow-right"
-                                        aria-hidden="true"></span>{{ msg_teach.department.depart_name }}</span>
-                            </div>
-                            <div class="modal-footer">
-                                <a class="btn btn-transparent" data-dismiss="modal">关闭</a>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn-custom-short" data-dismiss="modal">确定</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                {% empty %}
-                <h4>暂无申请</h4>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
-        <div class="bgc2" style="height: 128px;"></div>
     </div>
 {% endblock %}

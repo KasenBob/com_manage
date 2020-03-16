@@ -170,7 +170,8 @@ def my_com_ing(request):
 # 历届比赛
 def my_com_ed(request):
 	context = {}
-
+	com_list = competition_model.com_basic_info.objects.filter(com_status='3')
+	context['com_list'] = com_list
 	return render(request, 'member/my_com_ed.html', context)
 
 
@@ -734,9 +735,23 @@ def apply_application_disagree(request):
 def msg_application(request):
 	context = {}
 	msg_stu_list = student_model.temp_stu_basic_info.objects.all()
+	# get pre
+	pre_stu_list = []
+	for stu in msg_stu_list:
+		pre_stu = student_model.stu_basic_info.objects.get(stu_number=stu.stu_number.stu_number)
+		pre_stu_list.append(pre_stu)
+	msg_stu_list = zip(pre_stu_list, msg_stu_list)
 	context['msg_stu_list'] = msg_stu_list
+
 	msg_teach_list = teacher_model.temp_teach_basic_info.objects.all()
+	# get pre
+	pre_teach_list = []
+	for teach in msg_teach_list:
+		pre_teach = teacher_model.teach_basic_info.objects.get(tea_number=teach.teach_number.tea_number)
+		pre_teach_list.append(teach)
+	msg_teach_list = zip(pre_teach_list, msg_teach_list)
 	context['msg_teach_list'] = msg_teach_list
+
 	return render(request, 'member/audit_change.html', context)
 
 
@@ -1056,7 +1071,7 @@ def change_com(request):
 	jieshu = ""
 	for i in range(begin + 1, end):
 		jieshu += com_info.com_name[i]
-	# print(jieshu)
+	#print(jieshu)
 	begin_regit = str(com_info.begin_regit).replace(' ', 'T')
 	context['begin_regit'] = begin_regit
 	end_regit = str(com_info.end_regit).replace(' ', 'T')

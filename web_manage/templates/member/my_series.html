@@ -1,80 +1,88 @@
 {% extends 'member/base.html' %}
 {% load staticfiles %}
 
-{% block title %}
-    学科竞赛|个人中心
+{% block current7 %}
+    current
 {% endblock %}
 
 {% block body %}
-    <div id="fabu-jingsai" class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">竞赛系列管理</h3>
-        </div>
-        <div class="panel-body">
+    <div class="col-md-9">
+        <div id="com-right" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">竞赛系列管理</h3>
+            </div>
 
-            <a href="/member/add_series" class="btn btn-transparent" style="margin-bottom: 10px;">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span>添加</span>
-            </a>
-            <table id="xinwenguanli" class="table" style="border-bottom: 1px solid white;">
-                <tr>
-                    <td>序号</td>
-                    <td>竞赛名称</td>
-                    <td>最近一届</td>
-                    <td>状态</td>
-                    <td>操作</td>
-                </tr>
-                {% for series in page_of_series.object_list %}
+            <div class="panel-body">
+                <a href="/member/add_series" class="link-a sz20">点击添加+</a>
+                <table class="table white-border-bottom mgt10">
+                    <tbody>
                     <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td>{{ series.name }}</td>
-                        <td>{{ series.now_com_id.com_name }}</td>
-                        <td>{{ series.get_status_display }}</td>
-                        <td><a href="/member/change_series?p={{ series.id }}" class="btn btn-transparent">修改</a>
-                            <a href="/member/change_series_status?p={{ series.id }}" class="btn btn-transparent">切换状态</a>
-                        </td>
+                        <td>序号</td>
+                        <td>竞赛名称</td>
+                        <td>已举办届数</td>
+                        <td>状态</td>
+                        <td>操作</td>
                     </tr>
-                {% endfor %}
-            </table>
 
-            <nav class="page-nav" aria-label="Page navigation">
-                <ul class="pagination">
-                    {# 上一页 #}
-                    <li>
-                        {% if page_of_series.has_previous %}
-                            <a href="?page={{ page_of_series.previous_page_number }}" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        {% else %}
-                            <span aria-hidden="true">&laquo;</span>
-                        {% endif %}
-                    </li>
-                    {# 分页 #}
-                    {% for page_num in page_range %}
-                        {% if page_num ==  page_of_series.number %}
-                            <li class="active"><span>{{ page_num }}</span></li>
-                        {% else %}
-                            {% if page_num == '...' %}
-                                <li><span>{{ page_num }}</span></li>
-                            {% else %}
-                                <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
-                            {% endif %}
-                        {% endif %}
+                    {% for series in page_of_series.object_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ series.name }}</td>
+                            <td>{{ series.now_com_id.com_name }}</td>
+                            <td>{{ series.get_status_display }}</td>
+                            <td><a href="/member/change_series?p={{ series.id }}" class="btn btn-custom-short">修改</a>
+                                <a href="/member/change_series_status?p={{ series.id }}" class="btn btn-custom-short">切换状态</a>
+                            </td>
+                        </tr>
                     {% endfor %}
-                    {# 下一页 #}
-                    <li>
-                        {% if page_of_series.has_next %}
-                            <a href="?page={{ page_of_series.next_page_number }}" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        {% else %}
-                            <span aria-hidden="true">&raquo;</span>
-                        {% endif %}
-                    </li>
-                </ul>
-            </nav>
 
+                    </tbody>
+                </table>
+
+                <nav id="apart" aria-label="Page navigation">
+                    <ul class="pagination ">
+                        {# 上一页 #}
+                        <li>
+                            {% if page_of_series.has_previous %}
+                                <a href="?page={{ page_of_series.previous_page_number }}" aria-label="Previous"
+                                   class="next-page">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <a aria-label="Previous" class="next-page">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                        {# 分页 #}
+                        {% for page_num in page_range %}
+                            {% if page_num ==  page_of_series.number %}
+                                <li><a class="current">{{ page_num }}</a></li>
+                            {% else %}
+                                {% if page_num == '...' %}
+                                    <li><a>{{ page_num }}</a></li>
+                                {% else %}
+                                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {# 下一页 #}
+                        <li>
+                            {% if page_of_series.has_next %}
+                                <a href="?page={{ page_of_series.next_page_number }}" aria-label="Next"
+                                   class="next-page">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
+                                <a aria-label="Next" class="next-page">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
         </div>
-
     </div>
 {% endblock %}
