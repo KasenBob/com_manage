@@ -5,8 +5,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %}</title>
-    <link href="{% static 'sources/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'sources/css/chickennoodleStyle.css' %}" rel="stylesheet">
+    <link href="{% static '/sources/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static '/sources/css/chickennoodleStyle.css' %}" rel="stylesheet">
     <!-- 插入css -->
     {% block css %}{% endblock %}
 </head>
@@ -25,7 +25,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <img src="{% static 'sources/img/logo.png' %}" id="logo"/>
+                <img src="{% static '/sources/img/logo.png' %}" id="logo"/>
             </div>
             <div id="bs-example-navbar-collapse-1" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -163,8 +163,8 @@
 
 </body>
 
-<script src="{% static 'sources/js/jquery.min.js' %}"></script>
-<script src="{% static 'sources/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/sources/js/jquery.min.js' %}"></script>
+<script src="{% static '/sources/js/bootstrap.min.js' %}"></script>
 <!--js文件加载-->
 {% block js %}{% endblock %}
 
