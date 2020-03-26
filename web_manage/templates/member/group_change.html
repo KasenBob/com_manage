@@ -6,108 +6,147 @@
 {% endblock %}
 
 {% block body %}
-    <div class="panel panel-default" style="border: none;" id="caozuomianban">
-        <div class="panel-heading"
-             style="background-color: #333439;color: white;border: none;height: 50px;padding-top: 15px;">
-            <h3 class="panel-title">参赛信息修改申请</h3>
-        </div>
-        <div class="panel-body" style="background-color: #2B2C30;">
-            {% for temp_group,temp_stu,pre_stu,temp_teach,pre_teach,com_need in temp_group_list %}
-                <div class="geren1">
-                    <span>{{ temp_group.com_id.com_name }}</span><br>
-                    <span>发起人:
-                        {% for stu in pre_stu %}
-                            {% if stu.is_leader == 1 %}
-                                {{ stu.stu_id.stu_name }}
-                            {% endif %}
-                        {% endfor %}
-                    </span><br>
-                    <span>类型：{{ temp_group.get_apply_type_display }}</span><br>
-                    <span>提交时间：{{ temp_group.created_time }}</span>
-                    <span class="fun-btn pull-right">
-                        <a class="btn btn-transparent" data-toggle="modal"
-                           data-target="#{{ temp_group.temp_id }}">详情</a>
+    <div class="col-md-9">
+        <div id="com-right" class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">参赛信息修改申请</h3>
+            </div>
+
+            <div class="panel-body">
+                {% for temp_group,temp_stu,pre_stu,temp_teach,pre_teach,com_need in temp_group_list %}
+
+                    <div class="row com-contest-piece">
+                        <h4>申请人：
+                            {% for stu in pre_stu %}
+                                {% if stu.is_leader == 1 %}
+                                    {{ stu.stu_id.stu_name }}
+                                {% endif %}
+                            {% endfor %}
+                        </h4>
+                        <span>修改内容：<a class="link-a bright-green" data-toggle="modal"
+                                      data-target="#{{ temp_group.temp_id }}">点击查看</a></span><br>
+                        <span>提交时间：2019-09-22</span><br>
                         <a href="/member/apply_application_agree?p={{ temp_group.pk }}"
-                           class="glyphicon glyphicon-ok btn btn-transparent"></a>
+                           class="btn-custom-short pull-right">同意</a>
                         <a href="/member/apply_application_disagree?p={{ temp_group.pk }}"
-                           class="glyphicon glyphicon-remove btn btn-transparent"></a>
-                    </span>
-                </div>
+                           class="btn-custom-short pull-right">拒绝</a>
+                    </div>
 
-                <style>
-                    .motaikuang .modal-content {
-                        background-color: #2B2C30;
-                    }
-
-                    .motaikuang h5 {
-                        line-height: 20px;
-                        letter-spacing: 0.5px;
-                        font-family: 宋体;
-
-                    }
-                </style>
-
-                <div class="modal fade motaikuang" id="{{ temp_group.temp_id }}" tabindex="-1" role="dialog"
-                     aria-labelledby="myModalLabel_1">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal"
-                                        aria-label="Close">
-                                    <span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">修改详情</h4>
-                            </div>
-                            <div class="modal-body">
-                                <span>
-                                    参赛成员：
-                                    {% for stu in pre_stu %}
-                                        {{ stu.stu_id.stu_name }}
-                                    {% endfor %}
-                                    <span class="glyphicon glyphicon-arrow-right"
-                                          aria-hidden="true"></span>
-                                    {% for stu in temp_stu %}
-                                        {{ stu.stu_id.stu_name }}
-                                    {% endfor %}
-                                </span>
-                                <br>
-                                <span>
-                                    指导教师:
-                                    {% for teach in pre_teach %}
-                                        {{ teach.teach_id.tea_name }}
-                                    {% endfor %}
-                                    <span class="glyphicon glyphicon-arrow-right"
-                                          aria-hidden="true"></span>
-                                    {% for teach in temp_teach %}
-                                        {{ teach.teach_id.tea_name }}
-                                    {% endfor %}
-                                </span>
-                                <br>
-                                {% if com_need.com_group == 1 %}
-                                    <span>组别：{{ temp_group.group_id.com_group.sort_name }}<span
-                                            class="glyphicon glyphicon-arrow-right"
-                                            aria-hidden="true"></span>{{ temp_group.com_group.sort_name }}</span><br>
-                                {% endif %}
-                                {% if com_need.group_name == 1 %}
-                                    <span>小组名称：{{ temp_group.group_id.group_name }}<span
-                                            class="glyphicon glyphicon-arrow-right"
-                                            aria-hidden="true"></span>{{ temp_group.group_name }}</span><br>
-                                {% endif %}
-                                {% if com_need.product_name == 1 %}
-                                    <span>组别：{{ temp_group.group_id.product_name }}<span
-                                            class="glyphicon glyphicon-arrow-right"
-                                            aria-hidden="true"></span>{{ temp_group.product_name }}</span><br>
-                                {% endif %}
-                            </div>
-                            <div class="modal-footer">
-                                <a class="btn btn-transparent" data-dismiss="modal">关闭</a>
+                    <div class="modal fade" id="{{ temp_group.temp_id }}" tabindex="-1" role="dialog"
+                         aria-labelledby="myModalLabel">
+                        <div class="modal-dialog " role="document">
+                            <div class="modal-content deep-black">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">修改详情</h4>
+                                </div>
+                                <div class="modal-body sz14 child-inline">
+                                    {% if pre_stu != temp_stu %}
+                                        <div>参赛成员：
+                                            <h5 class="line-through">
+                                                {% for stu in pre_stu %}
+                                                    {{ stu.stu_id.stu_name }}
+                                                {% endfor %}
+                                            </h5>
+                                            <h5 class="bright-green">
+                                                {% for stu in temp_stu %}
+                                                    {{ stu.stu_id.stu_name }}
+                                                {% endfor %}
+                                            </h5>
+                                        </div>
+                                    {% else %}
+                                        <div>参赛成员：
+                                            <h5>
+                                                {% for stu in pre_stu %}
+                                                    {{ stu.stu_id.stu_name }}
+                                                {% endfor %}
+                                            </h5>
+                                        </div>
+                                    {% endif %}
+                                    {% if pre_teach != temp_teach %}
+                                        <div>指导教师：
+                                            <h5 class="line-through">
+                                                {% for teach in pre_teach %}
+                                                    {{ teach.teach_id.tea_name }}
+                                                {% endfor %}
+                                            </h5>
+                                            <h5 class="bright-green">
+                                                {% for teach in temp_teach %}
+                                                    {{ teach.teach_id.tea_name }}
+                                                {% endfor %}
+                                            </h5>
+                                        </div>
+                                    {% else %}
+                                        <div>参赛成员：
+                                            <h5>
+                                                {% for teach in pre_teach %}
+                                                    {{ teach.teach_id.tea_name }}
+                                                {% endfor %}
+                                            </h5>
+                                        </div>
+                                    {% endif %}
+                                    {% if com_need.com_group == 1 %}
+                                        {% if temp_group.group_id.com_group.sort_name != temp_group.com_group.sort_name %}
+                                            <div>组别：
+                                                <h5 class="line-through">
+                                                    {{ temp_group.group_id.com_group.sort_name }}
+                                                </h5>
+                                                <h5 class="bright-green">
+                                                    {{ temp_group.com_group.sort_name }}
+                                                </h5>
+                                            </div>
+                                        {% else %}
+                                            <div>组别：：
+                                                <h5>
+                                                    {{ temp_group.group_id.com_group.sort_name }}
+                                                </h5>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if com_need.group_name == 1 %}
+                                        {% if temp_group.group_id.group_name != temp_group.group_name %}
+                                            <div>小组名称：
+                                                <h5 class="line-through">
+                                                    {{ temp_group.group_id.group_name }}
+                                                </h5>
+                                                <h5 class="bright-green">
+                                                    {{ temp_group.group_name }}
+                                                </h5>
+                                            </div>
+                                        {% else %}
+                                            <div>小组名称：
+                                                <h5>
+                                                    {{ temp_group.group_id.group_name }}
+                                                </h5>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if com_need.product_name == 1 %}
+                                        {% if temp_group.group_id.product_name != temp_group.product_name %}
+                                            <div>作品名称：
+                                                <h5 class="line-through">
+                                                    {{ temp_group.group_id.product_name }}
+                                                </h5>
+                                                <h5 class="bright-green">
+                                                    {{ temp_group.product_name }}
+                                                </h5>
+                                            </div>
+                                        {% else %}
+                                            <div>作品名称：
+                                                <h5>
+                                                    {{ temp_group.group_id.product_name }}
+                                                </h5>
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
+            </div>
 
-                {% empty %}
-                <h4>暂无更多申请</h4>
-            {% endfor %}
         </div>
     </div>
 {% endblock %}

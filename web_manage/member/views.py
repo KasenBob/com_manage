@@ -676,7 +676,7 @@ def apply_application_agree(request):
 			new_stu.is_leader = temp_stu.is_leader
 			new_stu.status = '1'
 			new_stu.save()
-			temp_stu.delete()
+		temp_stu_list.delete()
 
 		# 修改指导教师信息
 		temp_teach_list = teacher_model.temp_com_teach_info.objects.filter(temp_id=temp_info)
@@ -690,24 +690,19 @@ def apply_application_agree(request):
 			new_teach.teach_id = temp_teach.teach_id
 			new_teach.status = '1'
 			new_teach.save()
-			temp_teach.delete()
+		temp_teach_list.delete()
 
 		temp_info.delete()
 	else:
 		temp_stu_list = student_model.temp_com_stu_info.objects.filter(temp_id=temp_info)
 		pre_stu_list = student_model.com_stu_info.objects.filter(group_id=group_info)
-		for pre_stu in pre_stu_list:
-			pre_stu.delete()
-		for temp_stu in temp_stu_list:
-			temp_stu.delete()
+		temp_stu_list.delete()
+		pre_stu_list.delete()
 
 		temp_teach_list = teacher_model.temp_com_teach_info.objects.filter(temp_id=temp_info)
 		pre_teach_list = teacher_model.com_teach_info.objects.filter(group_id=group_info)
-		for pre_teach in pre_teach_list:
-			pre_teach.delete()
-		for temp_teach in temp_teach_list:
-			temp_teach.delete()
-
+		temp_teach_list.delete()
+		pre_teach_list.delete()
 		# 要发信息
 
 		temp_info.delete()
@@ -722,11 +717,9 @@ def apply_application_disagree(request):
 	temp_info = get_object_or_404(competition_model.temp_com_group_basic_info, temp_id=temp_id)
 
 	temp_stu_list = student_model.temp_com_stu_info.objects.filter(temp_id=temp_info)
-	for temp_stu in temp_stu_list:
-		temp_stu.delete()
+	temp_stu_list.delete()
 	temp_teach_list = teacher_model.temp_com_teach_info.objects.filter(temp_id=temp_info)
-	for temp_teach in temp_teach_list:
-		temp_teach.delete()
+	temp_teach_list.delete()
 
 	return redirect('/member/apply_application/')
 
@@ -1184,6 +1177,7 @@ def change_com(request):
 		if if_com_sort != '0':
 			list = sort_list.split("/")
 			com_info.com_sort_num = len(list)
+		com_web = ""
 		if if_if_web != '0':
 			com_info.if_web = 1
 			com_info.com_web = com_web

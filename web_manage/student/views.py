@@ -379,10 +379,12 @@ def stu_apply_detail(request):
             if stu.is_leader == 1:
                 leader = stu.stu_id.stu_name
             else:
-                member_list.append(stu.stu_id.stu_name)
+                stu = get_object_or_404(models.stu_basic_info, stu_number=stu.stu_id.stu_number)
+                member_list.append(stu)
         # 团队赛-队长和成员
         context['leader'] = leader
         member_list = json.loads(serializers.serialize('json', member_list))
+        print(member_list)
         context['member_list'] = member_list
     else:
         # 个人赛
@@ -426,7 +428,6 @@ def stu_apply_detail(request):
                 elif len(temp_apply) > 0:
                     status = 7
     context['status'] = status
-    # context = json.loads(serializers.serialize('json', context))
     return JsonResponse(context)
 
 
@@ -453,6 +454,29 @@ def verify_apply(request):
                 content = stu.stu_name + '已确认关于' + group.com_id.com_name + '的组队邀请。'
                 send_stu_inform(stu_id, title, content)
                 break
+    return redirect('/student/personal_center_stu_apply')
+
+
+# 学生个人中心-拒绝报名邀请
+def verify_not_apply(request):
+    context = {}
+    group_id = request.GET.get('p2')
+    me = get_object_or_404(student_model.stu_basic_info, stu_number=request.session['user_number'])
+    group = get_object_or_404(competition_model.com_group_basic_info, group_id=group_id)
+    stu_list = models.com_stu_info.objects.filter(group_id=group)
+    leader = ""
+    for stu in stu_list:
+        if stu.is_leader == 1:
+            leader = stu.stu_id.stu_number
+            break
+    teach_list = teacher_model.com_teach_info.objects.filter(group_id=group)
+    group.delete()
+    stu_list.delete()
+    teach_list.delete()
+    # send mail
+    title = '报名已取消'
+    content = me.stu_name + '已拒绝' + group.com_id.com_name + '的组队邀请，请确认已与队友进行联系后重新报名！'
+    send_stu_inform(leader, title, content)
     return redirect('/student/personal_center_stu_apply')
 
 

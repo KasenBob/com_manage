@@ -104,17 +104,18 @@ def com_list(request):
     for temp_com in com_list:
         temp_com.update_status()
     cache.set(key, com_list, 30 * 60)
-    # 是否已报名
-    nid = request.session['user_number']
-    flag = []
-    for com in com_list:
-        com_stu_list = student_model.com_stu_info.objects.filter(
-            stu_id=get_object_or_404(student_model.stu_basic_info, stu_number=nid), com_id=com)
-        if len(com_stu_list) > 0:
-            flag.append(1)
-        else:
-            flag.append(0)
-    com_list = zip(flag, com_list)
+    if request.session['user_power'] == '0':
+        # 是否已报名
+        nid = request.session['user_number']
+        flag = []
+        for com in com_list:
+            com_stu_list = student_model.com_stu_info.objects.filter(
+                stu_id=get_object_or_404(student_model.stu_basic_info, stu_number=nid), com_id=com)
+            if len(com_stu_list) > 0:
+                flag.append(1)
+            else:
+                flag.append(0)
+        com_list = zip(flag, com_list)
     context['com_list'] = com_list
     return render(request, 'competition/com_list.html', context)
 
@@ -498,38 +499,11 @@ def com_apply_second(request):
         return render(request, 'competition/apply/com_apply_succeed.html', context)
 
 
-"""
-# 确认报名信息
-def verify_apply(request):
-	context = {}
-	group_id = request.GET.get('p2')
-
-	group = get_object_or_404(models.com_group_basic_info, group_id=group_id)
-
-	stu = get_object_or_404(student_model.stu_basic_info, stu_number=request.session['user_number'])
-	com_stu_list = student_model.com_stu_info.objects.filter(group_id=group, stu_id=stu)
-	for com_stu in com_stu_list:
-		com_stu.status = '1'
-		com_stu.save()
-	verify_all_apply(group_id)
-
-	com_stu_list = student_model.com_stu_info.objects.filter(group_id=group)
-	for com_stu in com_stu_list:
-		if com_stu.status == '1' and com_stu.stu_id != stu:
-			stu_id = com_stu.stu_id.stu_number
-			title = '报名进度通知'
-			content = stu.stu_name + '已确认关于' + group.com_id.com_name + '的报名申请。'
-			send_stu_inform(stu_id, title, content)
-
-	return redirect('/student/personal_center_stu_apply')
-"""
-
-
 # 选学生
 def select_mate_first(request):
     context = {}
     name = request.GET.get('name')
-    # print(name)
+    #print(name)
     mate_list = student_model.stu_basic_info.objects.filter(stu_name=name)
     mate_list = json.loads(serializers.serialize('json', mate_list))
     context['mate_list'] = mate_list

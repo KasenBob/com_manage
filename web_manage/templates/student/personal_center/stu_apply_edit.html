@@ -276,21 +276,19 @@
                         if (myjson.length > 5) {
                             alert("请重新输入，确认姓名没有错误!")
                         } else {
-                            //myhtml保存要在table上加入的查找内容
-                            //工号那一列为隐藏内容，工号也可以改成数据库的ID，能收数据就行
-                            var myhtml = "<tr><td>学号</td><td>姓名</td><td>班级</td><td>选择</td></tr>";
+                            var myhtml = "<tr><td class='hide'>学号</td><td>姓名</td><td>班级</td><td>选择</td></tr>";
                             for (var i = 0; i < myjson.length; i++) {
                                 var tmp = myjson[i];
                                 var pk = tmp.pk;
                                 var name = tmp.fields.stu_name;
-                                var num = tmp.fields.stu_num;
+                                var num = tmp.fields.stu_number;
                                 var sClass = tmp.fields.grade + tmp.fields.major + tmp.fields.stu_class;
-                                myhtml += "<tr><td class='hide'>" + pk + "</td><td>" + name + "</td><td>" + dpm + "</td><td>" + sClass + "</td><td><button class=\"btn-custom-short\" data-dismiss=\"modal\" onclick='ff(this)' >是你了</button></td></tr>"
+                                myhtml += "<tr><td class='hide'>" + pk + "</td><td>" + name +  "</td><td>" + sClass + "</td><td><button class=\"btn-custom-short\" data-dismiss=\"modal\" onclick='fff(this)' >是你了</button></td></tr>"
                             }
                             //myhtml加入肯打鸡豪华套餐
-                            $("#find-result .table").html(myhtml);
+                            $("#find-result2 .table").html(myhtml);
                             //查找结果变为可见
-                            $("#find-result").show();
+                            $("#find-result2").show();
                         }
                     }, error: function () {
                         alert("无查找结果，可能是因为您使用了360浏览器或者输入有误。")

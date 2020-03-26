@@ -21,4 +21,5 @@ urlpatterns = [
     path('personal_center_stu_info/', views.personal_center_stu_info, name='personal_center_stu_info'),
     path('personal_center_stu_experience/', views.personal_center_stu_experience,
          name='personal_center_stu_experience'),
+    path('verify_not_apply/', views.verify_not_apply, name='verify_not_apply'),
 ]
